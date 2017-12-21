@@ -6,28 +6,93 @@ import XCTest
 import MappaMundi
 
 class DemoUITests: XCTestCase {
-        
+
+    let app = XCUIApplication()
+    var navigator: Navigator<DemoAppUserState>!
+    var userState: DemoAppUserState!
+
     override func setUp() {
         super.setUp()
-        let map = createGraph(for: self)
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
+
+        // Create a map of the app, which we share with all tests.
+        let map = createGraph(with: app, for: self)
+
+        // Create a navigator, which we will use to navigate
+        // around the app.
+        navigator = map.navigator()
+
+        // The navigator has a userState — our mental model of what is going on in the app.
+        userState = navigator.userState
+
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
+        app.launch()
+    }
+    
+    func testSimpleNavigation() {
+        navigator.performAction(Actions.addItem)
+        navigator.goto(Screens.itemDetail)
+        navigator.goto(Screens.itemList)
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        XCTAssertEqual(Screens.itemList, navigator.screenState)
+
+        navigator.performAction(Actions.addItem)
+        XCTAssertEqual(Screens.itemList, navigator.screenState)
     }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+
+    func testSimpleNavigationWithBack() {
+        navigator.performAction(Actions.addItem)
+        navigator.goto(Screens.itemDetail)
+        navigator.back()
+
+        XCTAssertEqual(Screens.itemList, navigator.screenState)
     }
-    
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+
+    func testRecordingState() {
+        navigator.performAction(Actions.addItem)
+        XCTAssertEqual(1, userState.numItems)
+        navigator.goto(Screens.itemDetail)
+        navigator.back()
+        XCTAssertEqual(1, userState.numItems)
     }
-    
+
+    func testNavigationWithUserStateTests() {
+        navigator.performAction(Actions.addItem)
+        XCTAssertEqual(1, userState.numItems)
+        navigator.goto(Screens.itemDetail)
+        navigator.back()
+
+        XCTAssertEqual(Screens.itemList, navigator.screenState)
+        XCTAssertEqual(1, userState.numItems)
+
+        navigator.performAction(Actions.addItem)
+        XCTAssertEqual(2, userState.numItems)
+
+        // Enter edit mode, and then delete everything.
+        navigator.performAction(Actions.deleteAllItems)
+        XCTAssertEqual(0, userState.numItems)
+        XCTAssertEqual(Screens.itemListEditing, navigator.screenState)
+        navigator.back()
+
+        // Go back to itemList, where we count the number of cells.
+        XCTAssertEqual(Screens.itemList, navigator.screenState)
+        XCTAssertEqual(0, userState.numItems)
+    }
+
+    func testConditionalEdges() {
+        XCTAssertEqual(0, userState.numItems)
+        XCTAssertFalse(navigator.can(goto: Screens.itemDetail))
+
+        XCTAssertTrue(navigator.can(performAction: Actions.addItem))
+        navigator.performAction(Actions.addItem)
+        XCTAssertEqual(1, userState.numItems)
+        XCTAssertTrue(navigator.can(goto: Screens.itemDetail))
+        navigator.goto(Screens.itemDetail)
+
+        navigator.performAction(Actions.deleteAllItems)
+
+        XCTAssertEqual(0, userState.numItems)
+        XCTAssertFalse(navigator.can(goto: Screens.itemDetail))
+    }
 }
