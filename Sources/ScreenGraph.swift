@@ -5,7 +5,7 @@
 /**
  * ScreenGraph helps you get rid of the navigation boiler plate found in a lot of whole-application UI testing.
  *
- * You create a shared graph of UI 'screens' or 'scenes' for your app, and use it for every test.
+ * You create a shared graph of UI 'screenStates' and 'screenActions' for your app, and use it for every test.
  *
  * In your tests, you use a navigator which does the job of getting your tests from place to place in your application,
  * leaving you to concentrate on testing, rather than maintaining brittle and duplicated navigation code.
@@ -25,13 +25,13 @@ struct Edge {
     let transition: (XCTestCase, String, UInt) -> Void
 }
 
-typealias SceneBuilder<T: UserState> = (ScreenStateNode<T>) -> Void
-typealias NodeVisitor = (String) -> Void
+public typealias SceneBuilder<T: UserState> = (ScreenStateNode<T>) -> Void
+public typealias NodeVisitor = (String) -> Void
 
 open class UserState: NSObject {
     public required override init() {}
-    var initialScreenState: String?
-    var isTablet: Bool {
+    public var initialScreenState: String?
+    public var isTablet: Bool {
         return UIDevice.current.userInterfaceIdiom == .pad
     }
 }
@@ -54,7 +54,7 @@ open class ScreenGraph<T: UserState> {
 
     fileprivate let gkGraph: GKGraph
 
-    fileprivate typealias UserStateChange = (T) -> ()
+    public typealias UserStateChange = (T) -> ()
     fileprivate let defaultStateRecorder: UserStateChange = { _ in }
 
     public init(for test: XCTestCase, with userStateType: T.Type) {
@@ -64,14 +64,13 @@ open class ScreenGraph<T: UserState> {
     }
 }
 
-extension ScreenGraph {
+public extension ScreenGraph {
     /**
      * Method for creating a ScreenStateNode in the graph. The node should be accompanied by a closure
      * used to document the exits out of this node to other nodes.
      */
     func addScreenState(_ name: String, file: String = #file, line: UInt = #line, builder: @escaping SceneBuilder<T>) {
-        let scene = ScreenStateNode(map: self, name: name, file: file, line: line, builder: builder)
-        namedScenes[name] = scene
+        namedScenes[name] = ScreenStateNode(map: self, name: name, file: file, line: line, builder: builder)
     }
 
     /**
@@ -177,12 +176,12 @@ extension ScreenGraph {
     }
 }
 
-extension ScreenGraph {
+public extension ScreenGraph {
     /**
      * Create a new navigator object. Navigator objects are the main way of getting around the app.
      * Typically, you'll do this in `TestCase.setUp()`
      */
-    func navigator(startingAt: String? = nil, file: String = #file, line: UInt = #line) -> Navigator<T> {
+    public func navigator(startingAt: String? = nil, file: String = #file, line: UInt = #line) -> Navigator<T> {
         buildGkGraph()
         let userState = userStateType.init()
         guard let name = startingAt ?? userState.initialScreenState,
@@ -255,8 +254,8 @@ extension ScreenGraph {
     }
 }
 
-class ScreenActionNode<T: UserState>: GraphNode<T> {
-    typealias UserStateChange = (T) -> ()
+public class ScreenActionNode<T: UserState>: GraphNode<T> {
+    public typealias UserStateChange = (T) -> ()
     let recorder: UserStateChange?
 
     var nextNodeName: String?
@@ -267,8 +266,6 @@ class ScreenActionNode<T: UserState>: GraphNode<T> {
         super.init(map, name: name, file: file, line: line)
     }
 }
-
-typealias Gesture = () -> Void
 
 class WaitCondition {
     let userStatePredicate: NSPredicate?
@@ -294,7 +291,7 @@ class WaitCondition {
     }
 }
 
-class GraphNode<T: UserState> {
+public class GraphNode<T: UserState> {
     let name: String
     fileprivate let gkNode: GKGraphNode
 
@@ -320,11 +317,11 @@ class GraphNode<T: UserState> {
  * The ScreenGraphNode has all the methods needed to define edges from this node to another node, using the usual
  * XCUIElement method of moving about.
  */
-class ScreenStateNode<T: UserState>: GraphNode<T> {
+public class ScreenStateNode<T: UserState>: GraphNode<T> {
     fileprivate let builder: SceneBuilder<T>
     fileprivate var edges: [String: Edge] = [:]
 
-    typealias UserStateChange = (T) -> ()
+    public typealias UserStateChange = (T) -> ()
     fileprivate let noopUserStateChange: UserStateChange = { _ in }
 
     // Iff this node has a backAction, this store temporarily stores 
@@ -341,13 +338,13 @@ class ScreenStateNode<T: UserState>: GraphNode<T> {
      * This is most useful when the same screen is accessible from multiple places, 
      * and we have a back button to return to where we came from.
      */
-    var backAction: Gesture?
+    public var backAction: (() -> Void)?
 
     /**
      * This flag indicates that once we've moved on from this node, we can't come back to 
      * it via `backAction`. This is especially useful for Menus, and dialogs.
      */
-    var dismissOnUse: Bool = false
+    public var dismissOnUse: Bool = false
 
     fileprivate var onEnterStateRecorder: UserStateChange? = nil
 
@@ -364,7 +361,7 @@ class ScreenStateNode<T: UserState>: GraphNode<T> {
         edges[dest] = edge
         // by this time, we should've added all nodes in to the gkGraph.
 
-        assert(map?.namedScenes[dest] != nil, "Destination scene '\(dest)' has not been created anywhere")
+        assert(map?.namedScenes[dest] != nil, "Destination node '\(dest)' has not been created anywhere")
     }
 }
 
@@ -383,14 +380,14 @@ func waitOrTimeout(_ predicate: NSPredicate = existsPredicate, object: Any, time
 }
 
 // Public methods for defining edges out of this node.
-extension ScreenStateNode {
+public extension ScreenStateNode {
     /**
      * Declare that by performing the given action/gesture, then we can navigate from this node to the next.
      * 
      * @param withElement – optional, but if provided will attempt to verify it is there before performing the action.
      * @param to – the destination node.
      */
-    func gesture(withElement element: XCUIElement? = nil, to nodeName: String, if predicateString: String? = nil, file declFile: String = #file, line declLine: UInt = #line, g: @escaping () -> Void) {
+    public func gesture(withElement element: XCUIElement? = nil, to nodeName: String, if predicateString: String? = nil, file declFile: String = #file, line declLine: UInt = #line, g: @escaping () -> Void) {
         let predicate: NSPredicate?
         if let predicateString = predicateString {
             predicate = NSPredicate(format: predicateString)
@@ -415,7 +412,7 @@ extension ScreenStateNode {
         addEdge(nodeName, by: edge)
     }
 
-    func noop(to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    public func noop(to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(to: nodeName, if: predicate, file: file, line: line) {
             // NOOP.
         }
@@ -427,105 +424,105 @@ extension ScreenStateNode {
      * @param element - the element to tap
      * @param to – the destination node.
      */
-    func tap(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    public func tap(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.tap()
         }
     }
 
-    func doubleTap(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    public func doubleTap(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.doubleTap()
         }
     }
 
-    func press(_ element: XCUIElement, forDuration duration: TimeInterval = 1, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    public func press(_ element: XCUIElement, forDuration duration: TimeInterval = 1, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.press(forDuration: duration)
         }
     }
 
-    func typeText(_ text: String, into element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    public func typeText(_ text: String, into element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.typeText(text)
         }
     }
 
-    func swipeLeft(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    public func swipeLeft(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.swipeLeft()
         }
     }
 
-    func swipeRight(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    public func swipeRight(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.swipeRight()
         }
     }
 
-    func swipeUp(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    public func swipeUp(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.swipeUp()
         }
     }
 
-    func swipeDown(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    public func swipeDown(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.swipeDown()
         }
     }
 }
 
-extension ScreenStateNode {
-    func gesture(withElement element: XCUIElement? = nil, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+public extension ScreenStateNode {
+    public func gesture(withElement element: XCUIElement? = nil, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         gesture(withElement: element, to: actions[0], if: predicate, file: file, line: line) {
             // NOP
         }
     }
 
-    func noop(forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    public func noop(forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         noop(to: actions[0], if: predicate, file: file, line: line)
     }
 
-    func tap(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    public func tap(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         tap(element, to: actions[0], if: predicate, file: file, line: line)
     }
 
-    func doubleTap(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    public func doubleTap(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         doubleTap(element, to: actions[0], if: predicate, file: file, line: line)
     }
 
-    func press(_ element: XCUIElement, forDuration duration: TimeInterval = 1, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    public func press(_ element: XCUIElement, forDuration duration: TimeInterval = 1, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         press(element, forDuration: duration, to: actions[0], if: predicate, file: file, line: line)
     }
 
 
-    func typeText(_ text: String, into element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    public func typeText(_ text: String, into element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         typeText(text, into: element, to: actions[0], if: predicate, file: file, line: line)
     }
 
-    func swipeLeft(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    public func swipeLeft(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         swipeLeft(element, to: actions[0], if: predicate, file: file, line: line)
     }
 
-    func swipeRight(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    public func swipeRight(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         swipeRight(element, to: actions[0], if: predicate, file: file, line: line)
     }
 
-    func swipeUp(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    public func swipeUp(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         swipeUp(element, to: actions[0], if: predicate, file: file, line: line)
     }
 
-    func swipeDown(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    public func swipeDown(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         swipeDown(element, to: actions[0], if: predicate, file: file, line: line)
     }
@@ -533,19 +530,19 @@ extension ScreenStateNode {
 
 extension ScreenStateNode {
     /// This allows us to record state changes in the app as the navigator moves into a given screen state.
-    func onEnter(recorder: @escaping UserStateChange) {
+    public func onEnter(recorder: @escaping UserStateChange) {
         onEnterStateRecorder = recorder
     }
 
     /// When entering the screenState, the navigator should wait for element.
     /// The waiting can be made to be optional by specifying a predicate against the userState.
-    func onEnterWaitFor(_ predicate: String = "exists == true", element: Any, if userStatePredicate: String? = nil, file: String = #file, line: UInt = #line) {
+    public func onEnterWaitFor(_ predicate: String = "exists == true", element: Any, if userStatePredicate: String? = nil, file: String = #file, line: UInt = #line) {
         onEnterWaitCondition = WaitCondition(predicate, object: element, if: userStatePredicate, file: file, line: line)
     }
 
 
     /// This allows us to record state changes in the app as the navigator leaves a given screen state.
-    func onExit(recorder: @escaping UserStateChange) {
+    public func onExit(recorder: @escaping UserStateChange) {
         onExitStateRecorder = recorder
     }
 }
@@ -581,9 +578,9 @@ open class Navigator<T: UserState> {
     fileprivate var returnToRecentScene: ScreenStateNode<T>
     fileprivate let xcTest: XCTestCase
 
-    var userState: T
+    public var userState: T
 
-    var screenState: String {
+    public var screenState: String {
         return currentScene.name
     }
 
@@ -609,23 +606,17 @@ open class Navigator<T: UserState> {
         _ = userStateShouldChangeGraph(userState)
     }
 
-    func synchronizeWithUserState() {
+    public func synchronizeWithUserState() {
         _ = userStateShouldChangeGraph(self.userState)
-    }
-
-    /**
-     * Move the application to the named node.
-     */
-    func goto(_ nodeName: String, file: String = #file, line: UInt = #line) {
-        goto(nodeName, file: file, line: line, visitWith: noopNodeVisitor)
     }
 
     /**
      * Returns true if this node (action or screen state) is directly reachable from the current point.
      * This is relatively naive: it doesn't take into account conditional edges (those with `if:` predicates),
+     * that change while you're moving _to_ nodeName from here,
      * so is not useful in the general case, but it is if you know the specific graph.
      */
-    func can(goto nodeName: String) -> Bool {
+    public func can(goto nodeName: String) -> Bool {
         let gkSrc = currentScene.gkNode
         guard let gkDest = map.namedScenes[nodeName]?.gkNode else {
             return false
@@ -634,7 +625,14 @@ open class Navigator<T: UserState> {
         return gkPath.count > 0
     }
 
-    func plan(startAt startNode: String? = nil, goto nodeName: String) -> [String] {
+    public func can(performAction nodeName: String, file: String = #file, line: UInt = #line) -> Bool {
+        guard isActionOrFail(nodeName, file: file, line: line) else {
+            return false
+        }
+        return can(goto: nodeName)
+    }
+
+    public func plan(startAt startNode: String? = nil, goto nodeName: String) -> [String] {
         let gkSrc: GKGraphNode
         if let startNode = startNode,
             let node = map.namedScenes[startNode] {
@@ -663,11 +661,25 @@ open class Navigator<T: UserState> {
         return path + extras
     }
 
+    public func plan(startAt startNode: String? = nil, performAction nodeName: String, file: String = #file, line: UInt = #line) -> [String] {
+        guard isActionOrFail(nodeName, file: file, line: line) else {
+            return []
+        }
+        return plan(startAt: startNode, goto: nodeName)
+    }
+
+    /**
+     * Move the application to the named node.
+     */
+    public func goto(_ nodeName: String, file: String = #file, line: UInt = #line) {
+        goto(nodeName, file: file, line: line, visitWith: noopNodeVisitor)
+    }
+
     /**
      * Move the application to the named node, wth an optional node visitor closure, which is called each time the
      * node changes.
      */
-    func goto(_ nodeName: String, file: String = #file, line: UInt = #line, visitWith nodeVisitor: @escaping NodeVisitor) {
+    public func goto(_ nodeName: String, file: String = #file, line: UInt = #line, visitWith nodeVisitor: @escaping NodeVisitor) {
         let gkSrc = currentScene.gkNode
         guard let gkDest = map.namedScenes[nodeName]?.gkNode else {
             xcTest.recordFailure(withDescription: "Cannot route to \(nodeName), because it doesn't exist", inFile: file, atLine: line, expected: false)
@@ -680,7 +692,7 @@ open class Navigator<T: UserState> {
             return
         }
 
-        // moveDirectlyTo lets us move from the current scene to the next.
+        // moveDirectlyTo lets us move from the current node to the next.
         // We'll use it to follow the path we've calculated,
         // and to move back to the final screen state once we're done.
         // It takes care of exiting the current node, and moving to the next.
@@ -740,15 +752,21 @@ open class Navigator<T: UserState> {
     /// Actions can cause userState to change. They only have one edge out,
     /// which could be another action or a screen state.
     /// This method will always return the app to a valid screen state.
-    func performAction(_ screenActionName: String, file: String = #file, line: UInt = #line) {
-        guard let _ = map.namedScenes[screenActionName] as? ScreenActionNode else {
-            xcTest.recordFailure(withDescription: "\(screenActionName) is not an action", inFile: file, atLine: line, expected: false)
-            return
+    public func performAction(_ screenActionName: String, file: String = #file, line: UInt = #line) {
+        if isActionOrFail(screenActionName, file: file, line: line) {
+            goto(screenActionName, file: file, line: line)
         }
-        goto(screenActionName, file: file, line: line)
     }
 
-    func back(file: String = #file, line: UInt = #line) {
+    func isActionOrFail(_ screenActionName: String, file: String = #file, line: UInt = #line) -> Bool {
+        guard let _ = map.namedScenes[screenActionName] as? ScreenActionNode else {
+            xcTest.recordFailure(withDescription: "\(screenActionName) is not an action", inFile: file, atLine: line, expected: false)
+            return false
+        }
+        return true
+    }
+
+    public func back(file: String = #file, line: UInt = #line) {
         guard let currentScene = currentScene as? ScreenStateNode else {
             return
         }
@@ -764,23 +782,23 @@ open class Navigator<T: UserState> {
     }
 
 
-    func toggleOn(_ flag: Bool, withAction action: String, file: String = #file, line: UInt = #line) {
+    public func toggleOn(_ flag: Bool, withAction action: String, file: String = #file, line: UInt = #line) {
         if !flag {
             performAction(action, file: file, line: line)
         }
     }
 
-    func toggleOff(_ flag: Bool, withAction action: String, file: String = #file, line: UInt = #line) {
+    public func toggleOff(_ flag: Bool, withAction action: String, file: String = #file, line: UInt = #line) {
         toggleOn(!flag, withAction: action, file: file, line: line)
     }
 
     /**
      * Helper method when the navigator gets out of sync with the actual app.
      * This should not be used too often, as it indicates you should probably have another node in your graph,
-     * or you should be using `scene.dismissOnUse = true`.
+     * or you should be using `screen.dismissOnUse = true`.
      * Also useful if you're using XCUIElement taps directly to navigate from one node to another.
      */
-    func nowAt(_ nodeName: String, file: String = #file, line: UInt = #line) {
+    public func nowAt(_ nodeName: String, file: String = #file, line: UInt = #line) {
         guard let newScene = map.namedScenes[nodeName] else {
             xcTest.recordFailure(withDescription: "Cannot force to unknown \(nodeName). Currently at \(currentScene.name)", inFile: file, atLine: line, expected: false)
             return
@@ -877,7 +895,7 @@ fileprivate extension Navigator {
                 nextScene.gesture(to: returnToRecentScene.name, g: backAction)
             }
         } else {
-            // We don't have a back here, but we might've had a back stack in the last scene.
+            // We don't have a back here, but we might've had a back stack in the last node.
             // If that's the case, we should clear it down to make routing easier.
             // This is important in more complex graph structures that possibly have backActions and cycles.
             var screen: ScreenStateNode? = returnToRecentScene
