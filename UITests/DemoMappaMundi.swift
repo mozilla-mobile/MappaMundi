@@ -19,7 +19,7 @@ class Screens {
     static let itemDetail = "detail"
 }
 
-class DemoAppUserState: UserState {
+class DemoAppUserState: MMUserState {
     required init() {
         super.init()
         initialScreenState = Screens.itemList
@@ -27,8 +27,8 @@ class DemoAppUserState: UserState {
     var numItems = 0
 }
 
-func createGraph(with app: XCUIApplication, for test: XCTestCase) -> ScreenGraph<DemoAppUserState> {
-    let map = ScreenGraph(for: test, with: DemoAppUserState.self)
+func createGraph(with app: XCUIApplication, for test: XCTestCase) -> MMScreenGraph<DemoAppUserState> {
+    let map = MMScreenGraph(for: test, with: DemoAppUserState.self)
 
     // Let's add our first screen state.
     // This is a node in the graph; we get to define edges out to other nodes,

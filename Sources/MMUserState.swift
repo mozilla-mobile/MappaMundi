@@ -5,7 +5,7 @@
 import Foundation
 import UIKit
 
-open class UserState: NSObject {
+open class MMUserState: NSObject {
     public required override init() {}
     public var initialScreenState: String?
     public var isTablet: Bool {

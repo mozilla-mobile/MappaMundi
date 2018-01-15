@@ -8,7 +8,7 @@ import MappaMundi
 class DemoUITests: XCTestCase {
 
     let app = XCUIApplication()
-    var navigator: Navigator<DemoAppUserState>!
+    var navigator: MMNavigator<DemoAppUserState>!
     var userState: DemoAppUserState!
 
     override func setUp() {

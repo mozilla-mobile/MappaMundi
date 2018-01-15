@@ -19,19 +19,19 @@ import Foundation
 import GameplayKit
 import XCTest
 
-public typealias ScreenStateBuilder<T: UserState> = (ScreenStateNode<T>) -> Void
+public typealias MMScreenStateBuilder<T: MMUserState> = (MMScreenStateNode<T>) -> Void
 
 /**
  * ScreenGraph
  * This is the main interface to building a graph of screens/app states and how to navigate between them.
  * The ScreenGraph will be used as a map to navigate the test agent around the app.
  */
-open class ScreenGraph<T: UserState> {
+open class MMScreenGraph<T: MMUserState> {
     fileprivate let userStateType: T.Type
     let xcTest: XCTestCase
 
-    var namedScenes: [String: GraphNode<T>] = [:]
-    var nodedScenes: [GKGraphNode: GraphNode<T>] = [:]
+    var namedScenes: [String: MMGraphNode<T>] = [:]
+    var nodedScenes: [GKGraphNode: MMGraphNode<T>] = [:]
 
     var conditionalEdges: [ConditionalEdge<T>] = []
 
@@ -49,13 +49,13 @@ open class ScreenGraph<T: UserState> {
     }
 }
 
-public extension ScreenGraph {
+public extension MMScreenGraph {
     /**
      * Method for creating a ScreenStateNode in the graph. The node should be accompanied by a closure
      * used to document the exits out of this node to other nodes.
      */
-    public func addScreenState(_ name: String, file: String = #file, line: UInt = #line, builder: @escaping ScreenStateBuilder<T>) {
-        namedScenes[name] = ScreenStateNode(map: self, name: name, file: file, line: line, builder: builder)
+    public func addScreenState(_ name: String, file: String = #file, line: UInt = #line, builder: @escaping MMScreenStateBuilder<T>) {
+        namedScenes[name] = MMScreenStateNode(map: self, name: name, file: file, line: line, builder: builder)
     }
 
     /**
@@ -76,7 +76,7 @@ public extension ScreenGraph {
     }
 }
 
-extension ScreenGraph {
+extension MMScreenGraph {
     func addActionChain(_ actions: [String], finalState screenState: String?, recorder: @escaping UserStateChange, file: String, line: UInt) {
         guard actions.count > 0 else {
             return
@@ -89,7 +89,7 @@ extension ScreenGraph {
         }
 
         if let screenState = screenState {
-            guard let _ = namedScenes[screenState] as? ScreenStateNode else {
+            guard let _ = namedScenes[screenState] as? MMScreenStateNode else {
                 xcTest.recordFailure(withDescription: "Expected \(screenState) to be a screen state", inFile: file, atLine: line, expected: false)
                 return
             }
@@ -109,9 +109,9 @@ extension ScreenGraph {
     }
 
     fileprivate func addOrCheckScreenAction(_ name: String, transitionTo nextNodeName: String? = nil, file: String = #file, line: UInt = #line, recorder: UserStateChange?) {
-        let actionNode: ScreenActionNode<T>
+        let actionNode: MMScreenActionNode<T>
         if let existingNode = namedScenes[name] {
-            guard let existing = existingNode as? ScreenActionNode else {
+            guard let existing = existingNode as? MMScreenActionNode else {
                 self.xcTest.recordFailure(withDescription: "Screen state \(name) conflicts with an identically named action", inFile: existingNode.file, atLine: existingNode.line, expected: false)
                 self.xcTest.recordFailure(withDescription: "Action \(name) conflicts with an identically named screen state", inFile: file, atLine: line, expected: false)
                 return
@@ -141,7 +141,7 @@ extension ScreenGraph {
                 overwriteRecorder = existing.onEnterStateRecorder ?? recorder
             }
 
-            actionNode = ScreenActionNode(self,
+            actionNode = MMScreenActionNode(self,
                                           name: name,
                                           then: overwriteNodeName,
                                           file: file,
@@ -149,7 +149,7 @@ extension ScreenGraph {
                                           recorder: overwriteRecorder)
 
         } else {
-            actionNode = ScreenActionNode(self,
+            actionNode = MMScreenActionNode(self,
                                           name: name,
                                           then: nextNodeName,
                                           file: file,
@@ -161,16 +161,16 @@ extension ScreenGraph {
     }
 }
 
-public extension ScreenGraph {
+public extension MMScreenGraph {
     /**
      * Create a new navigator object. Navigator objects are the main way of getting around the app.
      * Typically, you'll do this in `TestCase.setUp()`
      */
-    public func navigator(startingAt: String? = nil, file: String = #file, line: UInt = #line) -> Navigator<T> {
+    public func navigator(startingAt: String? = nil, file: String = #file, line: UInt = #line) -> MMNavigator<T> {
         buildGkGraph()
         let userState = userStateType.init()
         guard let name = startingAt ?? userState.initialScreenState,
-            let startingScreenState = namedScenes[name] as? ScreenStateNode else {
+            let startingScreenState = namedScenes[name] as? MMScreenStateNode else {
                 xcTest.recordFailure(withDescription: "The app's initial state couldn't be established.",
                                      inFile: file, atLine: line, expected: false)
                 fatalError("The app's initial state couldn't be established.")
@@ -178,7 +178,7 @@ public extension ScreenGraph {
 
         userState.initialScreenState = startingScreenState.name
 
-        return Navigator(self, xcTest: xcTest, startingScreenState: startingScreenState, userState: userState)
+        return MMNavigator(self, xcTest: xcTest, startingScreenState: startingScreenState, userState: userState)
     }
 
     fileprivate func buildGkGraph() {
@@ -193,7 +193,7 @@ public extension ScreenGraph {
         // However, they may also contribute some actions, which are also nodes,
         // so namedScenes here is not the same as namedScenes after this block.
         namedScenes.values.forEach { graphNode in
-            if let screenStateNode = graphNode as? ScreenStateNode {
+            if let screenStateNode = graphNode as? MMScreenStateNode {
                 screenStateNode.builder(screenStateNode)
             }
         }
@@ -209,10 +209,10 @@ public extension ScreenGraph {
         // Now, we should have a good idea what the edges of the nodes look like,
         // so we need to construct the GKGraph edges from it.
         graphNodes.forEach { graphNode in
-            if let screenStateNode = graphNode as? ScreenStateNode {
+            if let screenStateNode = graphNode as? MMScreenStateNode {
                 let gkNodes = screenStateNode.edges.keys.flatMap { self.namedScenes[$0]?.gkNode } as [GKGraphNode]
                 screenStateNode.gkNode.addConnections(to: gkNodes, bidirectional: false)
-            } else if let screenActionNode = graphNode as? ScreenActionNode {
+            } else if let screenActionNode = graphNode as? MMScreenActionNode {
                 if let destName = screenActionNode.nextNodeName,
                     let destGkNode = namedScenes[destName]?.gkNode {
                     screenActionNode.gkNode.addConnections(to: [destGkNode], bidirectional: false)
@@ -225,7 +225,7 @@ public extension ScreenGraph {
 
     fileprivate func calculateConditionalEdges() -> [ConditionalEdge<T>] {
         buildGkGraph()
-        let screenStateNodes = namedScenes.values.flatMap { $0 as? ScreenStateNode }
+        let screenStateNodes = namedScenes.values.flatMap { $0 as? MMScreenStateNode }
 
         return screenStateNodes.map { node -> [ConditionalEdge<T>] in
             let src = node.gkNode
