@@ -13,8 +13,8 @@ import XCTest
  * The ScreenGraphNode has all the methods needed to define edges from this node to another node, using the usual
  * XCUIElement method of moving about.
  */
-public class ScreenStateNode<T: UserState>: GraphNode<T> {
-    let builder: ScreenStateBuilder<T>
+public class MMScreenStateNode<T: MMUserState>: MMGraphNode<T> {
+    let builder: MMScreenStateBuilder<T>
     var edges: [String: Edge] = [:]
 
     public typealias UserStateChange = (T) -> ()
@@ -23,7 +23,7 @@ public class ScreenStateNode<T: UserState>: GraphNode<T> {
     // Iff this node has a backAction, this store temporarily stores
     // the node we were at before we got to this one. This becomes the node we return to when the backAction is
     // invoked.
-    weak var returnNode: ScreenStateNode<T>?
+    weak var returnNode: MMScreenStateNode<T>?
 
     var hasBack: Bool {
         return backAction != nil
@@ -48,7 +48,7 @@ public class ScreenStateNode<T: UserState>: GraphNode<T> {
 
     var onEnterWaitCondition: WaitCondition? = nil
 
-    init(map: ScreenGraph<T>, name: String, file: String, line: UInt, builder: @escaping ScreenStateBuilder<T>) {
+    init(map: MMScreenGraph<T>, name: String, file: String, line: UInt, builder: @escaping MMScreenStateBuilder<T>) {
         self.builder = builder
         super.init(map, name: name, file: file, line: line)
     }
@@ -62,7 +62,7 @@ public class ScreenStateNode<T: UserState>: GraphNode<T> {
 }
 
 // Public methods for defining gestures out of this screen state to other screen states.
-public extension ScreenStateNode {
+public extension MMScreenStateNode {
     /**
      * Declare that by performing the given action/gesture, then we can navigate from this node to the next.
      *
@@ -156,7 +156,7 @@ public extension ScreenStateNode {
 }
 
 // Public methods for defining actions possible from this screen state.
-public extension ScreenStateNode {
+public extension MMScreenStateNode {
     public func gesture(withElement element: XCUIElement? = nil, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         gesture(withElement: element, to: actions[0], if: predicate, file: file, line: line) {
@@ -213,7 +213,7 @@ public extension ScreenStateNode {
 
 /// Methods for recording state when we enter or exit this state. Also waiting for conditions to be
 /// true before this state  is entered.
-extension ScreenStateNode {
+extension MMScreenStateNode {
     /// This allows us to record state changes in the app as the navigator moves into a given screen state.
     public func onEnter(recorder: @escaping UserStateChange) {
         onEnterStateRecorder = recorder

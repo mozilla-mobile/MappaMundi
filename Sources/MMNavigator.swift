@@ -15,10 +15,10 @@ let noopNodeVisitor: NodeVisitor = { _ in }
  * or visit all nodes, but mostly you just goto. If you take actions that move around the app outside of the
  * navigator, you can re-sync app with navigator my telling it which node it is now at, using the `nowAt` method.
  */
-open class Navigator<T: UserState> {
-    fileprivate let map: ScreenGraph<T>
-    fileprivate var currentGraphNode: GraphNode<T>
-    fileprivate var returnToRecentScene: ScreenStateNode<T>
+open class MMNavigator<T: MMUserState> {
+    fileprivate let map: MMScreenGraph<T>
+    fileprivate var currentGraphNode: MMGraphNode<T>
+    fileprivate var returnToRecentScene: MMScreenStateNode<T>
     fileprivate let xcTest: XCTestCase
 
     public var userState: T
@@ -27,9 +27,9 @@ open class Navigator<T: UserState> {
         return currentGraphNode.name
     }
 
-    init(_ map: ScreenGraph<T>,
+    init(_ map: MMScreenGraph<T>,
                      xcTest: XCTestCase,
-                     startingScreenState: ScreenStateNode<T>,
+                     startingScreenState: MMScreenStateNode<T>,
                      userState: T) {
         self.map = map
         self.xcTest = xcTest
@@ -38,9 +38,9 @@ open class Navigator<T: UserState> {
         self.userState = userState
 
         // We should let the initial state update the user state.
-        if let node = currentGraphNode as? ScreenStateNode<T> {
+        if let node = currentGraphNode as? MMScreenStateNode<T> {
             node.onEnterStateRecorder?(userState)
-        } else if let node = currentGraphNode as? ScreenActionNode<T> {
+        } else if let node = currentGraphNode as? MMScreenActionNode<T> {
             node.onEnterStateRecorder?(userState)
         }
 
@@ -139,19 +139,19 @@ open class Navigator<T: UserState> {
         // We'll use it to follow the path we've calculated,
         // and to move back to the final screen state once we're done.
         // It takes care of exiting the current node, and moving to the next.
-        @discardableResult func moveDirectlyTo(_ nextScene: GraphNode<T>) -> Bool {
+        @discardableResult func moveDirectlyTo(_ nextScene: MMGraphNode<T>) -> Bool {
             var maybeStateChanged = false
-            if let node = currentGraphNode as? ScreenStateNode<T> {
+            if let node = currentGraphNode as? MMScreenStateNode<T> {
                 leave(node, to: nextScene, file: file, line: line)
                 maybeStateChanged = node.onExitStateRecorder != nil
-            } else if let node = currentGraphNode as? ScreenActionNode<T> {
+            } else if let node = currentGraphNode as? MMScreenActionNode<T> {
                 leave(node, to: nextScene, file: file, line: line)
             }
 
-            if let node = nextScene as? ScreenStateNode<T> {
+            if let node = nextScene as? MMScreenStateNode<T> {
                 enter(node, withVisitor: nodeVisitor)
                 maybeStateChanged = maybeStateChanged || node.onEnterStateRecorder != nil
-            } else if let node = nextScene as? ScreenActionNode<T> {
+            } else if let node = nextScene as? MMScreenActionNode<T> {
                 enter(node)
                 maybeStateChanged = maybeStateChanged || node.onEnterStateRecorder != nil
             }
@@ -182,7 +182,7 @@ open class Navigator<T: UserState> {
             }
         }
 
-        if let _ = currentGraphNode as? ScreenStateNode<T> {
+        if let _ = currentGraphNode as? MMScreenStateNode<T> {
             // ok, we're done; we should return the app
             // back to the screen state, and this path did that.
             return
@@ -202,7 +202,7 @@ open class Navigator<T: UserState> {
     }
 
     func isActionOrFail(_ screenActionName: String, file: String = #file, line: UInt = #line) -> Bool {
-        guard let _ = map.namedScenes[screenActionName] as? ScreenActionNode else {
+        guard let _ = map.namedScenes[screenActionName] as? MMScreenActionNode else {
             xcTest.recordFailure(withDescription: "\(screenActionName) is not an action", inFile: file, atLine: line, expected: false)
             return false
         }
@@ -210,7 +210,7 @@ open class Navigator<T: UserState> {
     }
 
     public func back(file: String = #file, line: UInt = #line) {
-        guard let currentScene = currentGraphNode as? ScreenStateNode else {
+        guard let currentScene = currentGraphNode as? MMScreenStateNode else {
             return
         }
 
@@ -281,8 +281,8 @@ open class Navigator<T: UserState> {
 }
 
 // Private methods to help with goto.
-fileprivate extension Navigator {
-    fileprivate func leave(_ exitingNode: ScreenStateNode<T>, to nextNode: GraphNode<T>, file: String, line: UInt) {
+fileprivate extension MMNavigator {
+    fileprivate func leave(_ exitingNode: MMScreenStateNode<T>, to nextNode: MMGraphNode<T>, file: String, line: UInt) {
         if !exitingNode.dismissOnUse {
             self.returnToRecentScene = exitingNode
         }
@@ -309,7 +309,7 @@ fileprivate extension Navigator {
         }
     }
 
-    fileprivate func enter(_ enteringNode: ScreenStateNode<T>, withVisitor nodeVisitor: NodeVisitor) {
+    fileprivate func enter(_ enteringNode: MMScreenStateNode<T>, withVisitor nodeVisitor: NodeVisitor) {
         if let condition = enteringNode.onEnterWaitCondition {
             let shouldWait: Bool
             if let predicate = condition.userStatePredicate {
@@ -341,7 +341,7 @@ fileprivate extension Navigator {
             // We don't have a back here, but we might've had a back stack in the last node.
             // If that's the case, we should clear it down to make routing easier.
             // This is important in more complex graph structures that possibly have backActions and cycles.
-            var screen: ScreenStateNode? = self.returnToRecentScene
+            var screen: MMScreenStateNode? = self.returnToRecentScene
             while screen != nil {
                 guard let thisScene = screen,
                     let prevScene = thisScene.returnNode else {
@@ -359,25 +359,25 @@ fileprivate extension Navigator {
         nodeVisitor(currentGraphNode.name)
     }
 
-    fileprivate func leave(_ exitingNode: ScreenActionNode<T>, to nextNode: GraphNode<T>, file: String, line: UInt) {
+    fileprivate func leave(_ exitingNode: MMScreenActionNode<T>, to nextNode: MMGraphNode<T>, file: String, line: UInt) {
         // NOOP
     }
 
-    fileprivate func enter(_ enteringNode: ScreenActionNode<T>) {
+    fileprivate func enter(_ enteringNode: MMScreenActionNode<T>) {
         enteringNode.onEnterStateRecorder?(userState)
     }
 
-    func followUpActions(_ lastStep: GraphNode<T>) -> [GraphNode<T>] {
-        guard let lastAction = lastStep as? ScreenActionNode else {
+    func followUpActions(_ lastStep: MMGraphNode<T>) -> [MMGraphNode<T>] {
+        guard let lastAction = lastStep as? MMScreenActionNode else {
             return []
         }
         var action = lastAction
-        var extras = [GraphNode<T>]()
+        var extras = [MMGraphNode<T>]()
         while true {
             if let nextNodeName = action.nextNodeName,
                 let next = map.namedScenes[nextNodeName] {
                 extras.append(next)
-                if let nextAction = next as? ScreenActionNode<T> {
+                if let nextAction = next as? MMScreenActionNode<T> {
                     action = nextAction
                     continue
                 }
@@ -389,7 +389,7 @@ fileprivate extension Navigator {
 }
 
 // Private methods to help with conditional edges.
-fileprivate extension Navigator {
+fileprivate extension MMNavigator {
     func userStateShouldChangeGraph(_ userState: T) -> Bool {
         var graphChanged = false
         map.conditionalEdges.forEach { edge in

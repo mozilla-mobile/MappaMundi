@@ -7,16 +7,16 @@ import GameplayKit
 
 /// The super class of screen action and screen state nodes.
 /// By design, the user should not be able to construct these nodes.
-public class GraphNode<T: UserState> {
+public class MMGraphNode<T: MMUserState> {
     let name: String
     let gkNode: GKGraphNode
 
-    weak var map: ScreenGraph<T>?
+    weak var map: MMScreenGraph<T>?
 
     let file: String
     let line: UInt
 
-    init(_ map: ScreenGraph<T>, name: String, file: String, line: UInt) {
+    init(_ map: MMScreenGraph<T>, name: String, file: String, line: UInt) {
         self.map = map
         self.name = name
         self.file = file
