@@ -29,7 +29,11 @@ class DemoUITests: XCTestCase {
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
         app.launch()
     }
-    
+
+    func testRenderDotfile() {
+        MMTestUtils.render(graph: createGraph(with: app, for: self))
+    }
+
     func testSimpleNavigation() {
         navigator.performAction(Actions.addItem)
         navigator.goto(Screens.itemDetail)

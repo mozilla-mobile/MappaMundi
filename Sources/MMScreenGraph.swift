@@ -181,7 +181,7 @@ public extension MMScreenGraph {
         return MMNavigator(self, xcTest: xcTest, startingScreenState: startingScreenState, userState: userState)
     }
 
-    fileprivate func buildGkGraph() {
+    func buildGkGraph() {
         if isReady {
             return
         }
