@@ -59,9 +59,9 @@ enum UIDeviceError: Error, CustomDebugStringConvertible {
     var debugDescription: String {
         switch self {
         case .cannotDetectUser:
-            return "Couldn't find Snapshot configuration files - can't detect current user "
+            return "Couldn't find MappaMundi configuration files - can't detect current user "
         case .cannotFindHomeDirectory:
-            return "Couldn't find Snapshot configuration files - can't detect `Users` dir"
+            return "Couldn't find MappaMundi configuration files - can't detect `Users` dir"
         case .cannotFindSimulatorHomeDirectory:
             return "Couldn't find simulator home location. Please, check SIMULATOR_HOST_HOME env variable."
         case .cannotAccessSimulatorHomeDirectory(let simulatorHostHome):
