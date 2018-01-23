@@ -14,9 +14,9 @@ class Actions {
 }
 
 class Screens {
-    static let itemList = "list"
-    static let itemListEditing = "editingList"
-    static let itemDetail = "detail"
+    static let itemList = "ItemList"
+    static let itemListEditing = "EditingItemList"
+    static let itemDetail = "ItemDetail"
 }
 
 class DemoAppUserState: MMUserState {
