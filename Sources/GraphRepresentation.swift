@@ -32,9 +32,8 @@ public extension MMScreenGraph {
             if let node = node as? MMScreenStateNode {
                 node.edges.values.forEach { edge in
                     guard let dest = namedScenes[edge.destinationName] else { return }
-                    let directed: Bool
                     if let dest = dest as? MMScreenStateNode {
-                        directed = !dest.hasBack
+                        let directed = !dest.hasBack
                         renderer.renderEdgeToScreenState(src: src,
                                                          dest: dest.name,
                                                          label: edge.predicate?.predicateFormat,
@@ -63,29 +62,98 @@ public extension MMScreenGraph {
 }
 
 /// The default implementation
-class DotRepresentation: GraphRepresentation {
+class DotRepresentation {
+    /////////////////////////////////////////////////////////////////////////
+    // Style your graph here.
+    let actionColor = "lightBlue"
+    lazy var actionStyle: [String: String] = {
+        let color = self.actionColor
+        let fontColor = "white"
+
+        return [
+            "shape": "egg",
+            "style": "filled",
+            "color": color,
+            "fillColor": color,
+            "fontColor": fontColor,
+            "fontSize": "10"
+        ]
+    }()
+
+    lazy var screenStyle: [String: String] = {
+        let color = "black"
+        let fontColor = "black"
+        return [
+            "shape": "box",
+            "color": color,
+            "fontColor": fontColor,
+        ]
+    }()
+
+    lazy var dismissOnUseStyle: [String: String] = {
+        let color = "lightgray"
+        let fontColor = "gray"
+        return [
+            "fillcolor": color,
+            "color": color,
+            "fontColor": fontColor,
+            "style": "filled",
+            "shape": "box",
+        ]
+    }()
+
+    let backableEdgeStyle = [
+        "dir": "both",
+        "arrowtail": "obox",
+        "arrowhead": "normal"
+    ]
+
+    let conditionalEdgeStyle = [
+        "style": "dashed",
+    ]
+
+    let unconditionalEdgeStyle = [
+        "style": "solid"
+    ]
+
+    lazy var actionEdgeStyle: [String: String] = {
+        return [
+            "color": self.actionColor
+        ]
+    }()
+
+    lazy var screenEdgeStyle: [String: String] = {
+        return [:]
+    }()
+    // end styling.
+    /////////////////////////////////////////////////////////////////////////
+
     var lines: [String] = []
 
     var namedIDs: [String: String] = [:]
     var idGenerator = 0
 
-    let actionColor = "lightblue"
-    let fontActionColor = "white"
-
-    public var fileExtension: String { return "dot" }
-
     init() {
     }
+}
+
+extension DotRepresentation: GraphRepresentation {
+    public var fileExtension: String { return "dot" }
 
     func begin() {
         lines = []
+
         append("digraph G {",
-               "fontsize=15;",
-               "font=Helvetica;",
-               "labelloc=t;",
-               "label=\"\"", "splines=true", "overlap=false", "rankdir = LR;",
-               "ratio = auto;",
-               "node [ shape = box ]"
+            styleString(from: [
+                "fontsize": "15",
+                "font": "Helvetica",
+                "labelloc": "t",
+                "label": "",
+                "splines": "true",
+                "overlap": "false",
+                "rankdir": "LR",
+                "ratio": "auto",
+            ], includeBrackets: false)
         )
 
         renderLegend()
@@ -95,69 +163,65 @@ class DotRepresentation: GraphRepresentation {
         return lines.joined(separator: "\n")
     }
 
-    private func append(_ additional: String...) {
-        lines = lines + additional
-    }
-
-    private func id(for name: String) -> String {
-        if let id = namedIDs[name] {
-            return id
-        }
-
-        let id = "_\(idGenerator)"
-        idGenerator += 1
-        namedIDs[name] = id
-        return id
-    }
-
-
     func renderScreenStateNode(name: String, isDismissedOnUse dismissOnUse: Bool) {
         let id = self.id(for: name)
-        var styleCode = "label=\"\(name)\"; "
+        var style = ["label": name]
+
         if dismissOnUse {
-            styleCode += "fillcolor=lightgray; color=gray; style=filled"
+            styleAppend(to: &style, dismissOnUseStyle)
         } else {
-            styleCode += "color=black"
+            styleAppend(to: &style, screenStyle)
         }
-        append("\(id) [ \(styleCode) ];")
+        let styleCode = styleString(from: style)
+        append("\(id) \(styleCode);")
     }
 
     func renderScreenActionNode(name: String) {
         let id = self.id(for: name)
-        append("\(id) [ label = \"\(name)\"; shape=egg; style=filled; color=\(actionColor); fillcolor=\(actionColor); fontcolor=\(fontActionColor); fontsize=10];")
+        var style = [
+            "label": name,
+        ]
+        styleAppend(to: &style, actionStyle)
+
+        let styleCode = styleString(from: style)
+        append("\(id) \(styleCode)")
     }
 
     func renderEdgeToScreenState(src: String, dest: String, label: String?, isBackable: Bool) {
-        var styleCode: String = "[ "
-
+        var style = [String: String]()
         if let label = label {
-            styleCode += "label=\"\(label)\"; style=dashed"
+            styleAppend(to: &style, ["label": label])
+            styleAppend(to: &style, conditionalEdgeStyle)
         } else {
-            styleCode += "style=solid"
+            styleAppend(to: &style, unconditionalEdgeStyle)
         }
 
         if isBackable {
-            styleCode += "; dir=both; arrowtail=obox; arrowhead=normal"
+            styleAppend(to: &style, backableEdgeStyle)
         } 
 
+        styleAppend(to: &style, screenEdgeStyle)
+
+        let styleCode = styleString(from: style)
         let srcID = id(for: src)
         let destID = id(for: dest)
 
         let edgeCode = "->"
 
-        styleCode += " ]"
-
         append("\(srcID) \(edgeCode) \(destID)\(styleCode);")
     }
 
     func renderEdgeToScreenAction(src: String, dest: String, label: String?) {
-        let labelCode: String
-
+        var style = [String: String]()
         if let label = label {
-            labelCode = " [ label=\"\(label)\"; style=dashed; color=\(actionColor) ]"
+            styleAppend(to: &style, ["label": label])
+            styleAppend(to: &style, conditionalEdgeStyle)
         } else {
-            labelCode = " [ color=\(actionColor) ]"
+            styleAppend(to: &style, unconditionalEdgeStyle)
         }
+
+        styleAppend(to: &style, actionEdgeStyle)
+        let labelCode = styleString(from: style)
         let srcID = id(for: src)
         let destID = id(for: dest)
 
@@ -170,6 +234,11 @@ class DotRepresentation: GraphRepresentation {
         append("}")
     }
 
+}
+
+/// Rendering the legend.
+fileprivate extension DotRepresentation {
+    // This uses the existing methods, so should be conform to whichever style changes are made.
     func renderLegend() {
         var i = 1;
         var labels = [String]()
@@ -191,7 +260,7 @@ class DotRepresentation: GraphRepresentation {
         namedIDs = [:]
         renderScreenStateNode(name: "Screen1", isDismissedOnUse: false)
         renderScreenStateNode(name: "Screen2", isDismissedOnUse: false)
-        renderEdgeToScreenState(src: "Screen1", dest: "Screen2", label: "numItems > 0", isBackable: false)
+        renderEdgeToScreenState(src: "Screen1", dest: "Screen2", label: "loggedIn == true", isBackable: false)
         label("Transition between two screens\\rconditional on user state")
 
         namedIDs = [:]
@@ -204,11 +273,11 @@ class DotRepresentation: GraphRepresentation {
 
         namedIDs = [:]
         renderScreenStateNode(name: "Screen1", isDismissedOnUse: false)
-        renderScreenStateNode(name: "Screen2", isDismissedOnUse: true)
-        renderScreenStateNode(name: "Screen3", isDismissedOnUse: false)
-        renderEdgeToScreenState(src: "Screen1", dest: "Screen2", label: nil, isBackable: true)
-        renderEdgeToScreenState(src: "Screen2", dest: "Screen3", label: nil, isBackable: true)
-        label("Screen2 is not added to the back stack.\\rGoing back from Screen3 goes to Screen1")
+        renderScreenStateNode(name: "MenuVisible", isDismissedOnUse: true)
+        renderScreenStateNode(name: "Screen2", isDismissedOnUse: false)
+        renderEdgeToScreenState(src: "Screen1", dest: "MenuVisible", label: nil, isBackable: true)
+        renderEdgeToScreenState(src: "MenuVisible", dest: "Screen2", label: nil, isBackable: true)
+        label("MenuVisible is dismissed on use.\\rGoing back from Screen2 goes to Screen1")
 
         namedIDs = [:]
         renderScreenStateNode(name: "Screen", isDismissedOnUse: false)
@@ -226,7 +295,6 @@ class DotRepresentation: GraphRepresentation {
         renderEdgeToScreenState(src: "NewTab", dest: "NewTabScreen", label: nil, isBackable: false)
         label("NewTab action can be accessed —\\rand tested — from multiple places.\\rBoth lead to the NewTabScreen.")
 
-
         append("{",
             "rank=source",
             "node [shape=plaintext, style=solid, width=3.5];")
@@ -236,5 +304,42 @@ class DotRepresentation: GraphRepresentation {
         append("}")
 
         append("}")
+    }
+}
+
+fileprivate extension DotRepresentation {
+    func append(_ additional: String...) {
+        lines = lines + additional
+    }
+
+    func id(for name: String) -> String {
+        if let id = namedIDs[name] {
+            return id
+        }
+
+        let id = "_\(idGenerator)"
+        idGenerator += 1
+        namedIDs[name] = id
+        return id
+    }
+
+    func styleString(from dict: [String: String], includeBrackets: Bool = true) -> String {
+        guard dict.count > 0 else {
+            return ""
+        }
+
+        let pairs = dict.map { (key, value) -> String in
+            return "\(key)=\"\(value)\""
+        }
+
+        let joined = pairs.joined(separator: "; ")
+
+        return includeBrackets ? "[" + joined + "]" : joined
+    }
+
+    func styleAppend(to style: inout [String: String], _ extras: [String: String]) {
+        extras.forEach { (key, value) in
+            style[key] = value
+        }
     }
 }
