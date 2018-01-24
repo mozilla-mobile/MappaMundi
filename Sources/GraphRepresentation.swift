@@ -65,6 +65,20 @@ public extension MMScreenGraph {
 class DotRepresentation {
     /////////////////////////////////////////////////////////////////////////
     // Style your graph here.
+    let graphStyle = [
+        "fontsize": "15",
+        "font": "Helvetica",
+        "labelloc": "t",
+        "label": "",
+        "splines": "true",
+        "overlap": "false",
+        "rankdir": "LR",
+        "ratio": "auto",
+        "nodesep": "0.5",
+        "ordering": "in",
+        "maxiter": "1000",
+    ]
+
     let actionColor = "lightBlue"
     lazy var actionStyle: [String: String] = {
         let color = self.actionColor
@@ -144,16 +158,7 @@ extension DotRepresentation: GraphRepresentation {
         lines = []
 
         append("digraph G {",
-            styleString(from: [
-                "fontsize": "15",
-                "font": "Helvetica",
-                "labelloc": "t",
-                "label": "",
-                "splines": "true",
-                "overlap": "false",
-                "rankdir": "LR",
-                "ratio": "auto",
-            ], includeBrackets: false)
+            styleString(from: graphStyle, includeBrackets: false)
         )
 
         renderLegend()
@@ -304,6 +309,8 @@ fileprivate extension DotRepresentation {
         append("}")
 
         append("}")
+
+        namedIDs = [:]
     }
 }
 
