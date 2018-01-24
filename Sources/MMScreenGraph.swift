@@ -47,6 +47,14 @@ open class MMScreenGraph<T: MMUserState> {
         self.userStateType = userStateType
         self.xcTest = test
     }
+
+    public static func create(for test: XCTestCase) -> MMScreenGraph<MMUserState> {
+        return MMScreenGraph<MMUserState>(for: test, with: MMUserState.self)
+    }
+
+    public static func create(for test: XCTestCase, with userState: T.Type) -> MMScreenGraph<T> {
+        return MMScreenGraph<T>(for: test, with: userState)
+    }
 }
 
 public extension MMScreenGraph {
