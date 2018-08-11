@@ -406,3 +406,33 @@ fileprivate extension MMNavigator {
         return graphChanged
     }
 }
+
+/// Helper methods to be used from within tests.
+/// These methods allow tests to wait for an element to reach a condition, or timeout.
+/// If the condition is never reached, the timeout is reported in-line where the navigator was asked to wait.
+public extension MMNavigator {
+    public func waitForExistence(_ element: XCUIElement, timeout: TimeInterval = 7.0, file: String = #file, line: UInt = #line) {
+        waitFor(element, with: "exists == true", timeout: timeout, file: file, line: line)
+    }
+
+    public func waitForNonExistence(_ element: XCUIElement, timeoutValue: TimeInterval = 5.0, file: String = #file, line: UInt = #line) {
+        waitFor(element, with: "exists != true", timeout: timeoutValue, file: file, line: line)
+    }
+
+    public func waitFor(_ element: XCUIElement, toContain value: String, file: String = #file, line: UInt = #line) {
+        waitFor(element, with: "value CONTAINS '\(value)'", file: file, line: line)
+    }
+
+    public func waitFor(_ element: XCUIElement,
+                         with predicateString: String,
+                         description: String? = nil,
+                         timeout: TimeInterval = 5.0,
+                         file: String = #file, line: UInt = #line) {
+
+        let predicate = NSPredicate(format: predicateString)
+        waitOrTimeout(predicate, object: element, timeout: timeout) {
+            let message = description ?? "Expect predicate \(predicateString) for \(element.description)"
+            xcTest.recordFailure(withDescription: message, inFile: file, atLine: line, expected: false)
+        }
+    }
+}
