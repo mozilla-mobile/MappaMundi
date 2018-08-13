@@ -115,5 +115,8 @@ class DemoUITests: XCTestCase {
         //  * much more regular graph code.
         navigator.performAction(Actions.initialWithExactlyOne)
         XCTAssertEqual(1, userState.numItems)
+
+        navigator.performAction(Actions.postAddItem)
+        XCTAssertEqual(2, userState.numItems)
     }
 }

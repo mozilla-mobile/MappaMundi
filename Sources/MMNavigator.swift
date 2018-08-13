@@ -38,10 +38,13 @@ open class MMNavigator<T: MMUserState> {
         self.userState = userState
 
         // We should let the initial state update the user state.
+        // This should probably use the enter() methods.
         if let node = currentGraphNode as? MMScreenStateNode<T> {
             node.onEnterStateRecorder?(userState)
         } else if let node = currentGraphNode as? MMScreenActionNode<T> {
             node.onEnterStateRecorder?(userState)
+        } else if let node = currentGraphNode as? MMShortcutActionNode<T> {
+            node.action(self)
         }
 
         // Then, we should update the routable graph with respect
@@ -144,16 +147,16 @@ open class MMNavigator<T: MMUserState> {
             if let node = currentGraphNode as? MMScreenStateNode<T> {
                 leave(node, to: nextScene, file: file, line: line)
                 maybeStateChanged = node.onExitStateRecorder != nil
-            } else if let node = currentGraphNode as? MMScreenActionNode<T> {
+            } else if let node = currentGraphNode as? MMActionNode<T> {
                 leave(node, to: nextScene, file: file, line: line)
             }
 
             if let node = nextScene as? MMScreenStateNode<T> {
                 enter(node, withVisitor: nodeVisitor)
                 maybeStateChanged = maybeStateChanged || node.onEnterStateRecorder != nil
-            } else if let node = nextScene as? MMScreenActionNode<T> {
-                enter(node)
-                maybeStateChanged = maybeStateChanged || node.onEnterStateRecorder != nil
+            } else if let node = nextScene as? MMActionNode<T> {
+                let thisNodeChangedState = enter(node)
+                maybeStateChanged = maybeStateChanged || thisNodeChangedState
             }
             currentGraphNode = nextScene
 
@@ -195,18 +198,22 @@ open class MMNavigator<T: MMUserState> {
     /// Actions can cause userState to change. They only have one edge out,
     /// which could be another action or a screen state.
     /// This method will always return the app to a valid screen state.
-    public func performAction(_ screenActionName: String, file: String = #file, line: UInt = #line) {
-        if let shortcut = map.shortcutActions[screenActionName] {
-            shortcut.action(self)
+    public func performAction(_ actionName: String, file: String = #file, line: UInt = #line) {
+        guard isActionOrFail(actionName, file: file, line: line) else {
             return
         }
-        if isActionOrFail(screenActionName, file: file, line: line) {
-            goto(screenActionName, file: file, line: line)
+
+        if let shortcut = map.namedScenes[actionName] as? MMShortcutActionNode,
+            !can(performAction: actionName) {
+            shortcut.action(self)
+        } else {
+            goto(actionName, file: file, line: line)
         }
+
     }
 
     func isActionOrFail(_ screenActionName: String, file: String = #file, line: UInt = #line) -> Bool {
-        guard let _ = map.namedScenes[screenActionName] as? MMScreenActionNode else {
+        guard let _ = map.namedScenes[screenActionName] as? MMActionNode else {
             xcTest.recordFailure(withDescription: "\(screenActionName) is not an action", inFile: file, atLine: line, expected: false)
             return false
         }
@@ -363,12 +370,21 @@ fileprivate extension MMNavigator {
         nodeVisitor(currentGraphNode.name)
     }
 
-    fileprivate func leave(_ exitingNode: MMScreenActionNode<T>, to nextNode: MMGraphNode<T>, file: String, line: UInt) {
+    fileprivate func leave(_ exitingNode: MMActionNode<T>, to nextNode: MMGraphNode<T>, file: String, line: UInt) {
         // NOOP
     }
 
-    fileprivate func enter(_ enteringNode: MMScreenActionNode<T>) {
-        enteringNode.onEnterStateRecorder?(userState)
+    fileprivate func enter(_ enteringNode: MMActionNode<T>) -> Bool {
+        if let node = enteringNode as? MMScreenActionNode<T>,
+            let onEnterStateRecorder = node.onEnterStateRecorder {
+            onEnterStateRecorder(userState)
+            return true
+        } else if let node = enteringNode as? MMShortcutActionNode<T> {
+            node.action(self)
+            return true
+        }
+
+        return false
     }
 
     func followUpActions(_ lastStep: MMGraphNode<T>) -> [MMGraphNode<T>] {

@@ -5,27 +5,37 @@
 import Foundation
 import XCTest
 
+public class MMActionNode<T: MMUserState>: MMGraphNode<T> {
+    // marker
+}
+
 // Gestures which affect user state are called ScreenActions.
 // These cannot be constructed or manipulated directly, but can be added to the graph using `screenStateNode.*(forAction:)` methods.
-public class MMScreenActionNode<T: MMUserState>: MMGraphNode<T> {
+public class MMScreenActionNode<T: MMUserState>: MMActionNode<T> {
     public typealias UserStateChange = (T) -> ()
     let onEnterStateRecorder: UserStateChange?
 
     let nextNodeName: String?
+
+    override var nodeType: String { return "Screen action" }
 
     init(_ map: MMScreenGraph<T>, name: String, then nextNodeName: String?, file: String, line: UInt, recorder: UserStateChange?) {
         self.onEnterStateRecorder = recorder
         self.nextNodeName = nextNodeName
         super.init(map, name: name, file: file, line: line)
     }
+
+    
 }
 
-public class MMShortcutActionNode<T: MMUserState>: MMGraphElement {
+public class MMShortcutActionNode<T: MMUserState>: MMActionNode<T> {
     let action: MMShortcutAction<T>
 
-    init(name: String, action: @escaping MMShortcutAction<T>, file: String, line: UInt) {
-        self.action = action
+    override var nodeType: String { return "Shortcut action" }
 
-        super.init(name: name, file: file, line: line)
+    init(_ map: MMScreenGraph<T>, name: String, file: String, line: UInt, shortcut: @escaping MMShortcutAction<T>) {
+        self.action = shortcut
+
+        super.init(map, name: name, file: file, line: line)
     }
 }

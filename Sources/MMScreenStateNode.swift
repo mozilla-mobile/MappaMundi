@@ -14,6 +14,8 @@ import XCTest
  * XCUIElement method of moving about.
  */
 public class MMScreenStateNode<T: MMUserState>: MMGraphNode<T> {
+    override var nodeType: String { return "Screen state" }
+
     let builder: MMScreenStateBuilder<T>
     var edges: [String: Edge] = [:]
 

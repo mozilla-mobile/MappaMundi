@@ -21,6 +21,8 @@ public class MMGraphElement {
 /// The super class of screen action and screen state nodes.
 /// By design, the user should not be able to construct these nodes.
 public class MMGraphNode<T: MMUserState>: MMGraphElement {
+    var nodeType: String { return "Node" }
+
     let gkNode: GKGraphNode
 
     weak var map: MMScreenGraph<T>?
