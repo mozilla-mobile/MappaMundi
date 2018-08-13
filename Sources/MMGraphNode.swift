@@ -5,23 +5,31 @@
 import Foundation
 import GameplayKit
 
-/// The super class of screen action and screen state nodes.
-/// By design, the user should not be able to construct these nodes.
-public class MMGraphNode<T: MMUserState> {
+public class MMGraphElement {
     let name: String
-    let gkNode: GKGraphNode
-
-    weak var map: MMScreenGraph<T>?
 
     let file: String
     let line: UInt
 
-    init(_ map: MMScreenGraph<T>, name: String, file: String, line: UInt) {
-        self.map = map
+    init(name: String, file: String, line: UInt) {
         self.name = name
         self.file = file
         self.line = line
+    }
+}
+
+/// The super class of screen action and screen state nodes.
+/// By design, the user should not be able to construct these nodes.
+public class MMGraphNode<T: MMUserState>: MMGraphElement {
+    let gkNode: GKGraphNode
+
+    weak var map: MMScreenGraph<T>?
+
+    init(_ map: MMScreenGraph<T>, name: String, file: String, line: UInt) {
+        self.map = map
 
         self.gkNode = GKGraphNode()
+
+        super.init(name: name, file: file, line: line)
     }
 }

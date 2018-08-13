@@ -196,6 +196,10 @@ open class MMNavigator<T: MMUserState> {
     /// which could be another action or a screen state.
     /// This method will always return the app to a valid screen state.
     public func performAction(_ screenActionName: String, file: String = #file, line: UInt = #line) {
+        if let shortcut = map.shortcutActions[screenActionName] {
+            shortcut.action(self)
+            return
+        }
         if isActionOrFail(screenActionName, file: file, line: line) {
             goto(screenActionName, file: file, line: line)
         }

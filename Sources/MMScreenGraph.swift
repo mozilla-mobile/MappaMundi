@@ -20,6 +20,7 @@ import GameplayKit
 import XCTest
 
 public typealias MMScreenStateBuilder<T: MMUserState> = (MMScreenStateNode<T>) -> Void
+public typealias MMShortcutAction<T: MMUserState> = (MMNavigator<T>) -> Void
 
 /**
  * ScreenGraph
@@ -32,6 +33,7 @@ open class MMScreenGraph<T: MMUserState> {
 
     var namedScenes: [String: MMGraphNode<T>] = [:]
     var nodedScenes: [GKGraphNode: MMGraphNode<T>] = [:]
+    var shortcutActions: [String: MMShortcutActionNode<T>] = [:]
 
     var conditionalEdges: [ConditionalEdge<T>] = []
 
@@ -82,18 +84,44 @@ public extension MMScreenGraph {
     public func addScreenAction(_ name: String, transitionTo nextNodeName: String, file: String = #file, line: UInt = #line) {
         addOrCheckScreenAction(name, transitionTo: nextNodeName, file: file, line: line, recorder: defaultStateRecorder)
     }
+
+    public func addShortcutAction(_ name: String, file: String = #file, line: UInt = #line, shortcut: @escaping MMShortcutAction<T>) {
+        guard check(actions: [name], file: file, line: line) else {
+            return
+        }
+
+        shortcutActions[name] = MMShortcutActionNode(name: name, action: shortcut, file: file, line: line)
+    }
 }
 
 extension MMScreenGraph {
-    func addActionChain(_ actions: [String], finalState screenState: String?, recorder: @escaping UserStateChange, file: String, line: UInt) {
+    fileprivate func check(actions: [String], file: String = #file, line: UInt = #line) -> Bool {
         guard actions.count > 0 else {
-            return
+            return false
+        }
+
+        func report(_ firstNodeName: String, existing: MMGraphElement) -> Bool {
+            xcTest.recordFailure(withDescription: "Action \(firstNodeName) is defined elsewhere, but should be unique", inFile: file, atLine: line, expected: true)
+            xcTest.recordFailure(withDescription: "Action \(firstNodeName) is defined elsewhere, but should be unique", inFile: existing.file, atLine: existing.line, expected: true)
+            return false
         }
 
         let firstNodeName = actions[0]
         if let existing = namedScenes[firstNodeName] {
-            xcTest.recordFailure(withDescription: "Action \(firstNodeName) is defined elsewhere, but should be unique", inFile: file, atLine: line, expected: true)
-            xcTest.recordFailure(withDescription: "Action \(firstNodeName) is defined elsewhere, but should be unique", inFile: existing.file, atLine: existing.line, expected: true)
+            return report(firstNodeName, existing: existing)
+        }
+
+        return actions.reduce(true) { contained, nodeName in
+            if let existing = shortcutActions[nodeName] {
+                return report(nodeName, existing: existing)
+            }
+            return contained
+        }
+    }
+
+    func addActionChain(_ actions: [String], finalState screenState: String?, recorder: @escaping UserStateChange, file: String, line: UInt) {
+        guard check(actions: actions, file: file, line: line) else {
+            return
         }
 
         if let screenState = screenState {
@@ -122,6 +150,9 @@ extension MMScreenGraph {
             guard let existing = existingNode as? MMScreenActionNode else {
                 self.xcTest.recordFailure(withDescription: "Screen state \(name) conflicts with an identically named action", inFile: existingNode.file, atLine: existingNode.line, expected: false)
                 self.xcTest.recordFailure(withDescription: "Action \(name) conflicts with an identically named screen state", inFile: file, atLine: line, expected: false)
+                return
+            }
+            if check(actions: [name], file: file, line: line) {
                 return
             }
             // The new node has to have the same nextNodeName as the existing node.

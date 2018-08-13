@@ -11,6 +11,7 @@ class Actions {
     static let editItemMode = "editItems"
     static let deleteItem = "deleteItem"
     static let deleteAllItems = "deleteAllItems"
+    static let initialWithExactlyOne = "initialWithExactlyOne"
 }
 
 class Screens {
@@ -92,6 +93,11 @@ func createGraph(with app: XCUIApplication, for test: XCTestCase) -> MMScreenGra
         }
 
         screenState.backAction = navigationControllerBackAction
+    }
+
+    map.addShortcutAction(Actions.initialWithExactlyOne) { navigator in
+        navigator.performAction(Actions.deleteAllItems)
+        navigator.performAction(Actions.addItem)
     }
 
     return map

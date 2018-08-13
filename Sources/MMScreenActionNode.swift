@@ -19,3 +19,13 @@ public class MMScreenActionNode<T: MMUserState>: MMGraphNode<T> {
         super.init(map, name: name, file: file, line: line)
     }
 }
+
+public class MMShortcutActionNode<T: MMUserState>: MMGraphElement {
+    let action: MMShortcutAction<T>
+
+    init(name: String, action: @escaping MMShortcutAction<T>, file: String, line: UInt) {
+        self.action = action
+
+        super.init(name: name, file: file, line: line)
+    }
+}
