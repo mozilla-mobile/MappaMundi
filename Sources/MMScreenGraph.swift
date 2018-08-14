@@ -20,6 +20,7 @@ import GameplayKit
 import XCTest
 
 public typealias MMScreenStateBuilder<T: MMUserState> = (MMScreenStateNode<T>) -> Void
+public typealias MMNavigatorAction<T: MMUserState> = (MMNavigator<T>) -> Void
 
 /**
  * ScreenGraph
@@ -82,6 +83,10 @@ public extension MMScreenGraph {
     public func addScreenAction(_ name: String, transitionTo nextNodeName: String, file: String = #file, line: UInt = #line) {
         addOrCheckScreenAction(name, transitionTo: nextNodeName, file: file, line: line, recorder: defaultStateRecorder)
     }
+
+    public func addNavigatorAction(_ name: String, file: String = #file, line: UInt = #line, navigatorAction: @escaping MMNavigatorAction<T>) {
+        addOrCheckNavigatorAction(name, file: file, line: line, navigatorAction: navigatorAction)
+    }
 }
 
 extension MMScreenGraph {
@@ -93,12 +98,13 @@ extension MMScreenGraph {
         let firstNodeName = actions[0]
         if let existing = namedScenes[firstNodeName] {
             xcTest.recordFailure(withDescription: "Action \(firstNodeName) is defined elsewhere, but should be unique", inFile: file, atLine: line, expected: true)
-            xcTest.recordFailure(withDescription: "Action \(firstNodeName) is defined elsewhere, but should be unique", inFile: existing.file, atLine: existing.line, expected: true)
+            xcTest.recordFailure(withDescription: "\(existing.nodeType) \(firstNodeName) is defined elsewhere, but should be unique", inFile: existing.file, atLine: existing.line, expected: true)
+            return
         }
 
-        if let screenState = screenState {
-            guard let _ = namedScenes[screenState] as? MMScreenStateNode else {
-                xcTest.recordFailure(withDescription: "Expected \(screenState) to be a screen state", inFile: file, atLine: line, expected: false)
+        if let screenState = screenState, let node = namedScenes[screenState] {
+            guard node is MMScreenStateNode || node is MMNavigatorActionNode else {
+                xcTest.recordFailure(withDescription: "Expected \(screenState) to be a screen state or navigator action", inFile: file, atLine: line, expected: false)
                 return
             }
         }
@@ -116,12 +122,22 @@ extension MMScreenGraph {
         }
     }
 
+    fileprivate func addOrCheckNavigatorAction(_ name: String, file: String = #file, line: UInt = #line, navigatorAction: @escaping MMNavigatorAction<T>) {
+        if let existing = namedScenes[name] {
+            self.xcTest.recordFailure(withDescription: "\(existing.nodeType) \(name) conflicts with an identically named action", inFile: existing.file, atLine: existing.line, expected: false)
+            self.xcTest.recordFailure(withDescription: "Action \(name) conflicts with an identically named \(existing.nodeType)", inFile: file, atLine: line, expected: false)
+            return
+        }
+
+        namedScenes[name] = MMNavigatorActionNode(self, name: name, file: file, line: line, navigatorAction: navigatorAction)
+    }
+
     fileprivate func addOrCheckScreenAction(_ name: String, transitionTo nextNodeName: String? = nil, file: String = #file, line: UInt = #line, recorder: UserStateChange?) {
         let actionNode: MMScreenActionNode<T>
         if let existingNode = namedScenes[name] {
             guard let existing = existingNode as? MMScreenActionNode else {
-                self.xcTest.recordFailure(withDescription: "Screen state \(name) conflicts with an identically named action", inFile: existingNode.file, atLine: existingNode.line, expected: false)
-                self.xcTest.recordFailure(withDescription: "Action \(name) conflicts with an identically named screen state", inFile: file, atLine: line, expected: false)
+                self.xcTest.recordFailure(withDescription: "\(existingNode.nodeType) \(name) conflicts with an identically named action", inFile: existingNode.file, atLine: existingNode.line, expected: false)
+                self.xcTest.recordFailure(withDescription: "Action \(name) conflicts with an identically named \(existingNode.nodeType)", inFile: file, atLine: line, expected: false)
                 return
             }
             // The new node has to have the same nextNodeName as the existing node.

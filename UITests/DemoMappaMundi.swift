@@ -11,6 +11,8 @@ class Actions {
     static let editItemMode = "editItems"
     static let deleteItem = "deleteItem"
     static let deleteAllItems = "deleteAllItems"
+    static let initialWithExactlyOne = "initialWithExactlyOne"
+    static let postAddItem = "postAddItem"
 }
 
 class Screens {
@@ -45,7 +47,7 @@ func createGraph(with app: XCUIApplication, for test: XCTestCase) -> MMScreenGra
         // screenState.onEnterWaitFor(element: table)
 
         // 1. an action to add an item to the list.
-        screenState.tap(app.buttons["addButton"], forAction: Actions.addItem) { userState in
+        screenState.tap(app.buttons["addButton"], forAction: Actions.addItem, transitionTo: Actions.postAddItem) { userState in
             userState.numItems += 1
         }
 
@@ -92,6 +94,15 @@ func createGraph(with app: XCUIApplication, for test: XCTestCase) -> MMScreenGra
         }
 
         screenState.backAction = navigationControllerBackAction
+    }
+
+    map.addNavigatorAction(Actions.initialWithExactlyOne) { navigator in
+        navigator.performAction(Actions.deleteAllItems)
+        navigator.performAction(Actions.addItem)
+    }
+
+    map.addNavigatorAction(Actions.postAddItem) { navigator in
+        print("In \(navigator.screenState)")
     }
 
     return map

@@ -23,7 +23,7 @@ public extension MMScreenGraph {
         namedScenes.forEach { (name, node) in
             if let node = node as? MMScreenStateNode {
                 renderer.renderScreenStateNode(name: name, isDismissedOnUse: node.dismissOnUse)
-            } else if let _ = node as? MMScreenActionNode {
+            } else if let _ = node as? MMActionNode {
                 renderer.renderScreenActionNode(name: name)
             }
         }
@@ -38,7 +38,7 @@ public extension MMScreenGraph {
                                                          dest: dest.name,
                                                          label: edge.predicate?.predicateFormat,
                                                          isBackable: directed)
-                    } else if let _ = dest as? MMScreenActionNode {
+                    } else if let _ = dest as? MMActionNode {
                         renderer.renderEdgeToScreenAction(
                             src: src,
                             dest: dest.name,
