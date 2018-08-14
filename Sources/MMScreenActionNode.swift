@@ -28,13 +28,13 @@ public class MMScreenActionNode<T: MMUserState>: MMActionNode<T> {
     
 }
 
-public class MMShortcutActionNode<T: MMUserState>: MMActionNode<T> {
-    let action: MMShortcutAction<T>
+public class MMNavigatorActionNode<T: MMUserState>: MMActionNode<T> {
+    let action: MMNavigatorAction<T>
 
-    override var nodeType: String { return "Shortcut action" }
+    override var nodeType: String { return "Navigator action" }
 
-    init(_ map: MMScreenGraph<T>, name: String, file: String, line: UInt, shortcut: @escaping MMShortcutAction<T>) {
-        self.action = shortcut
+    init(_ map: MMScreenGraph<T>, name: String, file: String, line: UInt, navigatorAction: @escaping MMNavigatorAction<T>) {
+        self.action = navigatorAction
 
         super.init(map, name: name, file: file, line: line)
     }

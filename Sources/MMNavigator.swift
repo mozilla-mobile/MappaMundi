@@ -43,7 +43,7 @@ open class MMNavigator<T: MMUserState> {
             node.onEnterStateRecorder?(userState)
         } else if let node = currentGraphNode as? MMScreenActionNode<T> {
             node.onEnterStateRecorder?(userState)
-        } else if let node = currentGraphNode as? MMShortcutActionNode<T> {
+        } else if let node = currentGraphNode as? MMNavigatorActionNode<T> {
             node.action(self)
         }
 
@@ -203,13 +203,12 @@ open class MMNavigator<T: MMUserState> {
             return
         }
 
-        if let shortcut = map.namedScenes[actionName] as? MMShortcutActionNode,
+        if let navigatorAction = map.namedScenes[actionName] as? MMNavigatorActionNode,
             !can(performAction: actionName) {
-            shortcut.action(self)
+            navigatorAction.action(self)
         } else {
             goto(actionName, file: file, line: line)
         }
-
     }
 
     func isActionOrFail(_ screenActionName: String, file: String = #file, line: UInt = #line) -> Bool {
@@ -379,7 +378,7 @@ fileprivate extension MMNavigator {
             let onEnterStateRecorder = node.onEnterStateRecorder {
             onEnterStateRecorder(userState)
             return true
-        } else if let node = enteringNode as? MMShortcutActionNode<T> {
+        } else if let node = enteringNode as? MMNavigatorActionNode<T> {
             node.action(self)
             return true
         }

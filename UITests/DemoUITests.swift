@@ -100,14 +100,14 @@ class DemoUITests: XCTestCase {
         XCTAssertFalse(navigator.can(goto: Screens.itemDetail))
     }
 
-    func testShortcutActions() {
+    func testNavigatorActions() {
         XCTAssertEqual(0, userState.numItems)
         XCTAssertFalse(navigator.can(goto: Screens.itemDetail))
         navigator.performAction(Actions.addItem)
         navigator.performAction(Actions.addItem)
         XCTAssertEqual(2, userState.numItems)
 
-        // The shortcut is composed of two actions by the navigator,
+        // The navigatorAction is composed of two actions by the navigator,
         // so higher level commands can be composed.
         // It is generally inferior to Swift's own method dispatch
         // except that it allows for:

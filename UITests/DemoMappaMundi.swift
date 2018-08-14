@@ -96,12 +96,12 @@ func createGraph(with app: XCUIApplication, for test: XCTestCase) -> MMScreenGra
         screenState.backAction = navigationControllerBackAction
     }
 
-    map.addShortcutAction(Actions.initialWithExactlyOne) { navigator in
+    map.addNavigatorAction(Actions.initialWithExactlyOne) { navigator in
         navigator.performAction(Actions.deleteAllItems)
         navigator.performAction(Actions.addItem)
     }
 
-    map.addShortcutAction(Actions.postAddItem) { navigator in
+    map.addNavigatorAction(Actions.postAddItem) { navigator in
         print("In \(navigator.screenState)")
     }
 

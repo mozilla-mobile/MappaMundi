@@ -20,7 +20,7 @@ import GameplayKit
 import XCTest
 
 public typealias MMScreenStateBuilder<T: MMUserState> = (MMScreenStateNode<T>) -> Void
-public typealias MMShortcutAction<T: MMUserState> = (MMNavigator<T>) -> Void
+public typealias MMNavigatorAction<T: MMUserState> = (MMNavigator<T>) -> Void
 
 /**
  * ScreenGraph
@@ -84,8 +84,8 @@ public extension MMScreenGraph {
         addOrCheckScreenAction(name, transitionTo: nextNodeName, file: file, line: line, recorder: defaultStateRecorder)
     }
 
-    public func addShortcutAction(_ name: String, file: String = #file, line: UInt = #line, shortcut: @escaping MMShortcutAction<T>) {
-        addOrCheckShortcutAction(name, file: file, line: line, shortcut: shortcut)
+    public func addNavigatorAction(_ name: String, file: String = #file, line: UInt = #line, navigatorAction: @escaping MMNavigatorAction<T>) {
+        addOrCheckNavigatorAction(name, file: file, line: line, navigatorAction: navigatorAction)
     }
 }
 
@@ -103,8 +103,8 @@ extension MMScreenGraph {
 
         if let screenState = screenState,
             let node = namedScenes[screenState] {
-            guard node is MMScreenStateNode || node is MMShortcutActionNode else {
-                xcTest.recordFailure(withDescription: "Expected \(screenState) to be a screen state", inFile: file, atLine: line, expected: false)
+            guard node is MMScreenStateNode || node is MMNavigatorActionNode else {
+                xcTest.recordFailure(withDescription: "Expected \(screenState) to be a screen state or navigator action", inFile: file, atLine: line, expected: false)
                 return
             }
         }
@@ -122,14 +122,14 @@ extension MMScreenGraph {
         }
     }
 
-    fileprivate func addOrCheckShortcutAction(_ name: String, file: String = #file, line: UInt = #line, shortcut: @escaping MMShortcutAction<T>) {
+    fileprivate func addOrCheckNavigatorAction(_ name: String, file: String = #file, line: UInt = #line, navigatorAction: @escaping MMNavigatorAction<T>) {
         if let existing = namedScenes[name] {
             self.xcTest.recordFailure(withDescription: "\(existing.nodeType) \(name) conflicts with an identically named action", inFile: existing.file, atLine: existing.line, expected: false)
             self.xcTest.recordFailure(withDescription: "Action \(name) conflicts with an identically named \(existing.nodeType)", inFile: file, atLine: line, expected: false)
             return
         }
 
-        namedScenes[name] = MMShortcutActionNode(self, name: name, file: file, line: line, shortcut: shortcut)
+        namedScenes[name] = MMNavigatorActionNode(self, name: name, file: file, line: line, navigatorAction: navigatorAction)
     }
 
     fileprivate func addOrCheckScreenAction(_ name: String, transitionTo nextNodeName: String? = nil, file: String = #file, line: UInt = #line, recorder: UserStateChange?) {
