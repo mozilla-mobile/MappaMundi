@@ -98,11 +98,11 @@ extension MMScreenGraph {
         let firstNodeName = actions[0]
         if let existing = namedScenes[firstNodeName] {
             xcTest.recordFailure(withDescription: "Action \(firstNodeName) is defined elsewhere, but should be unique", inFile: file, atLine: line, expected: true)
-            xcTest.recordFailure(withDescription: "Action \(firstNodeName) is defined elsewhere, but should be unique", inFile: existing.file, atLine: existing.line, expected: true)
+            xcTest.recordFailure(withDescription: "\(existing.nodeType) \(firstNodeName) is defined elsewhere, but should be unique", inFile: existing.file, atLine: existing.line, expected: true)
+            return
         }
 
-        if let screenState = screenState,
-            let node = namedScenes[screenState] {
+        if let screenState = screenState, let node = namedScenes[screenState] {
             guard node is MMScreenStateNode || node is MMNavigatorActionNode else {
                 xcTest.recordFailure(withDescription: "Expected \(screenState) to be a screen state or navigator action", inFile: file, atLine: line, expected: false)
                 return
