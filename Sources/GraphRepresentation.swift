@@ -17,7 +17,7 @@ public protocol GraphRepresentation {
 }
 
 public extension MMScreenGraph {
-    public func stringRepresentation(_ renderer: GraphRepresentation = DotRepresentation()) -> String {
+    func stringRepresentation(_ renderer: GraphRepresentation = DotRepresentation()) -> String {
         buildGkGraph()
         renderer.begin()
         namedScenes.forEach { (name, node) in

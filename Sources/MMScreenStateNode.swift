@@ -71,7 +71,7 @@ public extension MMScreenStateNode {
      * @param withElement – optional, but if provided will attempt to verify it is there before performing the action.
      * @param to – the destination node.
      */
-    public func gesture(withElement element: XCUIElement? = nil, to nodeName: String, if predicateString: String? = nil, file declFile: String = #file, line declLine: UInt = #line, g: @escaping () -> Void) {
+    func gesture(withElement element: XCUIElement? = nil, to nodeName: String, if predicateString: String? = nil, file declFile: String = #file, line declLine: UInt = #line, g: @escaping () -> Void) {
         let predicate: NSPredicate?
         if let predicateString = predicateString {
             predicate = NSPredicate(format: predicateString)
@@ -96,7 +96,7 @@ public extension MMScreenStateNode {
         addEdge(nodeName, by: edge)
     }
 
-    public func noop(to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    func noop(to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(to: nodeName, if: predicate, file: file, line: line) {
             // NOOP.
         }
@@ -108,49 +108,49 @@ public extension MMScreenStateNode {
      * @param element - the element to tap
      * @param to – the destination node.
      */
-    public func tap(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    func tap(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.tap()
         }
     }
 
-    public func doubleTap(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    func doubleTap(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.doubleTap()
         }
     }
 
-    public func press(_ element: XCUIElement, forDuration duration: TimeInterval = 1, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    func press(_ element: XCUIElement, forDuration duration: TimeInterval = 1, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.press(forDuration: duration)
         }
     }
 
-    public func typeText(_ text: String, into element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    func typeText(_ text: String, into element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.typeText(text)
         }
     }
 
-    public func swipeLeft(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    func swipeLeft(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.swipeLeft()
         }
     }
 
-    public func swipeRight(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    func swipeRight(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.swipeRight()
         }
     }
 
-    public func swipeUp(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    func swipeUp(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.swipeUp()
         }
     }
 
-    public func swipeDown(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+    func swipeDown(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
         self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
             element.swipeDown()
         }
@@ -159,55 +159,55 @@ public extension MMScreenStateNode {
 
 // Public methods for defining actions possible from this screen state.
 public extension MMScreenStateNode {
-    public func gesture(withElement element: XCUIElement? = nil, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    func gesture(withElement element: XCUIElement? = nil, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         gesture(withElement: element, to: actions[0], if: predicate, file: file, line: line) {
             // NOP
         }
     }
 
-    public func noop(forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    func noop(forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         noop(to: actions[0], if: predicate, file: file, line: line)
     }
 
-    public func tap(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    func tap(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         tap(element, to: actions[0], if: predicate, file: file, line: line)
     }
 
-    public func doubleTap(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    func doubleTap(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         doubleTap(element, to: actions[0], if: predicate, file: file, line: line)
     }
 
-    public func press(_ element: XCUIElement, forDuration duration: TimeInterval = 1, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    func press(_ element: XCUIElement, forDuration duration: TimeInterval = 1, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         press(element, forDuration: duration, to: actions[0], if: predicate, file: file, line: line)
     }
 
 
-    public func typeText(_ text: String, into element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    func typeText(_ text: String, into element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         typeText(text, into: element, to: actions[0], if: predicate, file: file, line: line)
     }
 
-    public func swipeLeft(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    func swipeLeft(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         swipeLeft(element, to: actions[0], if: predicate, file: file, line: line)
     }
 
-    public func swipeRight(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    func swipeRight(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         swipeRight(element, to: actions[0], if: predicate, file: file, line: line)
     }
 
-    public func swipeUp(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    func swipeUp(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         swipeUp(element, to: actions[0], if: predicate, file: file, line: line)
     }
 
-    public func swipeDown(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
+    func swipeDown(_ element: XCUIElement, forAction actions: String..., transitionTo screenState: String? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line, recorder: @escaping UserStateChange = { _ in }) {
         map?.addActionChain(actions, finalState: screenState, recorder: recorder, file: file, line: line)
         swipeDown(element, to: actions[0], if: predicate, file: file, line: line)
     }

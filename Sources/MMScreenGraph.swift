@@ -63,7 +63,7 @@ public extension MMScreenGraph {
      * Method for creating a ScreenStateNode in the graph. The node should be accompanied by a closure
      * used to document the exits out of this node to other nodes.
      */
-    public func addScreenState(_ name: String, file: String = #file, line: UInt = #line, builder: @escaping MMScreenStateBuilder<T>) {
+    func addScreenState(_ name: String, file: String = #file, line: UInt = #line, builder: @escaping MMScreenStateBuilder<T>) {
         namedScenes[name] = MMScreenStateNode(map: self, name: name, file: file, line: line, builder: builder)
     }
 
@@ -72,7 +72,7 @@ public extension MMScreenGraph {
      * The transitionTo: node is the screen state that the navigator should go to next from here. It will be called with the userState as an argument.
      * The recorder: closure will be called when the navigator travels to this node.
      */
-    public func addScreenAction(_ name: String, transitionTo nextNodeName: String, file: String = #file, line: UInt = #line, recorder: @escaping (T) -> ()) {
+    func addScreenAction(_ name: String, transitionTo nextNodeName: String, file: String = #file, line: UInt = #line, recorder: @escaping (T) -> ()) {
         addOrCheckScreenAction(name, transitionTo: nextNodeName, file: file, line: line, recorder: recorder)
     }
 
@@ -80,11 +80,11 @@ public extension MMScreenGraph {
      * Method for creating a ScreenActionNode in the graph.
      * The transitionTo: node is the screen state that the navigator should go to next from here. It will be called with the userState as an argument.
      */
-    public func addScreenAction(_ name: String, transitionTo nextNodeName: String, file: String = #file, line: UInt = #line) {
+    func addScreenAction(_ name: String, transitionTo nextNodeName: String, file: String = #file, line: UInt = #line) {
         addOrCheckScreenAction(name, transitionTo: nextNodeName, file: file, line: line, recorder: defaultStateRecorder)
     }
 
-    public func addNavigatorAction(_ name: String, file: String = #file, line: UInt = #line, navigatorAction: @escaping MMNavigatorAction<T>) {
+    func addNavigatorAction(_ name: String, file: String = #file, line: UInt = #line, navigatorAction: @escaping MMNavigatorAction<T>) {
         addOrCheckNavigatorAction(name, file: file, line: line, navigatorAction: navigatorAction)
     }
 }
@@ -190,7 +190,7 @@ public extension MMScreenGraph {
      * Create a new navigator object. Navigator objects are the main way of getting around the app.
      * Typically, you'll do this in `TestCase.setUp()`
      */
-    public func navigator(startingAt: String? = nil, file: String = #file, line: UInt = #line) -> MMNavigator<T> {
+    func navigator(startingAt: String? = nil, file: String = #file, line: UInt = #line) -> MMNavigator<T> {
         buildGkGraph()
         let userState = userStateType.init()
         guard let name = startingAt ?? userState.initialScreenState,

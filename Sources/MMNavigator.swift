@@ -292,7 +292,7 @@ open class MMNavigator<T: MMUserState> {
 
 // Private methods to help with goto.
 fileprivate extension MMNavigator {
-    fileprivate func leave(_ exitingNode: MMScreenStateNode<T>, to nextNode: MMGraphNode<T>, file: String, line: UInt) {
+    func leave(_ exitingNode: MMScreenStateNode<T>, to nextNode: MMGraphNode<T>, file: String, line: UInt) {
         if !exitingNode.dismissOnUse {
             self.returnToRecentScene = exitingNode
         }
@@ -319,7 +319,7 @@ fileprivate extension MMNavigator {
         }
     }
 
-    fileprivate func enter(_ enteringNode: MMScreenStateNode<T>, withVisitor nodeVisitor: NodeVisitor) {
+    func enter(_ enteringNode: MMScreenStateNode<T>, withVisitor nodeVisitor: NodeVisitor) {
         if let condition = enteringNode.onEnterWaitCondition {
             let shouldWait: Bool
             if let predicate = condition.userStatePredicate {
@@ -369,11 +369,11 @@ fileprivate extension MMNavigator {
         nodeVisitor(currentGraphNode.name)
     }
 
-    fileprivate func leave(_ exitingNode: MMActionNode<T>, to nextNode: MMGraphNode<T>, file: String, line: UInt) {
+    func leave(_ exitingNode: MMActionNode<T>, to nextNode: MMGraphNode<T>, file: String, line: UInt) {
         // NOOP
     }
 
-    fileprivate func enter(_ enteringNode: MMActionNode<T>) -> Bool {
+    func enter(_ enteringNode: MMActionNode<T>) -> Bool {
         if let node = enteringNode as? MMScreenActionNode<T>,
             let onEnterStateRecorder = node.onEnterStateRecorder {
             onEnterStateRecorder(userState)
@@ -430,19 +430,19 @@ fileprivate extension MMNavigator {
 /// These methods allow tests to wait for an element to reach a condition, or timeout.
 /// If the condition is never reached, the timeout is reported in-line where the navigator was asked to wait.
 public extension MMNavigator {
-    public func waitForExistence(_ element: XCUIElement, timeout: TimeInterval = 7.0, file: String = #file, line: UInt = #line) {
+    func waitForExistence(_ element: XCUIElement, timeout: TimeInterval = 7.0, file: String = #file, line: UInt = #line) {
         waitFor(element, with: "exists == true", timeout: timeout, file: file, line: line)
     }
 
-    public func waitForNonExistence(_ element: XCUIElement, timeoutValue: TimeInterval = 5.0, file: String = #file, line: UInt = #line) {
+    func waitForNonExistence(_ element: XCUIElement, timeoutValue: TimeInterval = 5.0, file: String = #file, line: UInt = #line) {
         waitFor(element, with: "exists != true", timeout: timeoutValue, file: file, line: line)
     }
 
-    public func waitFor(_ element: XCUIElement, toContain value: String, file: String = #file, line: UInt = #line) {
+    func waitFor(_ element: XCUIElement, toContain value: String, file: String = #file, line: UInt = #line) {
         waitFor(element, with: "value CONTAINS '\(value)'", file: file, line: line)
     }
 
-    public func waitFor(_ element: XCUIElement,
+    func waitFor(_ element: XCUIElement,
                          with predicateString: String,
                          description: String? = nil,
                          timeout: TimeInterval = 5.0,
