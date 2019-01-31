@@ -94,7 +94,7 @@ open class MMNavigator<T: MMUserState> {
         let gkDest = destNode.gkNode
         let gkPath = map.gkGraph.findPath(from: gkSrc, to: gkDest)
 
-        let path = gkPath.flatMap { gkNode in
+        let path: [String] = gkPath.compactMap { gkNode in
             return self.map.nodedScenes[gkNode]?.name
         }
 
@@ -102,7 +102,7 @@ open class MMNavigator<T: MMUserState> {
             return path
         }
 
-        let extras = followUpActions(destNode).flatMap { $0.name }
+        let extras: [String] = followUpActions(destNode).compactMap { $0.name }
 
         return path + extras
     }
@@ -128,13 +128,13 @@ open class MMNavigator<T: MMUserState> {
     public func goto(_ nodeName: String, file: String = #file, line: UInt = #line, visitWith nodeVisitor: @escaping NodeVisitor) {
         let gkSrc = currentGraphNode.gkNode
         guard let gkDest = map.namedScenes[nodeName]?.gkNode else {
-            xcTest.recordFailure(withDescription: "Cannot route to \(nodeName), because it doesn't exist", inFile: file, atLine: line, expected: false)
+            xcTest.recordFailure(withDescription: "Cannot route to \(nodeName), because it doesn't exist", inFile: file, atLine: Int(line), expected: false)
             return
         }
 
         var gkPath = map.gkGraph.findPath(from: gkSrc, to: gkDest)
         guard gkPath.count > 0 else {
-            xcTest.recordFailure(withDescription: "Cannot route from \(currentGraphNode.name) to \(nodeName)", inFile: file, atLine: line, expected: false)
+            xcTest.recordFailure(withDescription: "Cannot route from \(currentGraphNode.name) to \(nodeName)", inFile: file, atLine: Int(line), expected: false)
             return
         }
 
@@ -164,7 +164,7 @@ open class MMNavigator<T: MMUserState> {
         }
 
         gkPath.removeFirst()
-        let graphNodes = gkPath.flatMap { map.nodedScenes[$0] }
+        let graphNodes = gkPath.compactMap { map.nodedScenes[$0] }
 
         for i in 0 ..< graphNodes.count {
             let graphChanged = moveDirectlyTo(graphNodes[i])
@@ -213,7 +213,7 @@ open class MMNavigator<T: MMUserState> {
 
     func isActionOrFail(_ screenActionName: String, file: String = #file, line: UInt = #line) -> Bool {
         guard let _ = map.namedScenes[screenActionName] as? MMActionNode else {
-            xcTest.recordFailure(withDescription: "\(screenActionName) is not an action", inFile: file, atLine: line, expected: false)
+            xcTest.recordFailure(withDescription: "\(screenActionName) is not an action", inFile: file, atLine: Int(line), expected: false)
             return false
         }
         return true
@@ -226,8 +226,8 @@ open class MMNavigator<T: MMUserState> {
 
         guard let returnNode = currentScene.returnNode,
             let _ = currentScene.backAction else {
-                xcTest.recordFailure(withDescription: "No valid back action", inFile: currentScene.file, atLine: currentScene.line, expected: false)
-                xcTest.recordFailure(withDescription: "No valid back action", inFile: file, atLine: line, expected: false)
+                xcTest.recordFailure(withDescription: "No valid back action", inFile: currentScene.file, atLine: Int(currentScene.line), expected: false)
+                xcTest.recordFailure(withDescription: "No valid back action", inFile: file, atLine: Int(line), expected: false)
                 return
         }
 
@@ -253,7 +253,7 @@ open class MMNavigator<T: MMUserState> {
      */
     public func nowAt(_ nodeName: String, file: String = #file, line: UInt = #line) {
         guard let newScene = map.namedScenes[nodeName] else {
-            xcTest.recordFailure(withDescription: "Cannot force to unknown \(nodeName). Currently at \(currentGraphNode.name)", inFile: file, atLine: line, expected: false)
+            xcTest.recordFailure(withDescription: "Cannot force to unknown \(nodeName). Currently at \(currentGraphNode.name)", inFile: file, atLine: Int(line), expected: false)
             return
         }
         currentGraphNode = newScene
@@ -329,10 +329,10 @@ fileprivate extension MMNavigator {
             }
 
             if shouldWait {
-                condition.wait { _ in
+                condition.wait { 
                     self.xcTest.recordFailure(withDescription: "Unsuccessfully entered \(enteringNode.name)",
                         inFile: condition.file,
-                        atLine: condition.line,
+                        atLine: Int(condition.line),
                         expected: false)
                 }
             }
@@ -451,7 +451,7 @@ public extension MMNavigator {
         let predicate = NSPredicate(format: predicateString)
         waitOrTimeout(predicate, object: element, timeout: timeout) {
             let message = description ?? "Expect predicate \(predicateString) for \(element.description)"
-            xcTest.recordFailure(withDescription: message, inFile: file, atLine: line, expected: false)
+            xcTest.recordFailure(withDescription: message, inFile: file, atLine: Int(line), expected: false)
         }
     }
 }
