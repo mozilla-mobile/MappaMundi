@@ -94,7 +94,7 @@ open class MMNavigator<T: MMUserState> {
         let gkDest = destNode.gkNode
         let gkPath = map.gkGraph.findPath(from: gkSrc, to: gkDest)
 
-        let path = gkPath.flatMap { gkNode in
+        let path = gkPath.compactMap { gkNode in
             return self.map.nodedScenes[gkNode]?.name
         }
 
@@ -102,7 +102,7 @@ open class MMNavigator<T: MMUserState> {
             return path
         }
 
-        let extras = followUpActions(destNode).flatMap { $0.name }
+        let extras = followUpActions(destNode).compactMap { $0.name }
 
         return path + extras
     }
@@ -128,13 +128,13 @@ open class MMNavigator<T: MMUserState> {
     public func goto(_ nodeName: String, file: String = #file, line: UInt = #line, visitWith nodeVisitor: @escaping NodeVisitor) {
         let gkSrc = currentGraphNode.gkNode
         guard let gkDest = map.namedScenes[nodeName]?.gkNode else {
-            xcTest.recordFailure(withDescription: "Cannot route to \(nodeName), because it doesn't exist", inFile: file, atLine: line, expected: false)
+            xcTest.recordFailure(withDescription: "Cannot route to \(nodeName), because it doesn't exist", inFile: file, atLine: Int(line), expected: false)
             return
         }
 
         var gkPath = map.gkGraph.findPath(from: gkSrc, to: gkDest)
         guard gkPath.count > 0 else {
-            xcTest.recordFailure(withDescription: "Cannot route from \(currentGraphNode.name) to \(nodeName)", inFile: file, atLine: line, expected: false)
+            xcTest.recordFailure(withDescription: "Cannot route from \(currentGraphNode.name) to \(nodeName)", inFile: file, atLine: Int(line), expected: false)
             return
         }
 
@@ -164,7 +164,7 @@ open class MMNavigator<T: MMUserState> {
         }
 
         gkPath.removeFirst()
-        let graphNodes = gkPath.flatMap { map.nodedScenes[$0] }
+        let graphNodes = gkPath.compactMap { map.nodedScenes[$0] }
 
         for i in 0 ..< graphNodes.count {
             let graphChanged = moveDirectlyTo(graphNodes[i])
@@ -213,7 +213,7 @@ open class MMNavigator<T: MMUserState> {
 
     func isActionOrFail(_ screenActionName: String, file: String = #file, line: UInt = #line) -> Bool {
         guard let _ = map.namedScenes[screenActionName] as? MMActionNode else {
-            xcTest.recordFailure(withDescription: "\(screenActionName) is not an action", inFile: file, atLine: line, expected: false)
+            xcTest.recordFailure(withDescription: "\(screenActionName) is not an action", inFile: file, atLine: Int(line), expected: false)
             return false
         }
         return true
@@ -226,8 +226,8 @@ open class MMNavigator<T: MMUserState> {
 
         guard let returnNode = currentScene.returnNode,
             let _ = currentScene.backAction else {
-                xcTest.recordFailure(withDescription: "No valid back action", inFile: currentScene.file, atLine: currentScene.line, expected: false)
-                xcTest.recordFailure(withDescription: "No valid back action", inFile: file, atLine: line, expected: false)
+                xcTest.recordFailure(withDescription: "No valid back action", inFile: currentScene.file, atLine: Int(currentScene.line), expected: false)
+                xcTest.recordFailure(withDescription: "No valid back action", inFile: file, atLine: Int(line), expected: false)
                 return
         }
 
@@ -253,7 +253,7 @@ open class MMNavigator<T: MMUserState> {
      */
     public func nowAt(_ nodeName: String, file: String = #file, line: UInt = #line) {
         guard let newScene = map.namedScenes[nodeName] else {
-            xcTest.recordFailure(withDescription: "Cannot force to unknown \(nodeName). Currently at \(currentGraphNode.name)", inFile: file, atLine: line, expected: false)
+            xcTest.recordFailure(withDescription: "Cannot force to unknown \(nodeName). Currently at \(currentGraphNode.name)", inFile: file, atLine: Int(line), expected: false)
             return
         }
         currentGraphNode = newScene
@@ -292,7 +292,7 @@ open class MMNavigator<T: MMUserState> {
 
 // Private methods to help with goto.
 fileprivate extension MMNavigator {
-    fileprivate func leave(_ exitingNode: MMScreenStateNode<T>, to nextNode: MMGraphNode<T>, file: String, line: UInt) {
+    func leave(_ exitingNode: MMScreenStateNode<T>, to nextNode: MMGraphNode<T>, file: String, line: UInt) {
         if !exitingNode.dismissOnUse {
             self.returnToRecentScene = exitingNode
         }
@@ -319,7 +319,7 @@ fileprivate extension MMNavigator {
         }
     }
 
-    fileprivate func enter(_ enteringNode: MMScreenStateNode<T>, withVisitor nodeVisitor: NodeVisitor) {
+    func enter(_ enteringNode: MMScreenStateNode<T>, withVisitor nodeVisitor: NodeVisitor) {
         if let condition = enteringNode.onEnterWaitCondition {
             let shouldWait: Bool
             if let predicate = condition.userStatePredicate {
@@ -329,10 +329,10 @@ fileprivate extension MMNavigator {
             }
 
             if shouldWait {
-                condition.wait { _ in
+                condition.wait { 
                     self.xcTest.recordFailure(withDescription: "Unsuccessfully entered \(enteringNode.name)",
                         inFile: condition.file,
-                        atLine: condition.line,
+                        atLine: Int(condition.line),
                         expected: false)
                 }
             }
@@ -369,11 +369,11 @@ fileprivate extension MMNavigator {
         nodeVisitor(currentGraphNode.name)
     }
 
-    fileprivate func leave(_ exitingNode: MMActionNode<T>, to nextNode: MMGraphNode<T>, file: String, line: UInt) {
+    func leave(_ exitingNode: MMActionNode<T>, to nextNode: MMGraphNode<T>, file: String, line: UInt) {
         // NOOP
     }
 
-    fileprivate func enter(_ enteringNode: MMActionNode<T>) -> Bool {
+    func enter(_ enteringNode: MMActionNode<T>) -> Bool {
         if let node = enteringNode as? MMScreenActionNode<T>,
             let onEnterStateRecorder = node.onEnterStateRecorder {
             onEnterStateRecorder(userState)
@@ -430,19 +430,19 @@ fileprivate extension MMNavigator {
 /// These methods allow tests to wait for an element to reach a condition, or timeout.
 /// If the condition is never reached, the timeout is reported in-line where the navigator was asked to wait.
 public extension MMNavigator {
-    public func waitForExistence(_ element: XCUIElement, timeout: TimeInterval = 7.0, file: String = #file, line: UInt = #line) {
+    func waitForExistence(_ element: XCUIElement, timeout: TimeInterval = 7.0, file: String = #file, line: UInt = #line) {
         waitFor(element, with: "exists == true", timeout: timeout, file: file, line: line)
     }
 
-    public func waitForNonExistence(_ element: XCUIElement, timeoutValue: TimeInterval = 5.0, file: String = #file, line: UInt = #line) {
+    func waitForNonExistence(_ element: XCUIElement, timeoutValue: TimeInterval = 5.0, file: String = #file, line: UInt = #line) {
         waitFor(element, with: "exists != true", timeout: timeoutValue, file: file, line: line)
     }
 
-    public func waitFor(_ element: XCUIElement, toContain value: String, file: String = #file, line: UInt = #line) {
+    func waitFor(_ element: XCUIElement, toContain value: String, file: String = #file, line: UInt = #line) {
         waitFor(element, with: "value CONTAINS '\(value)'", file: file, line: line)
     }
 
-    public func waitFor(_ element: XCUIElement,
+    func waitFor(_ element: XCUIElement,
                          with predicateString: String,
                          description: String? = nil,
                          timeout: TimeInterval = 5.0,
@@ -451,7 +451,7 @@ public extension MMNavigator {
         let predicate = NSPredicate(format: predicateString)
         waitOrTimeout(predicate, object: element, timeout: timeout) {
             let message = description ?? "Expect predicate \(predicateString) for \(element.description)"
-            xcTest.recordFailure(withDescription: message, inFile: file, atLine: line, expected: false)
+            xcTest.recordFailure(withDescription: message, inFile: file, atLine: Int(line), expected: false)
         }
     }
 }
