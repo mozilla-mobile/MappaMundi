@@ -17,7 +17,7 @@ public protocol GraphRepresentation {
 }
 
 public extension MMScreenGraph {
-    public func stringRepresentation(_ renderer: GraphRepresentation = DotRepresentation()) -> String {
+    func stringRepresentation(_ renderer: GraphRepresentation = DotRepresentation()) -> String {
         buildGkGraph()
         renderer.begin()
         namedScenes.forEach { (name, node) in
@@ -62,7 +62,7 @@ public extension MMScreenGraph {
 }
 
 /// The default implementation
-class DotRepresentation {
+public class DotRepresentation {
     /////////////////////////////////////////////////////////////////////////
     // Style your graph here.
     let graphStyle = [
@@ -147,14 +147,14 @@ class DotRepresentation {
     var namedIDs: [String: String] = [:]
     var idGenerator = 0
 
-    init() {
+    public init() {
     }
 }
 
 extension DotRepresentation: GraphRepresentation {
     public var fileExtension: String { return "dot" }
 
-    func begin() {
+    public func begin() {
         lines = []
 
         append("digraph G {",
@@ -164,11 +164,11 @@ extension DotRepresentation: GraphRepresentation {
         renderLegend()
     }
 
-    func stringValue() -> String {
+    public func stringValue() -> String {
         return lines.joined(separator: "\n")
     }
 
-    func renderScreenStateNode(name: String, isDismissedOnUse dismissOnUse: Bool) {
+    public func renderScreenStateNode(name: String, isDismissedOnUse dismissOnUse: Bool) {
         let id = self.id(for: name)
         var style = ["label": name]
 
@@ -181,7 +181,7 @@ extension DotRepresentation: GraphRepresentation {
         append("\(id) \(styleCode);")
     }
 
-    func renderScreenActionNode(name: String) {
+    public func renderScreenActionNode(name: String) {
         let id = self.id(for: name)
         var style = [
             "label": name,
@@ -192,7 +192,7 @@ extension DotRepresentation: GraphRepresentation {
         append("\(id) \(styleCode)")
     }
 
-    func renderEdgeToScreenState(src: String, dest: String, label: String?, isBackable: Bool) {
+    public func renderEdgeToScreenState(src: String, dest: String, label: String?, isBackable: Bool) {
         var style = [String: String]()
         if let label = label {
             styleAppend(to: &style, ["label": label])
@@ -216,7 +216,7 @@ extension DotRepresentation: GraphRepresentation {
         append("\(srcID) \(edgeCode) \(destID)\(styleCode);")
     }
 
-    func renderEdgeToScreenAction(src: String, dest: String, label: String?) {
+    public func renderEdgeToScreenAction(src: String, dest: String, label: String?) {
         var style = [String: String]()
         if let label = label {
             styleAppend(to: &style, ["label": label])
@@ -235,7 +235,7 @@ extension DotRepresentation: GraphRepresentation {
         append("\(srcID) \(edgeCode) \(destID)\(labelCode);")
     }
 
-    func end() {
+    public func end() {
         append("}")
     }
 
