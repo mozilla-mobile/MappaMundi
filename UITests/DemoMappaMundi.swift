@@ -21,7 +21,7 @@ class Screens {
     static let itemDetail = "ItemDetail"
 }
 
-class DemoAppUserState: MMUserState {
+@objcMembers class DemoAppUserState: MMUserState {
     required init() {
         super.init()
         initialScreenState = Screens.itemList
