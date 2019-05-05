@@ -140,9 +140,6 @@ open class MMNavigator<T: MMUserState> {
             gkPath.forEach { (node) in
                 print("------------------->\(String(describing: map.nodedScenes[node]?.name))")
             }
-            if gkPath.count != 3 {
-                fatalError("find path error!")
-            }
         }
         
         guard gkPath.count > 0 else {
