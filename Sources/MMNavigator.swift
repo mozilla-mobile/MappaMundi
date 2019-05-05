@@ -133,6 +133,18 @@ open class MMNavigator<T: MMUserState> {
         }
 
         var gkPath = map.gkGraph.findPath(from: gkSrc, to: gkDest)
+        
+        //for reproducing the findpath error.
+        if nodeName == "foo_5" {
+            print("gkPath.count---\(gkPath.count)")
+            gkPath.forEach { (node) in
+                print("------------------->\(String(describing: map.nodedScenes[node]?.name))")
+            }
+            if gkPath.count != 3 {
+                fatalError("find path error!")
+            }
+        }
+        
         guard gkPath.count > 0 else {
             xcTest.recordFailure(withDescription: "Cannot route from \(currentGraphNode.name) to \(nodeName)", inFile: file, atLine: Int(line), expected: false)
             return
