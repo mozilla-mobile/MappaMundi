@@ -19,9 +19,10 @@ final class MMNode: GraphNode {
         return lhs.name == rhs.name
     }
     
-    var hashValue: Int {
-        return name.hashValue
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.name)
     }
+    
     var connectedNodes = Set<MMNode>()
     
     func cost(to node: MMNode) -> Float {
