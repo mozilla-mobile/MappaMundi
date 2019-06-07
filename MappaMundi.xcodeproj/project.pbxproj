@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13DF8A2822AA667F004294F1 /* SortedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DF8A2622AA667F004294F1 /* SortedArray.swift */; };
+		13DF8A2922AA667F004294F1 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DF8A2722AA667F004294F1 /* Node.swift */; };
+		13DF8A2B22AA6E2E004294F1 /* MMNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DF8A2A22AA6E2E004294F1 /* MMNode.swift */; };
 		392FB353200E1D5D0014867E /* MMTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392FB352200E1D5D0014867E /* MMTestUtils.swift */; };
 		3962F2291FF6A6C100999008 /* Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F2281FF6A6C100999008 /* Wait.swift */; };
 		3962F22B1FF6A75800999008 /* ScreenGraphEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */; };
@@ -52,6 +55,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		13DF8A2622AA667F004294F1 /* SortedArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
+		13DF8A2722AA667F004294F1 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		13DF8A2A22AA6E2E004294F1 /* MMNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMNode.swift; sourceTree = "<group>"; };
 		13FB93F1227F0D5100BAEAFA /* Pathfinding.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Pathfinding.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		392FB352200E1D5D0014867E /* MMTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTestUtils.swift; sourceTree = "<group>"; };
 		3962F2281FF6A6C100999008 /* Wait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Wait.swift; path = ../Sources/Wait.swift; sourceTree = "<group>"; };
@@ -107,9 +113,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13DF8A2522AA666C004294F1 /* aStar */ = {
+			isa = PBXGroup;
+			children = (
+				13DF8A2A22AA6E2E004294F1 /* MMNode.swift */,
+				13DF8A2722AA667F004294F1 /* Node.swift */,
+				13DF8A2622AA667F004294F1 /* SortedArray.swift */,
+			);
+			path = aStar;
+			sourceTree = "<group>";
+		};
 		39AB5FE51FE4595000008FB3 /* MappaMundi */ = {
 			isa = PBXGroup;
 			children = (
+				13DF8A2522AA666C004294F1 /* aStar */,
 				39AB5FDB1FE455C700008FB3 /* MMScreenGraph.swift */,
 				397334481FF6AAA600C45ECE /* MMGraphNode.swift */,
 				392FB352200E1D5D0014867E /* MMTestUtils.swift */,
@@ -342,7 +359,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				397334491FF6AAA600C45ECE /* MMGraphNode.swift in Sources */,
+				13DF8A2B22AA6E2E004294F1 /* MMNode.swift in Sources */,
+				13DF8A2822AA667F004294F1 /* SortedArray.swift in Sources */,
 				39658ADC1FF699AA000544A2 /* MMScreenStateNode.swift in Sources */,
+				13DF8A2922AA667F004294F1 /* Node.swift in Sources */,
 				39870718200D16710067B070 /* GraphRepresentation.swift in Sources */,
 				39658AE21FF6A065000544A2 /* MMUserState.swift in Sources */,
 				3962F22B1FF6A75800999008 /* ScreenGraphEdge.swift in Sources */,

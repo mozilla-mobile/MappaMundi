@@ -12,11 +12,10 @@
  * 
  * The shared graph may also have other uses, such as generating screen shots for the App Store or L10n translators.
  *
- * Under the hood, the MappaMundi is using GameplayKit's path finding to do the heavy lifting.
+ * Under the hood, the MappaMundi is using aStar's path finding to do the heavy lifting.
  */
 
 import Foundation
-import GameplayKit
 import XCTest
 
 public typealias MMScreenStateBuilder<T: MMUserState> = (MMScreenStateNode<T>) -> Void
@@ -32,19 +31,18 @@ open class MMScreenGraph<T: MMUserState> {
     let xcTest: XCTestCase
 
     var namedScenes: [String: MMGraphNode<T>] = [:]
-    var nodedScenes: [GKGraphNode: MMGraphNode<T>] = [:]
+    var nodedScenes: [MMNode: MMGraphNode<T>] = [:]
 
     var conditionalEdges: [ConditionalEdge<T>] = []
 
     fileprivate var isReady: Bool = false
 
-    let gkGraph: GKGraph
-
+    let rootNode: MMNode
     public typealias UserStateChange = (T) -> ()
     fileprivate let defaultStateRecorder: UserStateChange = { _ in }
 
     public init(for test: XCTestCase, with userStateType: T.Type) {
-        self.gkGraph = GKGraph()
+        self.rootNode = MMNode()
         self.userStateType = userStateType
         self.xcTest = test
     }
@@ -224,8 +222,10 @@ public extension MMScreenGraph {
 
         // Construct all the GKGraphNodes, and add them to the GKGraph.
         let graphNodes = namedScenes.values
-        gkGraph.add(graphNodes.map { $0.gkNode })
-
+        graphNodes.forEach({
+            rootNode.connectedNodes.insert($0.gkNode)
+        })
+        
         graphNodes.forEach { graphNode in
             nodedScenes[graphNode.gkNode] = graphNode
         }
@@ -234,12 +234,14 @@ public extension MMScreenGraph {
         // so we need to construct the GKGraph edges from it.
         graphNodes.forEach { graphNode in
             if let screenStateNode = graphNode as? MMScreenStateNode {
-                let gkNodes = screenStateNode.edges.keys.compactMap { self.namedScenes[$0]?.gkNode } as [GKGraphNode]
-                screenStateNode.gkNode.addConnections(to: gkNodes, bidirectional: false)
+                let gkNodes = screenStateNode.edges.keys.compactMap { self.namedScenes[$0]?.gkNode } as [MMNode]
+                gkNodes.forEach{
+                    screenStateNode.gkNode.connectedNodes.insert($0)
+                }
             } else if let screenActionNode = graphNode as? MMScreenActionNode {
                 if let destName = screenActionNode.nextNodeName,
                     let destGkNode = namedScenes[destName]?.gkNode {
-                    screenActionNode.gkNode.addConnections(to: [destGkNode], bidirectional: false)
+                    screenActionNode.gkNode.connectedNodes.insert(destGkNode)
                 }
             }
         }

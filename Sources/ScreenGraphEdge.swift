@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import Foundation
-import GameplayKit
 import XCTest
 
 // These are two data structures that define an edge between nodes.
@@ -23,12 +22,12 @@ struct Edge {
 // re-evaluated.
 class ConditionalEdge<T> {
     let predicate: NSPredicate
-    let src: GKGraphNode
-    let dest: GKGraphNode
+    let src: MMNode
+    let dest: MMNode
 
     var isOpen: Bool = true
 
-    init(src: GKGraphNode, dest: GKGraphNode, predicate: NSPredicate) {
+    init(src: MMNode, dest: MMNode, predicate: NSPredicate) {
         self.src = src
         self.dest = dest
         self.predicate = predicate

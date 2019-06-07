@@ -127,8 +127,7 @@ class DemoUITests: XCTestCase {
         }
     }
     func testReproduceFindpathError() {
-        navigator.performAction(Actions.addItem)
-        navigator.goto(Screens.itemDetail)
+        navigator.nowAt(Screens.itemDetail)
         navigator.goto(Screens.foo5)
     }
 }

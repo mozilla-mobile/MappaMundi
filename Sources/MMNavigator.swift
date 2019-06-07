@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import Foundation
-import GameplayKit
 import XCTest
 
 public typealias NodeVisitor = (String) -> Void
@@ -67,7 +66,7 @@ open class MMNavigator<T: MMUserState> {
         guard let gkDest = map.namedScenes[nodeName]?.gkNode else {
             return false
         }
-        let gkPath = map.gkGraph.findPath(from: gkSrc, to: gkDest)
+        let gkPath = gkSrc.findPath(to: gkDest)
         return gkPath.count > 0
     }
 
@@ -79,7 +78,7 @@ open class MMNavigator<T: MMUserState> {
     }
 
     public func plan(startAt startNode: String? = nil, goto nodeName: String) -> [String] {
-        let gkSrc: GKGraphNode
+        let gkSrc: MMNode
         if let startNode = startNode,
             let node = map.namedScenes[startNode] {
             gkSrc = node.gkNode
@@ -92,7 +91,7 @@ open class MMNavigator<T: MMUserState> {
         }
 
         let gkDest = destNode.gkNode
-        let gkPath = map.gkGraph.findPath(from: gkSrc, to: gkDest)
+        let gkPath = gkSrc.findPath(to: gkDest)
 
         let path = gkPath.compactMap { gkNode in
             return self.map.nodedScenes[gkNode]?.name
@@ -131,17 +130,9 @@ open class MMNavigator<T: MMUserState> {
             xcTest.recordFailure(withDescription: "Cannot route to \(nodeName), because it doesn't exist", inFile: file, atLine: Int(line), expected: false)
             return
         }
+        
+        var gkPath = gkSrc.findPath(to: gkDest)
 
-        var gkPath = map.gkGraph.findPath(from: gkSrc, to: gkDest)
-        
-        //for reproducing the findpath error.
-        if nodeName == "foo_5" {
-            print("gkPath.count---\(gkPath.count)")
-            gkPath.forEach { (node) in
-                print("------------------->\(String(describing: map.nodedScenes[node]?.name))")
-            }
-        }
-        
         guard gkPath.count > 0 else {
             xcTest.recordFailure(withDescription: "Cannot route from \(currentGraphNode.name) to \(nodeName)", inFile: file, atLine: Int(line), expected: false)
             return
@@ -323,7 +314,8 @@ fileprivate extension MMNavigator {
                 // currentScene is the state we're returning from.
                 // nextScene is the state we're returning to.
                 exitingNode.returnNode = nil
-                exitingNode.gkNode.removeConnections(to: [ nextNode.gkNode ], bidirectional: false)
+//                exitingNode.gkNode.removeConnections(to: [ nextNode.gkNode ], bidirectional: false)
+                exitingNode.gkNode.connectedNodes.remove(nextNode.gkNode)
             }
         }
     }
@@ -353,7 +345,8 @@ fileprivate extension MMNavigator {
         if let backAction = enteringNode.backAction {
             if enteringNode.returnNode == nil {
                 enteringNode.returnNode = returnToRecentScene
-                enteringNode.gkNode.addConnections(to: [ returnToRecentScene.gkNode ], bidirectional: false)
+//                enteringNode.gkNode.addConnections(to: [ returnToRecentScene.gkNode ], bidirectional: false)
+                enteringNode.gkNode.connectedNodes.insert(returnToRecentScene.gkNode)
                 enteringNode.gesture(to: returnToRecentScene.name, g: backAction)
             }
         } else {
@@ -369,7 +362,8 @@ fileprivate extension MMNavigator {
 
                 thisScene.returnNode = nil
                 thisScene.edges.removeValue(forKey: prevScene.name)
-                thisScene.gkNode.removeConnections(to: [ prevScene.gkNode ], bidirectional: false)
+//                thisScene.gkNode.removeConnections(to: [ prevScene.gkNode ], bidirectional: false)
+                thisScene.gkNode.connectedNodes.remove(prevScene.gkNode)
 
                 screen = prevScene
             }
@@ -426,9 +420,9 @@ fileprivate extension MMNavigator {
             }
             graphChanged = true
             if edge.isOpen {
-                edge.src.addConnections(to: [edge.dest], bidirectional: false)
+                edge.src.connectedNodes.insert(edge.dest)
             } else {
-                edge.src.removeConnections(to: [edge.dest], bidirectional: false)
+                edge.src.connectedNodes.insert(edge.dest)
             }
         }
         return graphChanged
