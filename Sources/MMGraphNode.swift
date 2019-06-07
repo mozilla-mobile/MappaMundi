@@ -22,14 +22,14 @@ public class MMGraphElement {
 public class MMGraphNode<T: MMUserState>: MMGraphElement {
     var nodeType: String { return "Node" }
 
-    let gkNode: MMNode
+    let mmNode: MMNode
 
     weak var map: MMScreenGraph<T>?
 
     init(_ map: MMScreenGraph<T>, name: String, file: String, line: UInt) {
         self.map = map
 
-        self.gkNode = MMNode(name: name)
+        self.mmNode = MMNode(name: name)
 
         super.init(name: name, file: file, line: line)
     }
