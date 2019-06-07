@@ -34,7 +34,6 @@ class DemoUITests: XCTestCase {
         MMTestUtils.render(graph: createGraph(with: app, for: self))
     }
 
-    
     func testSimpleNavigation() {
         navigator.performAction(Actions.addItem)
         navigator.goto(Screens.itemDetail)
@@ -119,15 +118,5 @@ class DemoUITests: XCTestCase {
 
         navigator.performAction(Actions.postAddItem)
         XCTAssertEqual(2, userState.numItems)
-    }
-    override func invokeTest() {
-        for time in 0...10 {
-            print("this test is invoking: \(time) times")
-            super.invokeTest()
-        }
-    }
-    func testReproduceFindpathError() {
-        navigator.nowAt(Screens.itemDetail)
-        navigator.goto(Screens.foo5)
     }
 }

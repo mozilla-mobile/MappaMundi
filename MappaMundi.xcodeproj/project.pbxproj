@@ -58,7 +58,6 @@
 		13DF8A2622AA667F004294F1 /* SortedArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
 		13DF8A2722AA667F004294F1 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		13DF8A2A22AA6E2E004294F1 /* MMNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMNode.swift; sourceTree = "<group>"; };
-		13FB93F1227F0D5100BAEAFA /* Pathfinding.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Pathfinding.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		392FB352200E1D5D0014867E /* MMTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTestUtils.swift; sourceTree = "<group>"; };
 		3962F2281FF6A6C100999008 /* Wait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Wait.swift; path = ../Sources/Wait.swift; sourceTree = "<group>"; };
 		3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScreenGraphEdge.swift; path = ../Sources/ScreenGraphEdge.swift; sourceTree = "<group>"; };
@@ -154,7 +153,6 @@
 		39BAD5521FE19B9D00524FB7 = {
 			isa = PBXGroup;
 			children = (
-				13FB93F1227F0D5100BAEAFA /* Pathfinding.playground */,
 				39BAD55D1FE19B9E00524FB7 /* DemoApp */,
 				39BAD5741FE19B9E00524FB7 /* UITests */,
 				39AB5FE51FE4595000008FB3 /* MappaMundi */,
