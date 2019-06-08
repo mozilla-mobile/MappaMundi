@@ -86,7 +86,6 @@ class DemoUITests: XCTestCase {
 
     func testConditionalEdges() {
         XCTAssertEqual(0, userState.numItems)
-
         XCTAssertTrue(navigator.can(performAction: Actions.addItem))
         navigator.performAction(Actions.addItem)
         XCTAssertEqual(1, userState.numItems)
