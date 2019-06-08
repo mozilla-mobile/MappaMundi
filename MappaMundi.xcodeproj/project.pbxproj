@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13C70B8122AC003D008192BB /* AStar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C70B8022AC003D008192BB /* AStar.framework */; };
+		13AAA36722AC38290048E2C6 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AAA36522AC38290048E2C6 /* Node.swift */; };
+		13AAA36822AC38290048E2C6 /* SortedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AAA36622AC38290048E2C6 /* SortedArray.swift */; };
 		13CE0A8322ABD430005CA5E3 /* MMNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CE0A8222ABD42F005CA5E3 /* MMNode.swift */; };
 		392FB353200E1D5D0014867E /* MMTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392FB352200E1D5D0014867E /* MMTestUtils.swift */; };
 		3962F2291FF6A6C100999008 /* Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F2281FF6A6C100999008 /* Wait.swift */; };
@@ -41,6 +42,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		13AAA2CC22AC37CA0048E2C6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D8A18F461FE463C9009DA463 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -54,6 +64,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		13AAA36522AC38290048E2C6 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		13AAA36622AC38290048E2C6 /* SortedArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
 		13C70B8022AC003D008192BB /* AStar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AStar.framework; path = Carthage/Build/iOS/AStar.framework; sourceTree = "<group>"; };
 		13CE0A7E22ABD395005CA5E3 /* aStarMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = aStarMobile.framework; path = Carthage/Build/iOS/aStarMobile.framework; sourceTree = "<group>"; };
 		13CE0A8222ABD42F005CA5E3 /* MMNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMNode.swift; path = Sources/MMNode.swift; sourceTree = SOURCE_ROOT; };
@@ -90,7 +102,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13C70B8122AC003D008192BB /* AStar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,9 +123,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13AAA36422AC38290048E2C6 /* AStar */ = {
+			isa = PBXGroup;
+			children = (
+				13AAA36522AC38290048E2C6 /* Node.swift */,
+				13AAA36622AC38290048E2C6 /* SortedArray.swift */,
+			);
+			name = AStar;
+			path = "Carthage/Checkouts/A-Star/Sources/AStar";
+			sourceTree = SOURCE_ROOT;
+		};
 		39AB5FE51FE4595000008FB3 /* MappaMundi */ = {
 			isa = PBXGroup;
 			children = (
+				13AAA36422AC38290048E2C6 /* AStar */,
 				13CE0A8222ABD42F005CA5E3 /* MMNode.swift */,
 				39AB5FDB1FE455C700008FB3 /* MMScreenGraph.swift */,
 				397334481FF6AAA600C45ECE /* MMGraphNode.swift */,
@@ -208,7 +230,7 @@
 				39AB5FE01FE4595000008FB3 /* Frameworks */,
 				39AB5FE11FE4595000008FB3 /* Headers */,
 				39AB5FE21FE4595000008FB3 /* Resources */,
-				D81FAF8B1FE46A1D00863A8A /* ShellScript */,
+				13AAA2CC22AC37CA0048E2C6 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -327,23 +349,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		D81FAF8B1FE46A1D00863A8A /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/AStar.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "carthage copy-frameworks\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		39AB5FDF1FE4595000008FB3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -352,10 +357,12 @@
 				397334491FF6AAA600C45ECE /* MMGraphNode.swift in Sources */,
 				39658ADC1FF699AA000544A2 /* MMScreenStateNode.swift in Sources */,
 				39870718200D16710067B070 /* GraphRepresentation.swift in Sources */,
+				13AAA36722AC38290048E2C6 /* Node.swift in Sources */,
 				39658AE21FF6A065000544A2 /* MMUserState.swift in Sources */,
 				3962F22B1FF6A75800999008 /* ScreenGraphEdge.swift in Sources */,
 				39658AE01FF69F62000544A2 /* MMScreenActionNode.swift in Sources */,
 				39658ADE1FF69BCE000544A2 /* MMNavigator.swift in Sources */,
+				13AAA36822AC38290048E2C6 /* SortedArray.swift in Sources */,
 				3962F2291FF6A6C100999008 /* Wait.swift in Sources */,
 				392FB353200E1D5D0014867E /* MMTestUtils.swift in Sources */,
 				13CE0A8322ABD430005CA5E3 /* MMNode.swift in Sources */,
