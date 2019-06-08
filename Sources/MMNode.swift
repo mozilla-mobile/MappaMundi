@@ -6,7 +6,8 @@
 //  Copyright © 2019 Mozilla Corporation. All rights reserved.
 //
 
-import UIKit
+import AStar
+
 final class MMNode: GraphNode {
     var name: String?
     

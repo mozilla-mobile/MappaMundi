@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13DF8A2822AA667F004294F1 /* SortedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DF8A2622AA667F004294F1 /* SortedArray.swift */; };
-		13DF8A2922AA667F004294F1 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DF8A2722AA667F004294F1 /* Node.swift */; };
-		13DF8A2B22AA6E2E004294F1 /* MMNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DF8A2A22AA6E2E004294F1 /* MMNode.swift */; };
+		13C70B8122AC003D008192BB /* AStar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C70B8022AC003D008192BB /* AStar.framework */; };
+		13CE0A8322ABD430005CA5E3 /* MMNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CE0A8222ABD42F005CA5E3 /* MMNode.swift */; };
 		392FB353200E1D5D0014867E /* MMTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392FB352200E1D5D0014867E /* MMTestUtils.swift */; };
 		3962F2291FF6A6C100999008 /* Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F2281FF6A6C100999008 /* Wait.swift */; };
 		3962F22B1FF6A75800999008 /* ScreenGraphEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */; };
@@ -55,9 +54,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		13DF8A2622AA667F004294F1 /* SortedArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
-		13DF8A2722AA667F004294F1 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
-		13DF8A2A22AA6E2E004294F1 /* MMNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMNode.swift; sourceTree = "<group>"; };
+		13C70B8022AC003D008192BB /* AStar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AStar.framework; path = Carthage/Build/iOS/AStar.framework; sourceTree = "<group>"; };
+		13CE0A7E22ABD395005CA5E3 /* aStarMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = aStarMobile.framework; path = Carthage/Build/iOS/aStarMobile.framework; sourceTree = "<group>"; };
+		13CE0A8222ABD42F005CA5E3 /* MMNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMNode.swift; path = Sources/MMNode.swift; sourceTree = SOURCE_ROOT; };
 		392FB352200E1D5D0014867E /* MMTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTestUtils.swift; sourceTree = "<group>"; };
 		3962F2281FF6A6C100999008 /* Wait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Wait.swift; path = ../Sources/Wait.swift; sourceTree = "<group>"; };
 		3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScreenGraphEdge.swift; path = ../Sources/ScreenGraphEdge.swift; sourceTree = "<group>"; };
@@ -91,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13C70B8122AC003D008192BB /* AStar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,20 +112,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13DF8A2522AA666C004294F1 /* aStar */ = {
-			isa = PBXGroup;
-			children = (
-				13DF8A2A22AA6E2E004294F1 /* MMNode.swift */,
-				13DF8A2722AA667F004294F1 /* Node.swift */,
-				13DF8A2622AA667F004294F1 /* SortedArray.swift */,
-			);
-			path = aStar;
-			sourceTree = "<group>";
-		};
 		39AB5FE51FE4595000008FB3 /* MappaMundi */ = {
 			isa = PBXGroup;
 			children = (
-				13DF8A2522AA666C004294F1 /* aStar */,
+				13CE0A8222ABD42F005CA5E3 /* MMNode.swift */,
 				39AB5FDB1FE455C700008FB3 /* MMScreenGraph.swift */,
 				397334481FF6AAA600C45ECE /* MMGraphNode.swift */,
 				392FB352200E1D5D0014867E /* MMTestUtils.swift */,
@@ -145,6 +135,8 @@
 		39AB5FED1FE459AD00008FB3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				13C70B8022AC003D008192BB /* AStar.framework */,
+				13CE0A7E22ABD395005CA5E3 /* aStarMobile.framework */,
 				39AB5FEE1FE459AD00008FB3 /* XCTest.framework */,
 			);
 			name = Frameworks;
@@ -342,6 +334,7 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/AStar.framework",
 			);
 			outputPaths = (
 			);
@@ -357,10 +350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				397334491FF6AAA600C45ECE /* MMGraphNode.swift in Sources */,
-				13DF8A2B22AA6E2E004294F1 /* MMNode.swift in Sources */,
-				13DF8A2822AA667F004294F1 /* SortedArray.swift in Sources */,
 				39658ADC1FF699AA000544A2 /* MMScreenStateNode.swift in Sources */,
-				13DF8A2922AA667F004294F1 /* Node.swift in Sources */,
 				39870718200D16710067B070 /* GraphRepresentation.swift in Sources */,
 				39658AE21FF6A065000544A2 /* MMUserState.swift in Sources */,
 				3962F22B1FF6A75800999008 /* ScreenGraphEdge.swift in Sources */,
@@ -368,6 +358,7 @@
 				39658ADE1FF69BCE000544A2 /* MMNavigator.swift in Sources */,
 				3962F2291FF6A6C100999008 /* Wait.swift in Sources */,
 				392FB353200E1D5D0014867E /* MMTestUtils.swift in Sources */,
+				13CE0A8322ABD430005CA5E3 /* MMNode.swift in Sources */,
 				39AB5FEC1FE4597800008FB3 /* MMScreenGraph.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -436,6 +427,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = MappaMundi/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -471,6 +463,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = MappaMundi/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
