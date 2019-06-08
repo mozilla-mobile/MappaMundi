@@ -12,7 +12,7 @@
  * 
  * The shared graph may also have other uses, such as generating screen shots for the App Store or L10n translators.
  *
- * Under the hood, the MappaMundi is using aStar's path finding to do the heavy lifting.
+ * Under the hood, the MappaMundi is using A* path finding to do the heavy lifting.
  */
 
 import Foundation
