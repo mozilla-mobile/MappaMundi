@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13AAA36722AC38290048E2C6 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AAA36522AC38290048E2C6 /* Node.swift */; };
-		13AAA36822AC38290048E2C6 /* SortedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AAA36622AC38290048E2C6 /* SortedArray.swift */; };
 		13CE0A8322ABD430005CA5E3 /* MMNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CE0A8222ABD42F005CA5E3 /* MMNode.swift */; };
+		13E39C7522ACF74A0015C33D /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E39C7122ACF7270015C33D /* Node.swift */; };
+		13E39C7622ACF74D0015C33D /* SortedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E39C7222ACF7270015C33D /* SortedArray.swift */; };
 		392FB353200E1D5D0014867E /* MMTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392FB352200E1D5D0014867E /* MMTestUtils.swift */; };
 		3962F2291FF6A6C100999008 /* Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F2281FF6A6C100999008 /* Wait.swift */; };
 		3962F22B1FF6A75800999008 /* ScreenGraphEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */; };
@@ -64,9 +64,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		13AAA36522AC38290048E2C6 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
-		13AAA36622AC38290048E2C6 /* SortedArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
 		13CE0A8222ABD42F005CA5E3 /* MMNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMNode.swift; path = Sources/MMNode.swift; sourceTree = SOURCE_ROOT; };
+		13E39C7122ACF7270015C33D /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		13E39C7222ACF7270015C33D /* SortedArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
 		392FB352200E1D5D0014867E /* MMTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTestUtils.swift; sourceTree = "<group>"; };
 		3962F2281FF6A6C100999008 /* Wait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Wait.swift; path = ../Sources/Wait.swift; sourceTree = "<group>"; };
 		3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScreenGraphEdge.swift; path = ../Sources/ScreenGraphEdge.swift; sourceTree = "<group>"; };
@@ -121,20 +121,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13AAA36422AC38290048E2C6 /* AStar */ = {
+		13E39C6F22ACF7270015C33D /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				13AAA36522AC38290048E2C6 /* Node.swift */,
-				13AAA36622AC38290048E2C6 /* SortedArray.swift */,
+				13E39C7022ACF7270015C33D /* AStar */,
 			);
-			name = AStar;
-			path = "Carthage/Checkouts/A-Star/Sources/AStar";
+			path = Dependencies;
 			sourceTree = SOURCE_ROOT;
+		};
+		13E39C7022ACF7270015C33D /* AStar */ = {
+			isa = PBXGroup;
+			children = (
+				13E39C7122ACF7270015C33D /* Node.swift */,
+				13E39C7222ACF7270015C33D /* SortedArray.swift */,
+			);
+			path = AStar;
+			sourceTree = "<group>";
 		};
 		39AB5FE51FE4595000008FB3 /* MappaMundi */ = {
 			isa = PBXGroup;
 			children = (
-				13AAA36422AC38290048E2C6 /* AStar */,
 				13CE0A8222ABD42F005CA5E3 /* MMNode.swift */,
 				39AB5FDB1FE455C700008FB3 /* MMScreenGraph.swift */,
 				397334481FF6AAA600C45ECE /* MMGraphNode.swift */,
@@ -166,6 +172,7 @@
 				39BAD55D1FE19B9E00524FB7 /* DemoApp */,
 				39BAD5741FE19B9E00524FB7 /* UITests */,
 				39AB5FE51FE4595000008FB3 /* MappaMundi */,
+				13E39C6F22ACF7270015C33D /* Dependencies */,
 				39BAD55C1FE19B9D00524FB7 /* Products */,
 				39AB5FED1FE459AD00008FB3 /* Frameworks */,
 			);
@@ -353,12 +360,12 @@
 				397334491FF6AAA600C45ECE /* MMGraphNode.swift in Sources */,
 				39658ADC1FF699AA000544A2 /* MMScreenStateNode.swift in Sources */,
 				39870718200D16710067B070 /* GraphRepresentation.swift in Sources */,
-				13AAA36722AC38290048E2C6 /* Node.swift in Sources */,
+				13E39C7522ACF74A0015C33D /* Node.swift in Sources */,
 				39658AE21FF6A065000544A2 /* MMUserState.swift in Sources */,
 				3962F22B1FF6A75800999008 /* ScreenGraphEdge.swift in Sources */,
 				39658AE01FF69F62000544A2 /* MMScreenActionNode.swift in Sources */,
 				39658ADE1FF69BCE000544A2 /* MMNavigator.swift in Sources */,
-				13AAA36822AC38290048E2C6 /* SortedArray.swift in Sources */,
+				13E39C7622ACF74D0015C33D /* SortedArray.swift in Sources */,
 				3962F2291FF6A6C100999008 /* Wait.swift in Sources */,
 				392FB353200E1D5D0014867E /* MMTestUtils.swift in Sources */,
 				13CE0A8322ABD430005CA5E3 /* MMNode.swift in Sources */,
