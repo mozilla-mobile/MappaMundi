@@ -66,8 +66,7 @@ open class MMNavigator<T: MMUserState> {
         guard let mmDest = map.namedScenes[nodeName]?.mmNode else {
             return false
         }
-        var mmPath = mmSrc.findPath(to: mmDest)
-        mmPath.removeFirst()
+        let mmPath = mmSrc.findPath(to: mmDest)
         return mmPath.count > 0
     }
 
