@@ -420,7 +420,7 @@ fileprivate extension MMNavigator {
             if edge.isOpen {
                 edge.src.connectedNodes.insert(edge.dest)
             } else {
-                edge.src.connectedNodes.insert(edge.dest)
+                edge.src.connectedNodes.remove(edge.dest)
             }
         }
         return graphChanged
