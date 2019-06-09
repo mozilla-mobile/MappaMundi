@@ -86,6 +86,8 @@ class DemoUITests: XCTestCase {
 
     func testConditionalEdges() {
         XCTAssertEqual(0, userState.numItems)
+        XCTAssertFalse(navigator.can(goto: Screens.itemDetail))
+
         XCTAssertTrue(navigator.can(performAction: Actions.addItem))
         navigator.performAction(Actions.addItem)
         XCTAssertEqual(1, userState.numItems)
@@ -95,10 +97,12 @@ class DemoUITests: XCTestCase {
         navigator.performAction(Actions.deleteAllItems)
 
         XCTAssertEqual(0, userState.numItems)
+        XCTAssertFalse(navigator.can(goto: Screens.itemDetail))
     }
 
     func testNavigatorActions() {
         XCTAssertEqual(0, userState.numItems)
+        XCTAssertFalse(navigator.can(goto: Screens.itemDetail))
         navigator.performAction(Actions.addItem)
         navigator.performAction(Actions.addItem)
         XCTAssertEqual(2, userState.numItems)
