@@ -66,7 +66,6 @@
 /* Begin PBXFileReference section */
 		13AAA36522AC38290048E2C6 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		13AAA36622AC38290048E2C6 /* SortedArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
-		13C70B8022AC003D008192BB /* AStar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AStar.framework; path = Carthage/Build/iOS/AStar.framework; sourceTree = "<group>"; };
 		13CE0A7E22ABD395005CA5E3 /* aStarMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = aStarMobile.framework; path = Carthage/Build/iOS/aStarMobile.framework; sourceTree = "<group>"; };
 		13CE0A8222ABD42F005CA5E3 /* MMNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMNode.swift; path = Sources/MMNode.swift; sourceTree = SOURCE_ROOT; };
 		392FB352200E1D5D0014867E /* MMTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTestUtils.swift; sourceTree = "<group>"; };
@@ -157,8 +156,6 @@
 		39AB5FED1FE459AD00008FB3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				13C70B8022AC003D008192BB /* AStar.framework */,
-				13CE0A7E22ABD395005CA5E3 /* aStarMobile.framework */,
 				39AB5FEE1FE459AD00008FB3 /* XCTest.framework */,
 			);
 			name = Frameworks;
