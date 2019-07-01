@@ -4,6 +4,7 @@
 
 import Foundation
 import XCTest
+import AStar
 
 public typealias NodeVisitor = (String) -> Void
 

@@ -9,12 +9,12 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "NO"
+            buildForProfiling = "YES"
             buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "39AB5FE31FE4595000008FB3"
+               BlueprintIdentifier = "1355A47922C8A25C00EB635F"
                BuildableName = "MappaMundi.framework"
                BlueprintName = "MappaMundi"
                ReferencedContainer = "container:MappaMundi.xcodeproj">
@@ -29,15 +29,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "39AB5FE31FE4595000008FB3"
-            BuildableName = "MappaMundi.framework"
-            BlueprintName = "MappaMundi"
-            ReferencedContainer = "container:MappaMundi.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -54,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "39AB5FE31FE4595000008FB3"
+            BlueprintIdentifier = "1355A47922C8A25C00EB635F"
             BuildableName = "MappaMundi.framework"
             BlueprintName = "MappaMundi"
             ReferencedContainer = "container:MappaMundi.xcodeproj">
@@ -64,11 +55,20 @@
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1355A47922C8A25C00EB635F"
+            BuildableName = "MappaMundi.framework"
+            BlueprintName = "MappaMundi"
+            ReferencedContainer = "container:MappaMundi.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
