@@ -12,11 +12,10 @@
  * 
  * The shared graph may also have other uses, such as generating screen shots for the App Store or L10n translators.
  *
- * Under the hood, the MappaMundi is using GameplayKit's path finding to do the heavy lifting.
+ * Under the hood, the MappaMundi is using A* path finding to do the heavy lifting.
  */
 
 import Foundation
-import GameplayKit
 import XCTest
 
 public typealias MMScreenStateBuilder<T: MMUserState> = (MMScreenStateNode<T>) -> Void
@@ -32,19 +31,18 @@ open class MMScreenGraph<T: MMUserState> {
     let xcTest: XCTestCase
 
     var namedScenes: [String: MMGraphNode<T>] = [:]
-    var nodedScenes: [GKGraphNode: MMGraphNode<T>] = [:]
+    var nodedScenes: [MMNode: MMGraphNode<T>] = [:]
 
     var conditionalEdges: [ConditionalEdge<T>] = []
 
     fileprivate var isReady: Bool = false
 
-    let gkGraph: GKGraph
-
+    let rootNode: MMNode
     public typealias UserStateChange = (T) -> ()
     fileprivate let defaultStateRecorder: UserStateChange = { _ in }
 
     public init(for test: XCTestCase, with userStateType: T.Type) {
-        self.gkGraph = GKGraph()
+        self.rootNode = MMNode()
         self.userStateType = userStateType
         self.xcTest = test
     }
@@ -191,7 +189,7 @@ public extension MMScreenGraph {
      * Typically, you'll do this in `TestCase.setUp()`
      */
     func navigator(startingAt: String? = nil, file: String = #file, line: UInt = #line) -> MMNavigator<T> {
-        buildGkGraph()
+        buildGraph()
         let userState = userStateType.init()
         guard let name = startingAt ?? userState.initialScreenState,
             let startingScreenState = namedScenes[name] as? MMScreenStateNode else {
@@ -205,7 +203,7 @@ public extension MMScreenGraph {
         return MMNavigator(self, xcTest: xcTest, startingScreenState: startingScreenState, userState: userState)
     }
 
-    func buildGkGraph() {
+    func buildGraph() {
         if isReady {
             return
         }
@@ -222,24 +220,28 @@ public extension MMScreenGraph {
             }
         }
 
-        // Construct all the GKGraphNodes, and add them to the GKGraph.
+        // Construct all the MMNodes, and add them to the rootNode.
         let graphNodes = namedScenes.values
-        gkGraph.add(graphNodes.map { $0.gkNode })
-
+        graphNodes.forEach({
+            rootNode.connectedNodes.insert($0.mmNode)
+        })
+        
         graphNodes.forEach { graphNode in
-            nodedScenes[graphNode.gkNode] = graphNode
+            nodedScenes[graphNode.mmNode] = graphNode
         }
 
         // Now, we should have a good idea what the edges of the nodes look like,
-        // so we need to construct the GKGraph edges from it.
+        // so we need to construct the edges from it.
         graphNodes.forEach { graphNode in
             if let screenStateNode = graphNode as? MMScreenStateNode {
-                let gkNodes = screenStateNode.edges.keys.compactMap { self.namedScenes[$0]?.gkNode } as [GKGraphNode]
-                screenStateNode.gkNode.addConnections(to: gkNodes, bidirectional: false)
+                let mmNodes = screenStateNode.edges.keys.compactMap { self.namedScenes[$0]?.mmNode } as [MMNode]
+                mmNodes.forEach{
+                    screenStateNode.mmNode.connectedNodes.insert($0)
+                }
             } else if let screenActionNode = graphNode as? MMScreenActionNode {
                 if let destName = screenActionNode.nextNodeName,
-                    let destGkNode = namedScenes[destName]?.gkNode {
-                    screenActionNode.gkNode.addConnections(to: [destGkNode], bidirectional: false)
+                    let destNode = namedScenes[destName]?.mmNode {
+                    screenActionNode.mmNode.connectedNodes.insert(destNode)
                 }
             }
         }
@@ -248,14 +250,14 @@ public extension MMScreenGraph {
     }
 
     fileprivate func calculateConditionalEdges() -> [ConditionalEdge<T>] {
-        buildGkGraph()
+        buildGraph()
         let screenStateNodes = namedScenes.values.compactMap { $0 as? MMScreenStateNode }
 
         return screenStateNodes.map { node -> [ConditionalEdge<T>] in
-            let src = node.gkNode
+            let src = node.mmNode
             return node.edges.values.compactMap { edge -> ConditionalEdge<T>? in
                 guard let predicate = edge.predicate,
-                    let dest = self.namedScenes[edge.destinationName]?.gkNode else { return nil }
+                    let dest = self.namedScenes[edge.destinationName]?.mmNode else { return nil }
 
                 return ConditionalEdge<T>(src: src, dest: dest, predicate: predicate)
             } as [ConditionalEdge<T>]

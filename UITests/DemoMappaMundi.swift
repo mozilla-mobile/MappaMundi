@@ -75,10 +75,9 @@ func createGraph(with app: XCUIApplication, for test: XCTestCase) -> MMScreenGra
     // The edit screen has a delete action. We can also
     map.addScreenState(Screens.itemListEditing) { screenState in
         let table = app.tables.element(boundBy: 0)
-
         func deleteFirst(_ userState: DemoAppUserState) {
             table.cells.element(boundBy: 0).buttons.element(boundBy: 0).tap()
-            table.buttons["Delete"].tap()
+            table.buttons["Delete"].firstMatch.tap()
             userState.numItems -= 1
         }
 
@@ -90,6 +89,8 @@ func createGraph(with app: XCUIApplication, for test: XCTestCase) -> MMScreenGra
         screenState.gesture(forAction: Actions.deleteAllItems) { userState in
             for _ in 0 ..< userState.numItems {
                 deleteFirst(userState)
+                //waiting for the animation to finish
+                sleep(1)
             }
         }
 

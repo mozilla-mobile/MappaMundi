@@ -7,18 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		392FB353200E1D5D0014867E /* MMTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392FB352200E1D5D0014867E /* MMTestUtils.swift */; };
-		3962F2291FF6A6C100999008 /* Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F2281FF6A6C100999008 /* Wait.swift */; };
-		3962F22B1FF6A75800999008 /* ScreenGraphEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */; };
-		39658ADC1FF699AA000544A2 /* MMScreenStateNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39658ADB1FF699AA000544A2 /* MMScreenStateNode.swift */; };
-		39658ADE1FF69BCE000544A2 /* MMNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39658ADD1FF69BCE000544A2 /* MMNavigator.swift */; };
-		39658AE01FF69F62000544A2 /* MMScreenActionNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39658ADF1FF69F62000544A2 /* MMScreenActionNode.swift */; };
-		39658AE21FF6A065000544A2 /* MMUserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39658AE11FF6A065000544A2 /* MMUserState.swift */; };
-		397334491FF6AAA600C45ECE /* MMGraphNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397334481FF6AAA600C45ECE /* MMGraphNode.swift */; };
-		39870718200D16710067B070 /* GraphRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39870717200D16710067B070 /* GraphRepresentation.swift */; };
+		1355A49C22C8A48C00EB635F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1355A49B22C8A48C00EB635F /* XCTest.framework */; };
+		1355A49F22C8A53700EB635F /* MMNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CE0A8222ABD42F005CA5E3 /* MMNode.swift */; };
+		1355A4A022C8A53700EB635F /* MMScreenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AB5FDB1FE455C700008FB3 /* MMScreenGraph.swift */; };
+		1355A4A122C8A53700EB635F /* MMGraphNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397334481FF6AAA600C45ECE /* MMGraphNode.swift */; };
+		1355A4A222C8A53700EB635F /* MMTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392FB352200E1D5D0014867E /* MMTestUtils.swift */; };
+		1355A4A322C8A53700EB635F /* MMScreenActionNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39658ADF1FF69F62000544A2 /* MMScreenActionNode.swift */; };
+		1355A4A422C8A53700EB635F /* MMScreenStateNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39658ADB1FF699AA000544A2 /* MMScreenStateNode.swift */; };
+		1355A4A522C8A53700EB635F /* MMNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39658ADD1FF69BCE000544A2 /* MMNavigator.swift */; };
+		1355A4A622C8A53700EB635F /* MMUserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39658AE11FF6A065000544A2 /* MMUserState.swift */; };
+		1355A4A722C8A53700EB635F /* GraphRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39870717200D16710067B070 /* GraphRepresentation.swift */; };
+		1355A4A822C8A53700EB635F /* ScreenGraphEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */; };
+		1355A4A922C8A53700EB635F /* Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F2281FF6A6C100999008 /* Wait.swift */; };
+		1355A4AB22C8A59B00EB635F /* AStar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1355A49722C8A2E100EB635F /* AStar.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		13E36CDB22C8DF9000AE04DB /* MappaMundi.h in Headers */ = {isa = PBXBuildFile; fileRef = 39AB5FE61FE4595000008FB3 /* MappaMundi.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		13E36D1522C8EAA600AE04DB /* AStar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1355A49722C8A2E100EB635F /* AStar.framework */; };
 		39AB5FDE1FE4560D00008FB3 /* DemoMappaMundi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AB5FDD1FE4560D00008FB3 /* DemoMappaMundi.swift */; };
-		39AB5FEC1FE4597800008FB3 /* MMScreenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AB5FDB1FE455C700008FB3 /* MMScreenGraph.swift */; };
-		39AB5FF21FE45FF500008FB3 /* MappaMundi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39AB5FE41FE4595000008FB3 /* MappaMundi.framework */; };
 		39BAD55F1FE19B9E00524FB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BAD55E1FE19B9E00524FB7 /* AppDelegate.swift */; };
 		39BAD5611FE19B9E00524FB7 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BAD5601FE19B9E00524FB7 /* MasterViewController.swift */; };
 		39BAD5631FE19B9E00524FB7 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BAD5621FE19B9E00524FB7 /* DetailViewController.swift */; };
@@ -29,6 +33,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1355A47F22C8A25C00EB635F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39BAD5531FE19B9D00524FB7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1355A47922C8A25C00EB635F;
+			remoteInfo = MappaMundi;
+		};
 		39BAD5721FE19B9E00524FB7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 39BAD5531FE19B9D00524FB7 /* Project object */;
@@ -39,6 +50,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		13E36CBD22C8AC2500AE04DB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D8A18F461FE463C9009DA463 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -52,6 +72,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1355A47122C89CD400EB635F /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		1355A47222C89CD400EB635F /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
+		1355A47A22C8A25C00EB635F /* MappaMundi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MappaMundi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1355A47C22C8A25C00EB635F /* MappaMundi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MappaMundi.h; sourceTree = "<group>"; };
+		1355A47D22C8A25C00EB635F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1355A49722C8A2E100EB635F /* AStar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AStar.framework; path = Carthage/Build/iOS/AStar.framework; sourceTree = "<group>"; };
+		1355A49B22C8A48C00EB635F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		13CE0A8222ABD42F005CA5E3 /* MMNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMNode.swift; path = Sources/MMNode.swift; sourceTree = SOURCE_ROOT; };
 		392FB352200E1D5D0014867E /* MMTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTestUtils.swift; sourceTree = "<group>"; };
 		3962F2281FF6A6C100999008 /* Wait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Wait.swift; path = ../Sources/Wait.swift; sourceTree = "<group>"; };
 		3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScreenGraphEdge.swift; path = ../Sources/ScreenGraphEdge.swift; sourceTree = "<group>"; };
@@ -63,10 +91,8 @@
 		39870717200D16710067B070 /* GraphRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GraphRepresentation.swift; path = Sources/GraphRepresentation.swift; sourceTree = SOURCE_ROOT; };
 		39AB5FDB1FE455C700008FB3 /* MMScreenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMScreenGraph.swift; path = ../Sources/MMScreenGraph.swift; sourceTree = "<group>"; };
 		39AB5FDD1FE4560D00008FB3 /* DemoMappaMundi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoMappaMundi.swift; sourceTree = "<group>"; };
-		39AB5FE41FE4595000008FB3 /* MappaMundi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MappaMundi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		39AB5FE61FE4595000008FB3 /* MappaMundi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MappaMundi.h; sourceTree = "<group>"; };
 		39AB5FE71FE4595000008FB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		39AB5FEE1FE459AD00008FB3 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		39BAD55B1FE19B9D00524FB7 /* DemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39BAD55E1FE19B9E00524FB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		39BAD5601FE19B9E00524FB7 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -81,10 +107,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		39AB5FE01FE4595000008FB3 /* Frameworks */ = {
+		1355A47722C8A25C00EB635F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1355A49C22C8A48C00EB635F /* XCTest.framework in Frameworks */,
+				1355A4AB22C8A59B00EB635F /* AStar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,16 +127,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39AB5FF21FE45FF500008FB3 /* MappaMundi.framework in Frameworks */,
+				13E36D1522C8EAA600AE04DB /* AStar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1355A47B22C8A25C00EB635F /* MappaMundi */ = {
+			isa = PBXGroup;
+			children = (
+				1355A47C22C8A25C00EB635F /* MappaMundi.h */,
+				1355A47D22C8A25C00EB635F /* Info.plist */,
+			);
+			path = MappaMundi;
+			sourceTree = "<group>";
+		};
 		39AB5FE51FE4595000008FB3 /* MappaMundi */ = {
 			isa = PBXGroup;
 			children = (
+				13CE0A8222ABD42F005CA5E3 /* MMNode.swift */,
 				39AB5FDB1FE455C700008FB3 /* MMScreenGraph.swift */,
 				397334481FF6AAA600C45ECE /* MMGraphNode.swift */,
 				392FB352200E1D5D0014867E /* MMTestUtils.swift */,
@@ -128,7 +166,8 @@
 		39AB5FED1FE459AD00008FB3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				39AB5FEE1FE459AD00008FB3 /* XCTest.framework */,
+				1355A49B22C8A48C00EB635F /* XCTest.framework */,
+				1355A49722C8A2E100EB635F /* AStar.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -136,9 +175,12 @@
 		39BAD5521FE19B9D00524FB7 = {
 			isa = PBXGroup;
 			children = (
+				1355A47122C89CD400EB635F /* Cartfile */,
+				1355A47222C89CD400EB635F /* Cartfile.resolved */,
 				39BAD55D1FE19B9E00524FB7 /* DemoApp */,
 				39BAD5741FE19B9E00524FB7 /* UITests */,
 				39AB5FE51FE4595000008FB3 /* MappaMundi */,
+				1355A47B22C8A25C00EB635F /* MappaMundi */,
 				39BAD55C1FE19B9D00524FB7 /* Products */,
 				39AB5FED1FE459AD00008FB3 /* Frameworks */,
 			);
@@ -149,7 +191,7 @@
 			children = (
 				39BAD55B1FE19B9D00524FB7 /* DemoApp.app */,
 				39BAD5711FE19B9E00524FB7 /* DemoUITests.xctest */,
-				39AB5FE41FE4595000008FB3 /* MappaMundi.framework */,
+				1355A47A22C8A25C00EB635F /* MappaMundi.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -181,25 +223,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		39AB5FE11FE4595000008FB3 /* Headers */ = {
+		1355A47522C8A25C00EB635F /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13E36CDB22C8DF9000AE04DB /* MappaMundi.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		39AB5FE31FE4595000008FB3 /* MappaMundi */ = {
+		1355A47922C8A25C00EB635F /* MappaMundi */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 39AB5FE91FE4595000008FB3 /* Build configuration list for PBXNativeTarget "MappaMundi" */;
+			buildConfigurationList = 1355A48322C8A25C00EB635F /* Build configuration list for PBXNativeTarget "MappaMundi" */;
 			buildPhases = (
-				39AB5FDF1FE4595000008FB3 /* Sources */,
-				39AB5FE01FE4595000008FB3 /* Frameworks */,
-				39AB5FE11FE4595000008FB3 /* Headers */,
-				39AB5FE21FE4595000008FB3 /* Resources */,
-				D81FAF8B1FE46A1D00863A8A /* ShellScript */,
+				1355A47522C8A25C00EB635F /* Headers */,
+				1355A47622C8A25C00EB635F /* Sources */,
+				1355A47722C8A25C00EB635F /* Frameworks */,
+				1355A47822C8A25C00EB635F /* Resources */,
+				13E36CBD22C8AC2500AE04DB /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -207,7 +250,7 @@
 			);
 			name = MappaMundi;
 			productName = MappaMundi;
-			productReference = 39AB5FE41FE4595000008FB3 /* MappaMundi.framework */;
+			productReference = 1355A47A22C8A25C00EB635F /* MappaMundi.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		39BAD55A1FE19B9D00524FB7 /* DemoApp */ = {
@@ -222,6 +265,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1355A48022C8A25C00EB635F /* PBXTargetDependency */,
 			);
 			name = DemoApp;
 			productName = Sample;
@@ -235,6 +279,7 @@
 				39BAD56D1FE19B9E00524FB7 /* Sources */,
 				39BAD56E1FE19B9E00524FB7 /* Frameworks */,
 				39BAD56F1FE19B9E00524FB7 /* Resources */,
+				13E36D1422C8EA7600AE04DB /* Copy Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -256,8 +301,8 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Mozilla Corporation";
 				TargetAttributes = {
-					39AB5FE31FE4595000008FB3 = {
-						CreatedOnToolsVersion = 9.2;
+					1355A47922C8A25C00EB635F = {
+						CreatedOnToolsVersion = 10.2.1;
 						ProvisioningStyle = Automatic;
 					};
 					39BAD55A1FE19B9D00524FB7 = {
@@ -286,13 +331,13 @@
 			targets = (
 				39BAD55A1FE19B9D00524FB7 /* DemoApp */,
 				39BAD5701FE19B9E00524FB7 /* DemoUITests */,
-				39AB5FE31FE4595000008FB3 /* MappaMundi */,
+				1355A47922C8A25C00EB635F /* MappaMundi */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		39AB5FE21FE4595000008FB3 /* Resources */ = {
+		1355A47822C8A25C00EB635F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -319,36 +364,43 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		D81FAF8B1FE46A1D00863A8A /* ShellScript */ = {
+		13E36D1422C8EA7600AE04DB /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/AStar.framework",
+			);
+			name = "Copy Carthage Frameworks";
+			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "carthage copy-frameworks\n";
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		39AB5FDF1FE4595000008FB3 /* Sources */ = {
+		1355A47622C8A25C00EB635F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				397334491FF6AAA600C45ECE /* MMGraphNode.swift in Sources */,
-				39658ADC1FF699AA000544A2 /* MMScreenStateNode.swift in Sources */,
-				39870718200D16710067B070 /* GraphRepresentation.swift in Sources */,
-				39658AE21FF6A065000544A2 /* MMUserState.swift in Sources */,
-				3962F22B1FF6A75800999008 /* ScreenGraphEdge.swift in Sources */,
-				39658AE01FF69F62000544A2 /* MMScreenActionNode.swift in Sources */,
-				39658ADE1FF69BCE000544A2 /* MMNavigator.swift in Sources */,
-				3962F2291FF6A6C100999008 /* Wait.swift in Sources */,
-				392FB353200E1D5D0014867E /* MMTestUtils.swift in Sources */,
-				39AB5FEC1FE4597800008FB3 /* MMScreenGraph.swift in Sources */,
+				1355A49F22C8A53700EB635F /* MMNode.swift in Sources */,
+				1355A4A022C8A53700EB635F /* MMScreenGraph.swift in Sources */,
+				1355A4A122C8A53700EB635F /* MMGraphNode.swift in Sources */,
+				1355A4A222C8A53700EB635F /* MMTestUtils.swift in Sources */,
+				1355A4A322C8A53700EB635F /* MMScreenActionNode.swift in Sources */,
+				1355A4A422C8A53700EB635F /* MMScreenStateNode.swift in Sources */,
+				1355A4A522C8A53700EB635F /* MMNavigator.swift in Sources */,
+				1355A4A622C8A53700EB635F /* MMUserState.swift in Sources */,
+				1355A4A722C8A53700EB635F /* GraphRepresentation.swift in Sources */,
+				1355A4A822C8A53700EB635F /* ScreenGraphEdge.swift in Sources */,
+				1355A4A922C8A53700EB635F /* Wait.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +426,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1355A48022C8A25C00EB635F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1355A47922C8A25C00EB635F /* MappaMundi */;
+			targetProxy = 1355A47F22C8A25C00EB635F /* PBXContainerItemProxy */;
+		};
 		39BAD5731FE19B9E00524FB7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 39BAD55A1FE19B9D00524FB7 /* DemoApp */;
@@ -401,10 +458,13 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		39AB5FEA1FE4595000008FB3 /* Debug */ = {
+		1355A48422C8A25C00EB635F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -416,10 +476,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = MappaMundi/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					XCTest,
@@ -428,17 +492,20 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mozilla.ios.MappaMundi;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		39AB5FEB1FE4595000008FB3 /* Release */ = {
+		1355A48522C8A25C00EB635F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -447,14 +514,16 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				ENABLE_TESTABILITY = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = MappaMundi/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					XCTest,
@@ -463,7 +532,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mozilla.ios.MappaMundi;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -528,6 +597,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -581,6 +651,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -588,13 +659,14 @@
 		39BAD57B1FE19B9E00524FB7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "$(SRCROOT)/DemoApp/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mozilla.ios.MappaMundi.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -602,13 +674,14 @@
 		39BAD57C1FE19B9E00524FB7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "$(SRCROOT)/DemoApp/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mozilla.ios.MappaMundi.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -616,13 +689,17 @@
 		39BAD57E1FE19B9E00524FB7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mozilla.ios.MappMundi.UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = DemoApp;
 			};
@@ -631,13 +708,17 @@
 		39BAD57F1FE19B9E00524FB7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mozilla.ios.MappMundi.UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = DemoApp;
 			};
@@ -646,11 +727,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		39AB5FE91FE4595000008FB3 /* Build configuration list for PBXNativeTarget "MappaMundi" */ = {
+		1355A48322C8A25C00EB635F /* Build configuration list for PBXNativeTarget "MappaMundi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				39AB5FEA1FE4595000008FB3 /* Debug */,
-				39AB5FEB1FE4595000008FB3 /* Release */,
+				1355A48422C8A25C00EB635F /* Debug */,
+				1355A48522C8A25C00EB635F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

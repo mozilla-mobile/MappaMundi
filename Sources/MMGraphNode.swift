@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import Foundation
-import GameplayKit
 
 public class MMGraphElement {
     let name: String
@@ -23,14 +22,14 @@ public class MMGraphElement {
 public class MMGraphNode<T: MMUserState>: MMGraphElement {
     var nodeType: String { return "Node" }
 
-    let gkNode: GKGraphNode
+    let mmNode: MMNode
 
     weak var map: MMScreenGraph<T>?
 
     init(_ map: MMScreenGraph<T>, name: String, file: String, line: UInt) {
         self.map = map
 
-        self.gkNode = GKGraphNode()
+        self.mmNode = MMNode(name: name)
 
         super.init(name: name, file: file, line: line)
     }

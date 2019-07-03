@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import Foundation
-import GameplayKit
 import XCTest
 
 /**
@@ -57,7 +56,7 @@ public class MMScreenStateNode<T: MMUserState>: MMGraphNode<T> {
 
     fileprivate func addEdge(_ dest: String, by edge: Edge) {
         edges[dest] = edge
-        // by this time, we should've added all nodes in to the gkGraph.
+        // by this time, we should've added all nodes in to the rootNode.
 
         assert(map?.namedScenes[dest] != nil, "Destination node '\(dest)' has not been created anywhere")
     }

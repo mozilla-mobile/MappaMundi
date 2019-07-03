@@ -3,8 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import Foundation
-import GameplayKit
 import XCTest
+import AStar
 
 public typealias NodeVisitor = (String) -> Void
 
@@ -63,12 +63,12 @@ open class MMNavigator<T: MMUserState> {
      * so is not useful in the general case, but it is if you know the specific graph.
      */
     public func can(goto nodeName: String) -> Bool {
-        let gkSrc = currentGraphNode.gkNode
-        guard let gkDest = map.namedScenes[nodeName]?.gkNode else {
+        let mmSrc = currentGraphNode.mmNode
+        guard let mmDest = map.namedScenes[nodeName]?.mmNode else {
             return false
         }
-        let gkPath = map.gkGraph.findPath(from: gkSrc, to: gkDest)
-        return gkPath.count > 0
+        let mmPath = mmSrc.findPath(to: mmDest)
+        return mmPath.count > 0
     }
 
     public func can(performAction nodeName: String, file: String = #file, line: UInt = #line) -> Bool {
@@ -79,23 +79,23 @@ open class MMNavigator<T: MMUserState> {
     }
 
     public func plan(startAt startNode: String? = nil, goto nodeName: String) -> [String] {
-        let gkSrc: GKGraphNode
+        let mmSrc: MMNode
         if let startNode = startNode,
             let node = map.namedScenes[startNode] {
-            gkSrc = node.gkNode
+            mmSrc = node.mmNode
         } else {
-            gkSrc = currentGraphNode.gkNode
+            mmSrc = currentGraphNode.mmNode
         }
 
         guard let destNode = map.namedScenes[nodeName] else {
             return []
         }
 
-        let gkDest = destNode.gkNode
-        let gkPath = map.gkGraph.findPath(from: gkSrc, to: gkDest)
+        let mmDest = destNode.mmNode
+        let mmPath = mmSrc.findPath(to: mmDest)
 
-        let path = gkPath.compactMap { gkNode in
-            return self.map.nodedScenes[gkNode]?.name
+        let path = mmPath.compactMap { mmNode in
+            return self.map.nodedScenes[mmNode]?.name
         }
 
         if path.isEmpty {
@@ -126,14 +126,15 @@ open class MMNavigator<T: MMUserState> {
      * node changes.
      */
     public func goto(_ nodeName: String, file: String = #file, line: UInt = #line, visitWith nodeVisitor: @escaping NodeVisitor) {
-        let gkSrc = currentGraphNode.gkNode
-        guard let gkDest = map.namedScenes[nodeName]?.gkNode else {
+        let mmSrc = currentGraphNode.mmNode
+        guard let mmDest = map.namedScenes[nodeName]?.mmNode else {
             xcTest.recordFailure(withDescription: "Cannot route to \(nodeName), because it doesn't exist", inFile: file, atLine: Int(line), expected: false)
             return
         }
+        
+        var mmPath = mmSrc.findPath(to: mmDest)
 
-        var gkPath = map.gkGraph.findPath(from: gkSrc, to: gkDest)
-        guard gkPath.count > 0 else {
+        guard mmPath.count > 0 else {
             xcTest.recordFailure(withDescription: "Cannot route from \(currentGraphNode.name) to \(nodeName)", inFile: file, atLine: Int(line), expected: false)
             return
         }
@@ -163,8 +164,8 @@ open class MMNavigator<T: MMUserState> {
             return maybeStateChanged && self.userStateShouldChangeGraph(userState)
         }
 
-        gkPath.removeFirst()
-        let graphNodes = gkPath.compactMap { map.nodedScenes[$0] }
+        mmPath.removeFirst()
+        let graphNodes = mmPath.compactMap { map.nodedScenes[$0] }
 
         for i in 0 ..< graphNodes.count {
             let graphChanged = moveDirectlyTo(graphNodes[i])
@@ -314,7 +315,7 @@ fileprivate extension MMNavigator {
                 // currentScene is the state we're returning from.
                 // nextScene is the state we're returning to.
                 exitingNode.returnNode = nil
-                exitingNode.gkNode.removeConnections(to: [ nextNode.gkNode ], bidirectional: false)
+                exitingNode.mmNode.connectedNodes.remove(nextNode.mmNode)
             }
         }
     }
@@ -344,7 +345,7 @@ fileprivate extension MMNavigator {
         if let backAction = enteringNode.backAction {
             if enteringNode.returnNode == nil {
                 enteringNode.returnNode = returnToRecentScene
-                enteringNode.gkNode.addConnections(to: [ returnToRecentScene.gkNode ], bidirectional: false)
+                enteringNode.mmNode.connectedNodes.insert(returnToRecentScene.mmNode)
                 enteringNode.gesture(to: returnToRecentScene.name, g: backAction)
             }
         } else {
@@ -360,7 +361,7 @@ fileprivate extension MMNavigator {
 
                 thisScene.returnNode = nil
                 thisScene.edges.removeValue(forKey: prevScene.name)
-                thisScene.gkNode.removeConnections(to: [ prevScene.gkNode ], bidirectional: false)
+                thisScene.mmNode.connectedNodes.remove(prevScene.mmNode)
 
                 screen = prevScene
             }
@@ -417,9 +418,9 @@ fileprivate extension MMNavigator {
             }
             graphChanged = true
             if edge.isOpen {
-                edge.src.addConnections(to: [edge.dest], bidirectional: false)
+                edge.src.connectedNodes.insert(edge.dest)
             } else {
-                edge.src.removeConnections(to: [edge.dest], bidirectional: false)
+                edge.src.connectedNodes.remove(edge.dest)
             }
         }
         return graphChanged
