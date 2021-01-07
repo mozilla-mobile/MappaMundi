@@ -5,9 +5,9 @@
         "package": "AStar",
         "repositoryURL": "https://github.com/Dev1an/A-Star.git",
         "state": {
-          "branch": "master",
-          "revision": "c102a89b7943859a5d6612b6439ea95fc3c41f17",
-          "version": null
+          "branch": null,
+          "revision": "036256f9a8d1dda44085a2b92fa58199446a8339",
+          "version": "3.0.0-beta-1"
         }
       }
     ]
