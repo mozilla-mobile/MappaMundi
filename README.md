@@ -11,5 +11,5 @@ You can add this package to your project using SPM
 On Xcode
 
 File → Swift Packages → Add Package Dependency...
-Search for MappaMundi and select this repository.
-Follow the on screen instructions
+
+Add the url to this repository and follow the on screen instructions.
