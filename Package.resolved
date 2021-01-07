@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AStar",
+        "repositoryURL": "https://github.com/Dev1an/A-Star",
+        "state": {
+          "branch": null,
+          "revision": "036256f9a8d1dda44085a2b92fa58199446a8339",
+          "version": "3.0.0-beta-1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
