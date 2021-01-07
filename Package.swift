@@ -16,6 +16,6 @@ let package = Package(
         .target(
             name: "MappaMundi",
             dependencies: ["AStar"],
-            path: "MappaMundi")
+            path: "Sources")
     ]
 )

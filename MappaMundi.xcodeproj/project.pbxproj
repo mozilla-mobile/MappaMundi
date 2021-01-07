@@ -19,7 +19,6 @@
 		1355A4A722C8A53700EB635F /* GraphRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39870717200D16710067B070 /* GraphRepresentation.swift */; };
 		1355A4A822C8A53700EB635F /* ScreenGraphEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */; };
 		1355A4A922C8A53700EB635F /* Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F2281FF6A6C100999008 /* Wait.swift */; };
-		13E36CDB22C8DF9000AE04DB /* MappaMundi.h in Headers */ = {isa = PBXBuildFile; fileRef = 39AB5FE61FE4595000008FB3 /* MappaMundi.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39AB5FDE1FE4560D00008FB3 /* DemoMappaMundi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AB5FDD1FE4560D00008FB3 /* DemoMappaMundi.swift */; };
 		39BAD55F1FE19B9E00524FB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BAD55E1FE19B9E00524FB7 /* AppDelegate.swift */; };
 		39BAD5611FE19B9E00524FB7 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BAD5601FE19B9E00524FB7 /* MasterViewController.swift */; };
@@ -74,8 +73,6 @@
 
 /* Begin PBXFileReference section */
 		1355A47A22C8A25C00EB635F /* MappaMundi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MappaMundi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1355A47C22C8A25C00EB635F /* MappaMundi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MappaMundi.h; sourceTree = "<group>"; };
-		1355A47D22C8A25C00EB635F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1355A49B22C8A48C00EB635F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		13CE0A8222ABD42F005CA5E3 /* MMNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMNode.swift; path = Sources/MMNode.swift; sourceTree = SOURCE_ROOT; };
 		392FB352200E1D5D0014867E /* MMTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTestUtils.swift; sourceTree = "<group>"; };
@@ -89,7 +86,6 @@
 		39870717200D16710067B070 /* GraphRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GraphRepresentation.swift; path = Sources/GraphRepresentation.swift; sourceTree = SOURCE_ROOT; };
 		39AB5FDB1FE455C700008FB3 /* MMScreenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMScreenGraph.swift; path = ../Sources/MMScreenGraph.swift; sourceTree = "<group>"; };
 		39AB5FDD1FE4560D00008FB3 /* DemoMappaMundi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoMappaMundi.swift; sourceTree = "<group>"; };
-		39AB5FE61FE4595000008FB3 /* MappaMundi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MappaMundi.h; sourceTree = "<group>"; };
 		39AB5FE71FE4595000008FB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39BAD55B1FE19B9D00524FB7 /* DemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39BAD55E1FE19B9E00524FB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -134,15 +130,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1355A47B22C8A25C00EB635F /* MappaMundi */ = {
-			isa = PBXGroup;
-			children = (
-				1355A47C22C8A25C00EB635F /* MappaMundi.h */,
-				1355A47D22C8A25C00EB635F /* Info.plist */,
-			);
-			path = MappaMundi;
-			sourceTree = "<group>";
-		};
 		39AB5FE51FE4595000008FB3 /* MappaMundi */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,7 +144,6 @@
 				39870717200D16710067B070 /* GraphRepresentation.swift */,
 				3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */,
 				3962F2281FF6A6C100999008 /* Wait.swift */,
-				39AB5FE61FE4595000008FB3 /* MappaMundi.h */,
 				39AB5FE71FE4595000008FB3 /* Info.plist */,
 			);
 			path = MappaMundi;
@@ -178,7 +164,6 @@
 				39BAD55D1FE19B9E00524FB7 /* DemoApp */,
 				39BAD5741FE19B9E00524FB7 /* UITests */,
 				39AB5FE51FE4595000008FB3 /* MappaMundi */,
-				1355A47B22C8A25C00EB635F /* MappaMundi */,
 				39BAD55C1FE19B9D00524FB7 /* Products */,
 				39AB5FED1FE459AD00008FB3 /* Frameworks */,
 			);
@@ -225,7 +210,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13E36CDB22C8DF9000AE04DB /* MappaMundi.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
