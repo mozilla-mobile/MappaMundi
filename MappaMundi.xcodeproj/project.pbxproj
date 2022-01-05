@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,9 +19,6 @@
 		1355A4A722C8A53700EB635F /* GraphRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39870717200D16710067B070 /* GraphRepresentation.swift */; };
 		1355A4A822C8A53700EB635F /* ScreenGraphEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */; };
 		1355A4A922C8A53700EB635F /* Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3962F2281FF6A6C100999008 /* Wait.swift */; };
-		1355A4AB22C8A59B00EB635F /* AStar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1355A49722C8A2E100EB635F /* AStar.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		13E36CDB22C8DF9000AE04DB /* MappaMundi.h in Headers */ = {isa = PBXBuildFile; fileRef = 39AB5FE61FE4595000008FB3 /* MappaMundi.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		13E36D1522C8EAA600AE04DB /* AStar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1355A49722C8A2E100EB635F /* AStar.framework */; };
 		39AB5FDE1FE4560D00008FB3 /* DemoMappaMundi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AB5FDD1FE4560D00008FB3 /* DemoMappaMundi.swift */; };
 		39BAD55F1FE19B9E00524FB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BAD55E1FE19B9E00524FB7 /* AppDelegate.swift */; };
 		39BAD5611FE19B9E00524FB7 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BAD5601FE19B9E00524FB7 /* MasterViewController.swift */; };
@@ -30,6 +27,9 @@
 		39BAD5681FE19B9E00524FB7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39BAD5671FE19B9E00524FB7 /* Assets.xcassets */; };
 		39BAD56B1FE19B9E00524FB7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39BAD5691FE19B9E00524FB7 /* LaunchScreen.storyboard */; };
 		39BAD5761FE19B9E00524FB7 /* DemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BAD5751FE19B9E00524FB7 /* DemoUITests.swift */; };
+		CEDB958625A73F5700F1F430 /* AStar in Frameworks */ = {isa = PBXBuildFile; productRef = CEDB958525A73F5700F1F430 /* AStar */; };
+		CEDB958C25A73F9700F1F430 /* AStar in Frameworks */ = {isa = PBXBuildFile; productRef = CEDB958B25A73F9700F1F430 /* AStar */; };
+		CEDB959325A7411C00F1F430 /* AStar in Frameworks */ = {isa = PBXBuildFile; productRef = CEDB959225A7411C00F1F430 /* AStar */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,12 +72,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1355A47122C89CD400EB635F /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
-		1355A47222C89CD400EB635F /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
 		1355A47A22C8A25C00EB635F /* MappaMundi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MappaMundi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1355A47C22C8A25C00EB635F /* MappaMundi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MappaMundi.h; sourceTree = "<group>"; };
-		1355A47D22C8A25C00EB635F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1355A49722C8A2E100EB635F /* AStar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AStar.framework; path = Carthage/Build/iOS/AStar.framework; sourceTree = "<group>"; };
 		1355A49B22C8A48C00EB635F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		13CE0A8222ABD42F005CA5E3 /* MMNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMNode.swift; path = Sources/MMNode.swift; sourceTree = SOURCE_ROOT; };
 		392FB352200E1D5D0014867E /* MMTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTestUtils.swift; sourceTree = "<group>"; };
@@ -91,7 +86,6 @@
 		39870717200D16710067B070 /* GraphRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GraphRepresentation.swift; path = Sources/GraphRepresentation.swift; sourceTree = SOURCE_ROOT; };
 		39AB5FDB1FE455C700008FB3 /* MMScreenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMScreenGraph.swift; path = ../Sources/MMScreenGraph.swift; sourceTree = "<group>"; };
 		39AB5FDD1FE4560D00008FB3 /* DemoMappaMundi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoMappaMundi.swift; sourceTree = "<group>"; };
-		39AB5FE61FE4595000008FB3 /* MappaMundi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MappaMundi.h; sourceTree = "<group>"; };
 		39AB5FE71FE4595000008FB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39BAD55B1FE19B9D00524FB7 /* DemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39BAD55E1FE19B9E00524FB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +98,7 @@
 		39BAD5711FE19B9E00524FB7 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39BAD5751FE19B9E00524FB7 /* DemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUITests.swift; sourceTree = "<group>"; };
 		39BAD5771FE19B9E00524FB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEDB95A025A7450100F1F430 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,8 +106,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEDB958C25A73F9700F1F430 /* AStar in Frameworks */,
 				1355A49C22C8A48C00EB635F /* XCTest.framework in Frameworks */,
-				1355A4AB22C8A59B00EB635F /* AStar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEDB958625A73F5700F1F430 /* AStar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,22 +123,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13E36D1522C8EAA600AE04DB /* AStar.framework in Frameworks */,
+				CEDB959325A7411C00F1F430 /* AStar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1355A47B22C8A25C00EB635F /* MappaMundi */ = {
-			isa = PBXGroup;
-			children = (
-				1355A47C22C8A25C00EB635F /* MappaMundi.h */,
-				1355A47D22C8A25C00EB635F /* Info.plist */,
-			);
-			path = MappaMundi;
-			sourceTree = "<group>";
-		};
 		39AB5FE51FE4595000008FB3 /* MappaMundi */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,7 +144,6 @@
 				39870717200D16710067B070 /* GraphRepresentation.swift */,
 				3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */,
 				3962F2281FF6A6C100999008 /* Wait.swift */,
-				39AB5FE61FE4595000008FB3 /* MappaMundi.h */,
 				39AB5FE71FE4595000008FB3 /* Info.plist */,
 			);
 			path = MappaMundi;
@@ -167,7 +153,6 @@
 			isa = PBXGroup;
 			children = (
 				1355A49B22C8A48C00EB635F /* XCTest.framework */,
-				1355A49722C8A2E100EB635F /* AStar.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -175,12 +160,10 @@
 		39BAD5521FE19B9D00524FB7 = {
 			isa = PBXGroup;
 			children = (
-				1355A47122C89CD400EB635F /* Cartfile */,
-				1355A47222C89CD400EB635F /* Cartfile.resolved */,
+				CEDB95A025A7450100F1F430 /* Package.swift */,
 				39BAD55D1FE19B9E00524FB7 /* DemoApp */,
 				39BAD5741FE19B9E00524FB7 /* UITests */,
 				39AB5FE51FE4595000008FB3 /* MappaMundi */,
-				1355A47B22C8A25C00EB635F /* MappaMundi */,
 				39BAD55C1FE19B9D00524FB7 /* Products */,
 				39AB5FED1FE459AD00008FB3 /* Frameworks */,
 			);
@@ -227,7 +210,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13E36CDB22C8DF9000AE04DB /* MappaMundi.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +231,9 @@
 			dependencies = (
 			);
 			name = MappaMundi;
+			packageProductDependencies = (
+				CEDB958B25A73F9700F1F430 /* AStar */,
+			);
 			productName = MappaMundi;
 			productReference = 1355A47A22C8A25C00EB635F /* MappaMundi.framework */;
 			productType = "com.apple.product-type.framework";
@@ -268,6 +253,9 @@
 				1355A48022C8A25C00EB635F /* PBXTargetDependency */,
 			);
 			name = DemoApp;
+			packageProductDependencies = (
+				CEDB958525A73F5700F1F430 /* AStar */,
+			);
 			productName = Sample;
 			productReference = 39BAD55B1FE19B9D00524FB7 /* DemoApp.app */;
 			productType = "com.apple.product-type.application";
@@ -279,7 +267,6 @@
 				39BAD56D1FE19B9E00524FB7 /* Sources */,
 				39BAD56E1FE19B9E00524FB7 /* Frameworks */,
 				39BAD56F1FE19B9E00524FB7 /* Resources */,
-				13E36D1422C8EA7600AE04DB /* Copy Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -287,6 +274,9 @@
 				39BAD5731FE19B9E00524FB7 /* PBXTargetDependency */,
 			);
 			name = DemoUITests;
+			packageProductDependencies = (
+				CEDB959225A7411C00F1F430 /* AStar */,
+			);
 			productName = SampleUITests;
 			productReference = 39BAD5711FE19B9E00524FB7 /* DemoUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -298,7 +288,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Mozilla Corporation";
 				TargetAttributes = {
 					1355A47922C8A25C00EB635F = {
@@ -325,6 +315,9 @@
 				Base,
 			);
 			mainGroup = 39BAD5521FE19B9D00524FB7;
+			packageReferences = (
+				CEDB958425A73F5700F1F430 /* XCRemoteSwiftPackageReference "A-Star" */,
+			);
 			productRefGroup = 39BAD55C1FE19B9D00524FB7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -362,28 +355,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		13E36D1422C8EA7600AE04DB /* Copy Carthage Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/AStar.framework",
-			);
-			name = "Copy Carthage Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1355A47622C8A25C00EB635F /* Sources */ = {
@@ -461,7 +432,6 @@
 		1355A48422C8A25C00EB635F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_MODULES_AUTOLINK = YES;
@@ -473,15 +443,14 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
 				INFOPLIST_FILE = MappaMundi/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = (
@@ -502,7 +471,6 @@
 		1355A48522C8A25C00EB635F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_MODULES_AUTOLINK = YES;
@@ -514,15 +482,14 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
 				INFOPLIST_FILE = MappaMundi/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -564,6 +531,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -626,6 +594,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -650,7 +619,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -663,7 +633,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "$(SRCROOT)/DemoApp/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mozilla.ios.MappaMundi.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -678,7 +651,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "$(SRCROOT)/DemoApp/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mozilla.ios.MappaMundi.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -691,12 +667,12 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
 				INFOPLIST_FILE = UITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mozilla.ios.MappMundi.UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -710,12 +686,12 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
 				INFOPLIST_FILE = UITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mozilla.ios.MappMundi.UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -764,6 +740,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CEDB958425A73F5700F1F430 /* XCRemoteSwiftPackageReference "A-Star" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Dev1an/A-Star.git";
+			requirement = {
+				kind = exactVersion;
+				version = "3.0.0-beta-1";
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CEDB958525A73F5700F1F430 /* AStar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEDB958425A73F5700F1F430 /* XCRemoteSwiftPackageReference "A-Star" */;
+			productName = AStar;
+		};
+		CEDB958B25A73F9700F1F430 /* AStar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEDB958425A73F5700F1F430 /* XCRemoteSwiftPackageReference "A-Star" */;
+			productName = AStar;
+		};
+		CEDB959225A7411C00F1F430 /* AStar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEDB958425A73F5700F1F430 /* XCRemoteSwiftPackageReference "A-Star" */;
+			productName = AStar;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 39BAD5531FE19B9D00524FB7 /* Project object */;
 }
