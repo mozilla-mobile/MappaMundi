@@ -32,7 +32,7 @@ class WaitCondition {
 let existsPredicate = NSPredicate(format: "exists == true")
 
 // This is a function for waiting for a condition of an object to come true.
-func waitOrTimeout(_ predicate: NSPredicate = existsPredicate, object: Any, timeout: TimeInterval = 5, timeoutHandler: () -> ()) {
+func waitOrTimeout(_ predicate: NSPredicate = existsPredicate, object: Any, timeout: TimeInterval = 15, timeoutHandler: () -> ()) {
     let expectation = XCTNSPredicateExpectation(predicate: predicate, object: object)
     let result = XCTWaiter().wait(for: [expectation], timeout: timeout)
     if result != .completed {
