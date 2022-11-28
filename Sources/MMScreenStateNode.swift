@@ -81,15 +81,19 @@ public extension MMScreenStateNode {
         let edge = Edge(destinationName: nodeName, predicate: predicate, transition: { xcTest, file, line in
             if let el = element {
                 waitOrTimeout(existsPredicate, object: el) {
-                    xcTest.recordFailure(withDescription: "Cannot get from \(self.name) to \(nodeName). See \(declFile):\(declLine)", inFile: file, atLine: Int(line), expected: false)
-                    xcTest.recordFailure(withDescription: "Cannot find \(el)", inFile: declFile, atLine: Int(declLine), expected: false)
+                    xcTest.recordFailure(description: "Cannot get from \(self.name) to \(nodeName). See \(declFile):\(declLine)",
+                                         filePath: file,
+                                         lineNumber: Int(line))
+                    xcTest.recordFailure(description: "Cannot find \(el)",
+                                         filePath: declFile,
+                                         lineNumber: Int(declLine))
                 }
             }
             g()
         })
 
         guard let _ = map?.namedScenes[nodeName] else {
-            map?.xcTest.recordFailure(withDescription: "Node \(nodeName) has not been declared anywhere", inFile: file, atLine: Int(line), expected: false)
+            map?.xcTest.recordFailure(description: "Node \(nodeName) has not been declared anywhere")
             return
         }
         addEdge(nodeName, by: edge)

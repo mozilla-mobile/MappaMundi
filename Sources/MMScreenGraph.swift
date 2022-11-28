@@ -95,14 +95,19 @@ extension MMScreenGraph {
 
         let firstNodeName = actions[0]
         if let existing = namedScenes[firstNodeName] {
-            xcTest.recordFailure(withDescription: "Action \(firstNodeName) is defined elsewhere, but should be unique", inFile: file, atLine: Int(line), expected: true)
-            xcTest.recordFailure(withDescription: "\(existing.nodeType) \(firstNodeName) is defined elsewhere, but should be unique", inFile: existing.file, atLine: Int(existing.line), expected: true)
+            xcTest.recordFailure(description: "Action \(firstNodeName) is defined elsewhere, but should be unique",
+                                 issueType: .assertionFailure)
+
+            xcTest.recordFailure(description: "\(existing.nodeType) \(firstNodeName) is defined elsewhere, but should be unique",
+                                 issueType: .assertionFailure,
+                                 filePath: existing.file,
+                                 lineNumber: Int(existing.line))
             return
         }
 
         if let screenState = screenState, let node = namedScenes[screenState] {
             guard node is MMScreenStateNode || node is MMNavigatorActionNode else {
-                xcTest.recordFailure(withDescription: "Expected \(screenState) to be a screen state or navigator action", inFile: file, atLine: Int(line), expected: false)
+                xcTest.recordFailure(description: "Expected \(screenState) to be a screen state or navigator action")
                 return
             }
         }
@@ -122,8 +127,10 @@ extension MMScreenGraph {
 
     fileprivate func addOrCheckNavigatorAction(_ name: String, file: String = #file, line: UInt = #line, navigatorAction: @escaping MMNavigatorAction<T>) {
         if let existing = namedScenes[name] {
-            self.xcTest.recordFailure(withDescription: "\(existing.nodeType) \(name) conflicts with an identically named action", inFile: existing.file, atLine: Int(existing.line), expected: false)
-            self.xcTest.recordFailure(withDescription: "Action \(name) conflicts with an identically named \(existing.nodeType)", inFile: file, atLine: Int(line), expected: false)
+            xcTest.recordFailure(description: "\(existing.nodeType) \(name) conflicts with an identically named action",
+                                 filePath: existing.file,
+                                 lineNumber: Int(existing.line))
+            xcTest.recordFailure(description: "Action \(name) conflicts with an identically named \(existing.nodeType)")
             return
         }
 
@@ -134,17 +141,21 @@ extension MMScreenGraph {
         let actionNode: MMScreenActionNode<T>
         if let existingNode = namedScenes[name] {
             guard let existing = existingNode as? MMScreenActionNode else {
-                self.xcTest.recordFailure(withDescription: "\(existingNode.nodeType) \(name) conflicts with an identically named action", inFile: existingNode.file, atLine: Int(existingNode.line), expected: false)
-                self.xcTest.recordFailure(withDescription: "Action \(name) conflicts with an identically named \(existingNode.nodeType)", inFile: file, atLine: Int(line), expected: false)
+                xcTest.recordFailure(description: "\(existingNode.nodeType) \(name) conflicts with an identically named action",
+                                     filePath: existingNode.file,
+                                     lineNumber: Int(existingNode.line))
+                xcTest.recordFailure(description: "Action \(name) conflicts with an identically named \(existingNode.nodeType)")
                 return
             }
             // The new node has to have the same nextNodeName as the existing node.
             // unless either one of them is nil, so use whichever is the non nil one.
             if let d1 = existing.nextNodeName,
-                let d2 = nextNodeName,
-                d1 != d2 {
-                self.xcTest.recordFailure(withDescription: "\(name) action points to \(d2) elsewhere", inFile: existing.file, atLine: Int(existing.line), expected: false)
-                self.xcTest.recordFailure(withDescription: "\(name) action points to \(d1) elsewhere", inFile: file, atLine: Int(line), expected: false)
+               let d2 = nextNodeName,
+               d1 != d2 {
+                xcTest.recordFailure(description: "\(name) action points to \(d2) elsewhere",
+                                     filePath: existing.file,
+                                     lineNumber: Int(existing.line))
+                xcTest.recordFailure(description: "\(name) action points to \(d2) elsewhere")
                 return
             }
 
@@ -192,10 +203,9 @@ public extension MMScreenGraph {
         buildGraph()
         let userState = userStateType.init()
         guard let name = startingAt ?? userState.initialScreenState,
-            let startingScreenState = namedScenes[name] as? MMScreenStateNode else {
-                xcTest.recordFailure(withDescription: "The app's initial state couldn't be established.",
-                                     inFile: file, atLine: Int(line), expected: false)
-                fatalError("The app's initial state couldn't be established.")
+              let startingScreenState = namedScenes[name] as? MMScreenStateNode else {
+            xcTest.recordFailure(description: "The app's initial state couldn't be established.")
+            fatalError("The app's initial state couldn't be established.")
         }
 
         userState.initialScreenState = startingScreenState.name

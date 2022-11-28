@@ -128,14 +128,14 @@ open class MMNavigator<T: MMUserState> {
     public func goto(_ nodeName: String, file: String = #file, line: UInt = #line, visitWith nodeVisitor: @escaping NodeVisitor) {
         let mmSrc = currentGraphNode.mmNode
         guard let mmDest = map.namedScenes[nodeName]?.mmNode else {
-            xcTest.recordFailure(withDescription: "Cannot route to \(nodeName), because it doesn't exist", inFile: file, atLine: Int(line), expected: false)
+            xcTest.recordFailure(description: "Cannot route to \(nodeName), because it doesn't exist")
             return
         }
         
         var mmPath = mmSrc.findPath(to: mmDest)
 
         guard mmPath.count > 0 else {
-            xcTest.recordFailure(withDescription: "Cannot route from \(currentGraphNode.name) to \(nodeName)", inFile: file, atLine: Int(line), expected: false)
+            xcTest.recordFailure(description: "Cannot route from \(currentGraphNode.name) to \(nodeName)")
             return
         }
 
@@ -214,7 +214,7 @@ open class MMNavigator<T: MMUserState> {
 
     func isActionOrFail(_ screenActionName: String, file: String = #file, line: UInt = #line) -> Bool {
         guard let _ = map.namedScenes[screenActionName] as? MMActionNode else {
-            xcTest.recordFailure(withDescription: "\(screenActionName) is not an action", inFile: file, atLine: Int(line), expected: false)
+            xcTest.recordFailure(description: "\(screenActionName) is not an action")
             return false
         }
         return true
@@ -226,10 +226,12 @@ open class MMNavigator<T: MMUserState> {
         }
 
         guard let returnNode = currentScene.returnNode,
-            let _ = currentScene.backAction else {
-                xcTest.recordFailure(withDescription: "No valid back action", inFile: currentScene.file, atLine: Int(currentScene.line), expected: false)
-                xcTest.recordFailure(withDescription: "No valid back action", inFile: file, atLine: Int(line), expected: false)
-                return
+              let _ = currentScene.backAction else {
+            xcTest.recordFailure(description: "No valid back action",
+                                 filePath: currentScene.file,
+                                 lineNumber: Int(currentScene.line))
+            xcTest.recordFailure(description: "No valid back action")
+            return
         }
 
         goto(returnNode.name)
@@ -254,7 +256,7 @@ open class MMNavigator<T: MMUserState> {
      */
     public func nowAt(_ nodeName: String, file: String = #file, line: UInt = #line) {
         guard let newScene = map.namedScenes[nodeName] else {
-            xcTest.recordFailure(withDescription: "Cannot force to unknown \(nodeName). Currently at \(currentGraphNode.name)", inFile: file, atLine: Int(line), expected: false)
+            xcTest.recordFailure(description: "Cannot force to unknown \(nodeName). Currently at \(currentGraphNode.name)")
             return
         }
         currentGraphNode = newScene
@@ -330,11 +332,10 @@ fileprivate extension MMNavigator {
             }
 
             if shouldWait {
-                condition.wait { 
-                    self.xcTest.recordFailure(withDescription: "Unsuccessfully entered \(enteringNode.name)",
-                        inFile: condition.file,
-                        atLine: Int(condition.line),
-                        expected: false)
+                condition.wait {
+                    self.xcTest.recordFailure(description: "Unsuccessfully entered \(enteringNode.name)",
+                                              filePath: condition.file,
+                                              lineNumber: Int(condition.line))
                 }
             }
         }
@@ -452,7 +453,7 @@ public extension MMNavigator {
         let predicate = NSPredicate(format: predicateString)
         waitOrTimeout(predicate, object: element, timeout: timeout) {
             let message = description ?? "Expect predicate \(predicateString) for \(element.description)"
-            xcTest.recordFailure(withDescription: message, inFile: file, atLine: Int(line), expected: false)
+            xcTest.recordFailure(description: message)
         }
     }
 }

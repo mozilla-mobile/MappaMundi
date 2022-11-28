@@ -27,6 +27,7 @@
 		39BAD5681FE19B9E00524FB7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39BAD5671FE19B9E00524FB7 /* Assets.xcassets */; };
 		39BAD56B1FE19B9E00524FB7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39BAD5691FE19B9E00524FB7 /* LaunchScreen.storyboard */; };
 		39BAD5761FE19B9E00524FB7 /* DemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BAD5751FE19B9E00524FB7 /* DemoUITests.swift */; };
+		8ACA60052931696500335139 /* XCTestCase+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACA60042931696500335139 /* XCTestCase+extension.swift */; };
 		CEDB958625A73F5700F1F430 /* AStar in Frameworks */ = {isa = PBXBuildFile; productRef = CEDB958525A73F5700F1F430 /* AStar */; };
 		CEDB958C25A73F9700F1F430 /* AStar in Frameworks */ = {isa = PBXBuildFile; productRef = CEDB958B25A73F9700F1F430 /* AStar */; };
 		CEDB959325A7411C00F1F430 /* AStar in Frameworks */ = {isa = PBXBuildFile; productRef = CEDB959225A7411C00F1F430 /* AStar */; };
@@ -98,6 +99,7 @@
 		39BAD5711FE19B9E00524FB7 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39BAD5751FE19B9E00524FB7 /* DemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUITests.swift; sourceTree = "<group>"; };
 		39BAD5771FE19B9E00524FB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8ACA60042931696500335139 /* XCTestCase+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+extension.swift"; sourceTree = "<group>"; };
 		CEDB95A025A7450100F1F430 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +147,7 @@
 				3962F22A1FF6A75800999008 /* ScreenGraphEdge.swift */,
 				3962F2281FF6A6C100999008 /* Wait.swift */,
 				39AB5FE71FE4595000008FB3 /* Info.plist */,
+				8ACA60042931696500335139 /* XCTestCase+extension.swift */,
 			);
 			path = MappaMundi;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8ACA60052931696500335139 /* XCTestCase+extension.swift in Sources */,
 				1355A49F22C8A53700EB635F /* MMNode.swift in Sources */,
 				1355A4A022C8A53700EB635F /* MMScreenGraph.swift in Sources */,
 				1355A4A122C8A53700EB635F /* MMGraphNode.swift in Sources */,
