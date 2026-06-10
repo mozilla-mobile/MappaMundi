@@ -70,7 +70,7 @@ public extension MMScreenStateNode {
      * @param withElement – optional, but if provided will attempt to verify it is there before performing the action.
      * @param to – the destination node.
      */
-    func gesture(withElement element: XCUIElement? = nil, to nodeName: String, if predicateString: String? = nil, file declFile: String = #file, line declLine: UInt = #line, g: @escaping () -> Void) {
+    func gesture(withElement element: XCUIElement? = nil, scrollIntoViewWithin container: XCUIElement? = nil, to nodeName: String, if predicateString: String? = nil, file declFile: String = #file, line declLine: UInt = #line, g: @escaping () -> Void) {
         let predicate: NSPredicate?
         if let predicateString = predicateString {
             predicate = NSPredicate(format: predicateString)
@@ -87,6 +87,14 @@ public extension MMScreenStateNode {
                     xcTest.recordFailure(description: "Cannot find \(el)",
                                          filePath: declFile,
                                          lineNumber: Int(declLine))
+                }
+                // When a scroll container is provided, bring the element into view before the
+                // gesture. An off-screen row stays in the accessibility tree (exists == true)
+                // but is not hittable, so the gesture would otherwise fail; scrolling makes it
+                // hittable. Opt-in and backward compatible: callers that pass no container keep
+                // the previous behaviour.
+                if let container = container {
+                    scrollIntoView(el, within: container)
                 }
             }
             g()
@@ -111,8 +119,8 @@ public extension MMScreenStateNode {
      * @param element - the element to tap
      * @param to – the destination node.
      */
-    func tap(_ element: XCUIElement, to nodeName: String, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
-        self.gesture(withElement: element, to: nodeName, if: predicate, file: file, line: line) {
+    func tap(_ element: XCUIElement, to nodeName: String, scrollIntoViewWithin container: XCUIElement? = nil, if predicate: String? = nil, file: String = #file, line: UInt = #line) {
+        self.gesture(withElement: element, scrollIntoViewWithin: container, to: nodeName, if: predicate, file: file, line: line) {
             element.tap()
         }
     }
@@ -234,5 +242,36 @@ extension MMScreenStateNode {
     /// This allows us to record state changes in the app as the navigator leaves a given screen state.
     public func onExit(recorder: @escaping UserStateChange) {
         onExitStateRecorder = recorder
+    }
+}
+
+/// Scrolls `container` until `element` becomes hittable. Each step is a press-drag whose distance is
+/// proportional to how far the element's centre is from the container's centre, capped so a single
+/// step can never fling the element past the viewport (which causes oscillation around rows near the
+/// fold) and floored so progress is always made. No-op once the element is already hittable or no
+/// longer exists; bounded by `maxAttempts` and a no-progress guard so it can never spin if the list
+/// cannot scroll further.
+func scrollIntoView(_ element: XCUIElement, within container: XCUIElement, maxAttempts: Int = 25) {
+    var attempts = 0
+    var lastMidY = CGFloat.greatestFiniteMagnitude
+    while container.exists && element.exists && !element.isHittable && attempts < maxAttempts {
+        let containerFrame = container.frame
+        guard containerFrame.height > 0 else { break }
+        let cellMidY = element.frame.midY
+        // Stop if the previous drag produced no movement (e.g. the list cannot scroll any further).
+        if abs(cellMidY - lastMidY) < 0.5 { break }
+        lastMidY = cellMidY
+        // Fraction of the container to scroll: proportional to the off-centre distance, capped at
+        // 0.6 (no overshoot past the viewport) and floored at 0.08 (always make progress).
+        var step = (cellMidY - containerFrame.midY) / containerFrame.height
+        step = max(-0.6, min(0.6, step))
+        if abs(step) < 0.08 { step = step < 0 ? -0.08 : 0.08 }
+        // step > 0 means the element is below centre, so scroll content up (drag finger upward).
+        let startY: CGFloat = 0.5
+        let endY = max(0.05, min(0.95, startY - step))
+        let start = container.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: startY))
+        let end = container.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: endY))
+        start.press(forDuration: 0.1, thenDragTo: end)
+        attempts += 1
     }
 }
